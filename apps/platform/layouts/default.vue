@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { useWaitlist } from '@/composables/useWaitlist';
-
-const { showWaitlistModal } = useWaitlist();
-
 useSeoMeta({
     title: 'PulseKit',
     description: 'Get user feedback that actually matters',
@@ -23,9 +19,9 @@ useSeoMeta({
                     <li><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
                 </ul>
 
-                <button class="btn btn-secondary" @click="showWaitlistModal">
+                <a class="btn btn-secondary" href="https://tally.so/r/3lZypW" target="_blank">
                     Get early access
-                </button>
+                </a>
             </div>
         </div>
 

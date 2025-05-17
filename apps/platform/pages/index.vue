@@ -3,6 +3,5 @@
         <UiHero />
         <UiHowItWorks />
         <UiFeatures />
-        <UiWaitlist />
     </div>
 </template>

@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "@pulsekit/api",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "db:generate": "bunx drizzle-kit generate",

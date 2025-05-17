@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const { showWaitlistModal } = useWaitlist();
-
 const steps = [
     {
         title: "Create Your Account",
@@ -40,9 +38,9 @@ const steps = [
         </div>
 
         <div class="flex justify-center mt-20">
-            <button class="btn btn-accent btn-lg px-8" @click="showWaitlistModal">
+            <a class="btn btn-accent btn-lg px-8" href="https://tally.so/r/3lZypW" target="_blank">
                 Get early access
-            </button>
+            </a>
         </div>
     </section>
 </template>

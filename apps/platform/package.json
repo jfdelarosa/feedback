@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "@pulsekit/platform",
   "private": true,
   "type": "module",
   "scripts": {
