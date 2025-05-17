@@ -6,8 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxt/eslint',
-    '@nuxt/fonts',
-    '@clerk/nuxt'
+    '@nuxt/fonts'
   ],
   ssr: false,
   vite: {

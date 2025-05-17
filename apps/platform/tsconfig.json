@@ -3,10 +3,5 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "#crypto": [
-        "@clerk/backend/dist/runtime/node/crypto.js"
-      ]
-    }
   }
 }

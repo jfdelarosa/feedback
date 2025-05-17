@@ -11,7 +11,6 @@
     "start": "bun .output/server/index.mjs"
   },
   "dependencies": {
-    "@clerk/nuxt": "^1.6.5",
     "@nuxt/eslint": "1.4.0",
     "@nuxt/fonts": "0.11.4",
     "@tailwindcss/vite": "^4.1.7",
