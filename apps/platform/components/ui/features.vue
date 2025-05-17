@@ -49,7 +49,7 @@ const features = [
 
 <template>
     <section id="features" class="container mx-auto py-16">
-        <div class="text-center mb-12">
+        <div class="text-center mb-12 px-4">
             <h2 class="text-3xl md:text-5xl font-lora font-bold text-secondary mb-4">Key Features</h2>
             <p class="text-xl font-lato text-accent/80 max-w-2xl mx-auto">
                 Everything you need to collect, organize, and act on user feedback without the complexity.

@@ -3,24 +3,25 @@ import { Plug, MessageSquare, Vote } from 'lucide-vue-next';
 </script>
 
 <template>
-    <section id="hero" class="container mx-auto pt-12 pb-32">
+    <section id="hero" class="container mx-auto pt-12 pb-32 px-6">
         <div class="flex flex-col items-center text-center space-y-10">
             <div class="space-y-8 max-w-3xl">
-                <h1 class="text-4xl font-lora md:text-[5.2rem] font-extrabold text-secondary leading-22">
+                <h1
+                    class="text-[3rem] font-lora md:text-[5.2rem] font-extrabold text-secondary leading-12 md:leading-22">
                     Get user feedback <span class="text-neutral">that actually matters</span>
                 </h1>
-                <p class="text-xl font-lato text-secondary/80 max-w-xl mx-auto leading-10">
+                <p class="text-lg md:text-xl font-lato text-secondary/80 max-w-xl mx-auto leading-6 md:leading-10">
                     Capture insights where your users already are, right inside your app. No extra accounts. No
                     friction.
                 </p>
             </div>
 
             <div class="flex flex-col justify-center sm:flex-row gap-4 w-full">
-                <a class="btn btn-neutral btn-lg flex items-center gap-2" href="https://tally.so/r/3lZypW"
+                <a class="btn btn-neutral md:btn-lg flex items-center gap-2" href="https://tally.so/r/3lZypW"
                     target="_blank">
                     <Plug class="w-5 h-5" /> Get early access
                 </a>
-                <a href="#how-it-works" class="btn btn-outline btn-lg flex items-center gap-2">
+                <a href="#how-it-works" class="btn btn-outline md:btn-lg flex items-center gap-2">
                     <MessageSquare class="w-5 h-5" /> See how it works
                 </a>
             </div>

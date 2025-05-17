@@ -18,7 +18,7 @@ const steps = [
 <template>
     <section id="how-it-works" class="bg-base-200 py-24">
         <div class="container mx-auto px-6 max-w-6xl">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 px-4">
                 <h2 class="text-3xl md:text-5xl font-lora font-bold text-secondary mb-4">
                     How It Works
                 </h2>

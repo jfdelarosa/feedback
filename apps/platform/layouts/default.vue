@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Menu } from 'lucide-vue-next';
+
 useSeoMeta({
     title: 'PulseKit',
     description: 'Get user feedback that actually matters',
@@ -16,10 +18,25 @@ useSeoMeta({
             </div>
             <div class="flex items-center gap-2">
                 <ul class="menu menu-horizontal px-1">
-                    <li><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
+                    <li class="hidden md:block"><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
+                    <li class="block md:hidden">
+                        <details>
+                            <summary>
+                                <Menu class="size-4" />
+                            </summary>
+                            <ul class="bg-base-100 rounded-t-none p-2 !right-0 w-[200px]">
+                                <li><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
+                                <li>
+                                    <a href="https://tally.so/r/3lZypW" target="_blank">
+                                        Get early access
+                                    </a>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
                 </ul>
 
-                <a class="btn btn-secondary" href="https://tally.so/r/3lZypW" target="_blank">
+                <a class="btn btn-secondary hidden md:flex" href="https://tally.so/r/3lZypW" target="_blank">
                     Get early access
                 </a>
             </div>
@@ -27,14 +44,15 @@ useSeoMeta({
 
         <slot />
 
-        <footer class="footer sm:footer-horizontal bg-base-300 text-base-content items-center p-4">
-            <aside class="grid-flow-col items-center">
+        <footer
+            class="footer sm:footer-horizontal bg-base-300 text-base-content justify-center md:justify-between items-center p-4">
+            <aside class="flex flex-col md:w-full md:flex-row items-center justify-center md:justify-start w-full">
                 <img src="/logo.svg" alt="PulseKit" class="h-12">
 
                 <p>Created by <a href="https://x.com/jfdelarosa" target="_blank"
                         class="font-lora font-bold hover:underline">@jfdelarosa</a> with ❤️</p>
             </aside>
-            <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+            <nav class="grid-flow-col gap-4 w-full items-center justify-center">
                 <a href="https://github.com/jfdelarosa/pulsekit" target="_blank">
                     <svg role="img" class="size-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <title>GitHub</title>
