@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { showWaitlistModal } = useWaitlist();
 
 const steps = [
     {
@@ -39,7 +40,9 @@ const steps = [
         </div>
 
         <div class="flex justify-center mt-20">
-            <a href="#hero" class="btn btn-accent btn-lg px-8">Get Started for Free</a>
+            <button class="btn btn-accent btn-lg px-8" @click="showWaitlistModal">
+                Get early access
+            </button>
         </div>
     </section>
 </template>

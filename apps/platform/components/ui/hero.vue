@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Plug, MessageSquare, Vote } from 'lucide-vue-next';
+
+const { showWaitlistModal } = useWaitlist();
 </script>
 
 <template>
@@ -16,7 +18,7 @@ import { Plug, MessageSquare, Vote } from 'lucide-vue-next';
             </div>
 
             <div class="flex flex-col justify-center sm:flex-row gap-4 w-full">
-                <button class="btn btn-neutral btn-lg flex items-center gap-2">
+                <button class="btn btn-neutral btn-lg flex items-center gap-2" @click="showWaitlistModal">
                     <Plug class="w-5 h-5" /> Get early access
                 </button>
                 <a href="#how-it-works" class="btn btn-outline btn-lg flex items-center gap-2">

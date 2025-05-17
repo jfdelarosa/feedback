@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useWaitlist } from '@/composables/useWaitlist';
+
+const { showWaitlistModal } = useWaitlist();
+</script>
+
 <template>
     <div data-theme="caramellatte">
         <div class="navbar">
@@ -12,9 +18,9 @@
                     <li><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
                 </ul>
 
-                <a class="btn btn-secondary">
+                <button class="btn btn-secondary" @click="showWaitlistModal">
                     Get early access
-                </a>
+                </button>
             </div>
         </div>
 
