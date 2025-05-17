@@ -2,6 +2,11 @@
 import { useWaitlist } from '@/composables/useWaitlist';
 
 const { showWaitlistModal } = useWaitlist();
+
+useSeoMeta({
+    title: 'PulseKit',
+    description: 'Get user feedback that actually matters',
+})
 </script>
 
 <template>

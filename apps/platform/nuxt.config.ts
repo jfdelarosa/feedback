@@ -20,4 +20,11 @@ export default defineNuxtConfig({
       { name: 'Open Sans', provider: 'google', weights: [100, 200, 300, 400, 500, 600, 700, 800, 900] },
     ]
   },
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/logo.svg' }
+      ]
+    }
+  },
 })
