@@ -29,4 +29,12 @@ export default defineNuxtConfig({
   nitro: {
     preset: "bun",
   },
+  plugins: [
+    '~/plugins/clerk'
+  ],
+  runtimeConfig: {
+    public: {
+      clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+    }
+  }
 })

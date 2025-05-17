@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Plug, MessageSquare, Vote } from 'lucide-vue-next';
+
+const { openModal } = useWaitlist()
 </script>
 
 <template>
@@ -17,10 +19,9 @@ import { Plug, MessageSquare, Vote } from 'lucide-vue-next';
             </div>
 
             <div class="flex flex-col justify-center sm:flex-row gap-4 w-full">
-                <a class="btn btn-neutral md:btn-lg flex items-center gap-2" href="https://tally.so/r/3lZypW"
-                    target="_blank">
+                <button class="btn btn-neutral md:btn-lg flex items-center gap-2" @click="openModal">
                     <Plug class="w-5 h-5" /> Get early access
-                </a>
+                </button>
                 <a href="#how-it-works" class="btn btn-outline md:btn-lg flex items-center gap-2">
                     <MessageSquare class="w-5 h-5" /> See how it works
                 </a>

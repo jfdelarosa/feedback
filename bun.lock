@@ -13,6 +13,7 @@
     "apps/platform": {
       "name": "@pulsekit/platform",
       "dependencies": {
+        "@clerk/vue": "^1.8.2",
         "@nuxt/eslint": "1.4.0",
         "@nuxt/fonts": "0.11.4",
         "@tailwindcss/vite": "^4.1.7",
@@ -119,6 +120,8 @@
     "@clerk/shared": ["@clerk/shared@3.9.1", "", { "dependencies": { "@clerk/types": "^4.59.0", "dequal": "2.0.3", "glob-to-regexp": "0.4.1", "js-cookie": "3.0.5", "std-env": "^3.9.0", "swr": "^2.3.3" }, "peerDependencies": { "react": "^18.0.0 || ^19.0.0 || ^19.0.0-0", "react-dom": "^18.0.0 || ^19.0.0 || ^19.0.0-0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-Gw7yPaas3lv+pkkbBwuqVVtWVH1nZl1hF8kVvdEhPALOkf6ww6azL6qcHaiFUHCW+iult3flJjplduFrfWF50g=="],
 
     "@clerk/types": ["@clerk/types@4.59.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-VZ61lDWoz9cWTlSpO1KMGq7utl96ZuSBIOpM6togxYTp+TG0kD6QEJVinMaJLREtx8jRvXpMG7ZzBLE3zy0GSA=="],
+
+    "@clerk/vue": ["@clerk/vue@1.8.2", "", { "dependencies": { "@clerk/shared": "^3.9.1", "@clerk/types": "^4.59.0" }, "peerDependencies": { "vue": "^3.2.0" } }, "sha512-H6X5dWZpFmSzVdj+0sjguFsaHbpsbyUR9nQucUnV3VLskMobxarb8idagsqrDi2eH32Q8rjD+ldHub03pP0fBA=="],
 
     "@cloudflare/kv-asset-handler": ["@cloudflare/kv-asset-handler@0.4.0", "", { "dependencies": { "mime": "^3.0.0" } }, "sha512-+tv3z+SPp+gqTIcImN9o0hqE9xyfQjI1XD9pL6NuKjua9B1y7mNYv0S9cP+QEbA4ppVgGZEmKOvHX5G5Ei1CVA=="],
 

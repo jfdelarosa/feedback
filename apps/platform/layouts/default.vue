@@ -5,6 +5,8 @@ useSeoMeta({
     title: 'PulseKit',
     description: 'Get user feedback that actually matters',
 })
+
+const { openModal } = useWaitlist()
 </script>
 
 <template>
@@ -27,18 +29,18 @@ useSeoMeta({
                             <ul class="bg-base-100 rounded-t-none p-2 !right-0 w-[200px]">
                                 <li><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
                                 <li>
-                                    <a href="https://tally.so/r/3lZypW" target="_blank">
+                                    <button class="btn btn-secondary" @click="openModal">
                                         Get early access
-                                    </a>
+                                    </button>
                                 </li>
                             </ul>
                         </details>
                     </li>
                 </ul>
 
-                <a class="btn btn-secondary hidden md:flex" href="https://tally.so/r/3lZypW" target="_blank">
+                <button class="btn btn-secondary hidden md:flex" @click="openModal">
                     Get early access
-                </a>
+                </button>
             </div>
         </div>
 
