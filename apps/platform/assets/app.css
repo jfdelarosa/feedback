@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+html {
+    font-size: 18px;
+}
+
+@plugin "daisyui" {
+    themes: caramellatte --default;
+}
+
+@theme {
+    --font-arvo: "Lora Display", "sans-serif";
+    --font-lato: "Open Sans", "sans-serif";
+}

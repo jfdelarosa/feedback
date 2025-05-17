@@ -1,0 +1,41 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# PulseKit
+
+PulseKit is a lightweight, embeddable feedback system designed for modern SaaS teams. It helps product teams capture insights directly from their users—without requiring them to sign up for another platform. Built with developers in mind, PulseKit integrates natively into any web app via a simple SDK or Web Component.
+
+## Overview
+
+PulseKit allows your users to:
+
+* Submit feedback without creating a new account
+* Vote and comment on ideas directly inside your product
+* View changelogs and product updates where it matters most
+
+For your team, it offers:
+
+* A simple dashboard to manage ideas and suggestions
+* A structured feedback loop that fits into your product workflows
+* Customization and branding to make it feel like part of your app
+
+## Why It Exists
+
+Feedback tools often live outside your product, creating friction and context switching. PulseKit removes that barrier by making feedback native—users never have to leave your UI or deal with a separate login. It’s a better experience for them and more actionable for you.
+
+## Target Audience
+
+SaaS companies, product teams, and customer success teams.
+
+## Use Cases
+
+* Capture product feedback directly in-app
+* Validate feature requests with real user votes
+* Share changelogs in context
+* Enable customer-facing teams to loop feedback into one source of truth
+
+## Brand Identity
+
+PulseKit is designed to be invisible to end users and intuitive for teams. The branding is modern, neutral, and developer-first. It’s not another platform—it's an embedded layer of communication between your users and your roadmap.
