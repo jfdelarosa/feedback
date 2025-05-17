@@ -6,7 +6,7 @@ import { Plug, MessageSquare, Vote } from 'lucide-vue-next';
     <div class="container mx-auto py-20">
         <div class="flex flex-col items-center text-center space-y-10">
             <div class="space-y-8 max-w-3xl">
-                <h1 class="text-4xl font-arvo md:text-7xl font-extrabold text-secondary">
+                <h1 class="text-4xl font-lora md:text-7xl font-extrabold text-secondary">
                     Collect user feedback <span class="text-neutral">without
                         the friction</span>
                 </h1>
