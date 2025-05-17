@@ -48,10 +48,10 @@ const features = [
 </script>
 
 <template>
-    <div class="container mx-auto py-16">
+    <section id="features" class="container mx-auto py-16">
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-5xl font-lora font-bold text-secondary mb-4">Key Features</h2>
-            <p class="text-xl font-lato text-secondary/80 max-w-2xl mx-auto">
+            <p class="text-xl font-lato text-accent/80 max-w-2xl mx-auto">
                 Everything you need to collect, organize, and act on user feedback without the complexity.
             </p>
         </div>
@@ -78,5 +78,5 @@ const features = [
                 Start collecting feedback
             </button>
         </div>
-    </div>
+    </section>
 </template>

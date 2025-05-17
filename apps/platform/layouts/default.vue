@@ -7,12 +7,14 @@
                     <span class="text-xl pb-1 font-bold text-secondary font-lora">PulseKit</span>
                 </a>
             </div>
-            <div class="flex-none">
+            <div class="flex items-center gap-2">
                 <ul class="menu menu-horizontal px-1">
                     <li><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
                 </ul>
 
-                <a class="btn btn-secondary">Join the waitlist</a>
+                <a class="btn btn-secondary">
+                    Get early access
+                </a>
             </div>
         </div>
 
