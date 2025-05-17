@@ -1,14 +1,23 @@
 {
   "name": "api",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "db:generate": "bunx drizzle-kit generate",
+    "db:migrate": "bunx drizzle-kit migrate"
   },
   "dependencies": {
     "@clerk/backend": "^1.32.2",
     "@hono/clerk-auth": "^2.0.0",
-    "hono": "^4.7.9"
+    "@hono/zod-openapi": "^0.19.6",
+    "@neondatabase/serverless": "^1.0.0",
+    "drizzle-orm": "^0.43.1",
+    "drizzle-zod": "^0.7.1",
+    "hono": "^4.7.9",
+    "stoker": "^1.4.2"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "drizzle-kit": "^0.31.1",
+    "tsx": "^4.19.4"
   }
 }
