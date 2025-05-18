@@ -59,9 +59,7 @@ const items = [
                 <div class="p-4 w-60 min-h-full bg-base-100 border-r border-base-200 flex flex-col">
                     <!-- Mobile menu content -->
                     <div class="flex items-center gap-2 pb-4 border-b border-base-200 mb-4">
-                        <div class="bg-primary rounded-md w-8 h-8 flex items-center justify-center">
-                            <Zap class="h-5 w-5 text-white" />
-                        </div>
+                        <img src="/logo.svg" class="h-8 w-auto" />
                         <span class="text-xl font-bold">PulseKit</span>
                     </div>
 

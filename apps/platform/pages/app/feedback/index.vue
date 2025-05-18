@@ -20,29 +20,13 @@ const newPosts = [
         votes: 5,
     },
 ]
-
-const mostPopularPosts = [
-    {
-        title: 'Add export functionality',
-        votes: 8,
-    },
-    {
-        title: 'Improve mobile responsiveness',
-        votes: 5,
-    },
-    {
-        title: 'Add support for multiple languages',
-        votes: 4,
-    },
-]
-
 </script>
 
 <template>
 
     <div class="grid grid-cols-6 gap-4">
         <div class="col-span-6">
-            <AppTitle>Dashboard</AppTitle>
+            <AppTitle>Feedback</AppTitle>
         </div>
 
         <div class="card shadow shadow-base-200 bg-white col-span-3">
