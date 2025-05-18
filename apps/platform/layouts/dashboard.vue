@@ -14,11 +14,6 @@ const items = [
         href: '/app/feedback'
     },
     {
-        name: 'Team',
-        icon: Users,
-        href: '/app/team'
-    },
-    {
         name: 'Settings',
         icon: Settings,
         href: '/app/settings'
