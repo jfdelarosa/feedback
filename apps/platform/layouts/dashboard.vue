@@ -1,6 +1,6 @@
 <script setup>
 // Import Lucide icons
-import { Zap, MessageSquare, ChevronDown, BarChart2, Users, Filter, Settings, Menu, ChevronsUpDown } from 'lucide-vue-next';
+import { MessageSquare, ChevronDown, BarChart2, Users, Settings, Menu } from 'lucide-vue-next';
 
 const items = [
     {
@@ -9,24 +9,19 @@ const items = [
         href: '/app'
     },
     {
-        name: 'Users',
+        name: 'Feedback',
+        icon: MessageSquare,
+        href: '/app/feedback'
+    },
+    {
+        name: 'Team',
         icon: Users,
-        href: '#'
-    },
-    {
-        name: 'Funnels',
-        icon: Filter,
-        href: '#'
-    },
-    {
-        name: 'Automations',
-        icon: Zap,
-        href: '#'
+        href: '/app/team'
     },
     {
         name: 'Settings',
         icon: Settings,
-        href: '#'
+        href: '/app/settings'
     }
 ]
 </script>
@@ -91,36 +86,28 @@ const items = [
 
                     <ul class="space-y-1 flex-1">
                         <li>
-                            <a href="#"
+                            <a href="/app"
                                 class="flex items-center gap-3 text-sm px-3 py-2 rounded-md bg-primary/10 text-primary font-medium">
                                 <BarChart2 class="h-5 w-5" />
-                                Analytics
+                                Dashboard
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="/app/feedback"
+                                class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content/70 hover:bg-base-200">
+                                <MessageSquare class="h-5 w-5" />
+                                Feedback
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/app/team"
                                 class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content/70 hover:bg-base-200">
                                 <Users class="h-5 w-5" />
-                                Users
+                                Team
                             </a>
                         </li>
                         <li>
-                            <a href="#"
-                                class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content/70 hover:bg-base-200">
-                                <Filter class="h-5 w-5" />
-                                Funnels
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content/70 hover:bg-base-200">
-                                <Zap class="h-5 w-5" />
-                                Automations
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#"
+                            <a href="/app/settings"
                                 class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content/70 hover:bg-base-200">
                                 <Settings class="h-5 w-5" />
                                 Settings

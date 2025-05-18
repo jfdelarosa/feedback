@@ -42,9 +42,7 @@ const mostPopularPosts = [
 
     <div class="grid grid-cols-6 gap-4">
         <div class="col-span-6">
-            <h1 class="text-3xl font-bold text-secondary mt-1 text-3xl font-bold">
-                Dashboard
-            </h1>
+            <AppTitle>Dashboard</AppTitle>
         </div>
         <div class="card shadow shadow-base-200 bg-white col-span-3">
             <div class="card-body p-0">
