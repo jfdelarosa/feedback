@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         strategy="afterInteractive"
         onLoad={() => {
           if (window.pulsekit) {
-            window.pulsekit.init("API_KEY");
+            window.pulsekit.init("PROJECT_KEY");
           }
         }}
       />

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { steps as defaultSteps } from '../../../utils/instructions/default';
 import { steps as nextjsSteps } from '../../../utils/instructions/nextjs';
+import { steps as nuxtSteps } from '../../../utils/instructions/nuxt3';
+import { steps as sveltekitSteps } from '../../../utils/instructions/sveltekit';
 
 const projectKey = 'f9475d9f-c4f4-41b7-9531-c92b7525d262'
 
@@ -25,6 +27,14 @@ const tabs = [
     {
         name: 'Next.js',
         steps: nextjsSteps
+    },
+    {
+        name: 'Nuxt 3',
+        steps: nuxtSteps
+    },
+    {
+        name: 'SvelteKit',
+        steps: sveltekitSteps
     }
 ]
 </script>
@@ -69,7 +79,7 @@ const tabs = [
                         <div class="tab-content bg-base-100 border-base-300 p-6 space-y-10">
                             <div v-for="step in tab.steps" :key="step.description" class="space-y-4">
                                 <p v-html="parseHtml(step.description)" />
-                                <div class="mockup-code bg-primary text-primary-content w-full">
+                                <div class="mockup-code text-xs bg-primary text-primary-content w-full">
                                     <pre v-for="line in parseCode(step.code)" :key="line"><code v-text="line" /></pre>
                                 </div>
                             </div>

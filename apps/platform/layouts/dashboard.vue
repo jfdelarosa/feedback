@@ -26,7 +26,7 @@ const items = [
 
     <div class="min-h-screen bg-base-100 flex container max-w-5xl mx-auto">
         <!-- Sidebar - desktop -->
-        <aside class="hidden lg:flex flex-col w-60">
+        <aside class="hidden lg:flex flex-col w-50">
             <!-- Logo -->
             <div class="px-4 py-5">
                 <div class="flex items-center gap-2">
