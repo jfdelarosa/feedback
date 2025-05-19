@@ -8,7 +8,15 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          // This ensures styles are properly scoped within shadow DOM
+          isCustomElement: (tag) => tag.includes('-')
+        }
+      },
+      customElement: true, // Enable Vue custom element support
+    }),
     vueDevTools(),
     tailwindcss()
   ],

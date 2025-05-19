@@ -130,7 +130,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="font-sans text-gray-800 max-w-3xl mx-auto p-4 flex flex-col gap-4" v-if="isInitialized">
+    <div data-theme="light" class="bg-transparent font-sans text-gray-800 max-w-3xl mx-auto p-4 flex flex-col gap-4"
+        v-if="isInitialized">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-semibold m-0">Feedback Board</h2>
             <div class="flex gap-2">
@@ -239,3 +240,12 @@ onMounted(() => {
         </a>
     </div>
 </template>
+
+<style>
+/* These styles will be encapsulated in the shadow DOM */
+@import "tailwindcss";
+
+@plugin "daisyui" {
+    themes: all;
+}
+</style>

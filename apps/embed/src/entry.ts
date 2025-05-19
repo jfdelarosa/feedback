@@ -17,6 +17,8 @@ declare global {
 }
 
 // Define the board custom element
+// Vue's defineCustomElement automatically creates components with Shadow DOM
+// which ensures CSS encapsulation
 const Board = defineCustomElement(BoardComponent);
 
 // Register the custom element
