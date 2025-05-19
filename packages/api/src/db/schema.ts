@@ -34,6 +34,18 @@ export const organizationsTable = pgTable("organizations", {
     updatedAt: timestamp().notNull().defaultNow(),
 });
 
+// Projects table
+export const projectsTable = pgTable("projects", {
+    id: text().primaryKey(),
+    name: varchar({ length: 255 }).notNull(),
+    description: text(),
+    organizationId: text().notNull().references(() => organizationsTable.id, { onDelete: "cascade" }),
+    createdBy: text().notNull().references(() => usersTable.id),
+    isDefault: boolean().default(true).notNull(),
+    createdAt: timestamp().notNull().defaultNow(),
+    updatedAt: timestamp().notNull().defaultNow(),
+});
+
 // Feedback table
 export const feedbackTable = pgTable("feedback", {
     id: text().primaryKey(),
@@ -42,6 +54,7 @@ export const feedbackTable = pgTable("feedback", {
     status: varchar({ length: 50 }).default("open").notNull(), // open, in-progress, completed, declined
     organizationId: text().notNull().references(() => organizationsTable.id),
     userId: text().notNull().references(() => usersTable.id), // User who submitted the feedback
+    projectId: text().references(() => projectsTable.id),
     createdAt: timestamp().notNull().defaultNow(),
     updatedAt: timestamp().notNull().defaultNow(),
 });

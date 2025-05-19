@@ -1,10 +1,9 @@
 import type { AppRouteHandler } from "@/lib/types";
 import type { HanlderRoute } from "./clerk.routes";
 import { db } from "@/db";
-import { organizationsTable, usersTable } from "@/db/schema";
+import { organizationsTable, usersTable, projectsTable } from "@/db/schema";
 import { clerk } from "@/lib/clerk";
 import { UserJSON } from "@clerk/backend";
-
 
 async function createUser(body: { data: UserJSON }) {
 
@@ -31,12 +30,24 @@ async function createUser(body: { data: UserJSON }) {
 			createdBy: body.data.id,
 		})
 
+		const organizationId = Bun.randomUUIDv7()
+
 		await db.insert(organizationsTable).values({
-			id: Bun.randomUUIDv7(),
+			id: organizationId,
 			name: "Default Organization",
 			clerkId: clerkOrganization.id,
 			createdBy: userId,
 			clerkUserId: body.data.id,
+		})
+
+		// Create a default project for the organization
+		await db.insert(projectsTable).values({
+			id: Bun.randomUUIDv7(),
+			name: "Default Project",
+			description: "My first project",
+			organizationId: organizationId,
+			createdBy: userId,
+			isDefault: true,
 		})
 	} catch (error) {
 		console.error(error)

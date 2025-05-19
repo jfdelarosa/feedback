@@ -7,6 +7,7 @@ import createRouter from "@/lib/create-router";
 import feedback from "@/routes/feedback/feedback.index";
 import clerk from "@/routes/clerk/clerk.index";
 import dashboard from "@/routes/dashboard/dashboard.index";
+import project from "@/routes/project/project.index";
 
 export function registerRoutes(app: AppOpenAPI) {
     return app
@@ -37,6 +38,7 @@ export function registerRoutes(app: AppOpenAPI) {
         .route("/", feedback)
         .route("/", clerk)
         .route("/", dashboard)
+        .route("/", project)
 }
 
 export const router = registerRoutes(
