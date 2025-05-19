@@ -1,5 +1,7 @@
+import type { PulseKitOptions, PulseKitUser } from './lib/sdk';
 import { defineCustomElement } from 'vue';
-import { SDK, PulseKitOptions, PulseKitUser } from './lib/sdk';
+import { SDK } from './lib/sdk';
+import BoardComponent from '@/components/Board.vue';
 
 // Define global types for window object
 declare global {
@@ -15,15 +17,7 @@ declare global {
 }
 
 // Define the board custom element
-const Board = defineCustomElement({
-    // Simple placeholder component that will be replaced by the actual Board.vue
-    // once Vue compilation is set up properly
-    template: `
-        <div class="pulse-feedback-board">
-            <slot></slot>
-        </div>
-    `
-});
+const Board = defineCustomElement(BoardComponent);
 
 // Register the custom element
 customElements.define('pulse-feedback', Board);

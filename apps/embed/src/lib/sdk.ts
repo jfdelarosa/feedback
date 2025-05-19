@@ -28,7 +28,7 @@ interface SDKState {
 const state: SDKState = {
     initialized: false,
     apiKey: null,
-    baseUrl: 'http://localhost:3001/public',
+    baseUrl: 'http://localhost:3002/public',
     user: null,
 };
 
