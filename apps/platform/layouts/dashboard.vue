@@ -1,6 +1,7 @@
 <script setup>
 // Import Lucide icons
 import { MessageSquare, ChevronDown, BarChart2, Users, Settings, Menu } from 'lucide-vue-next';
+const { user } = useUser()
 
 const items = [
     {
@@ -32,6 +33,16 @@ const items = [
                 <div class="flex items-center gap-2">
                     <img src="/logo.svg" class="h-8 w-auto" />
                     <span class="text-xl font-bold">PulseKit</span>
+                </div>
+            </div>
+
+            <div class="p-2 space-y-4">
+                <div class="flex items-center gap-2">
+                    <img :src="user?.imageUrl" class="size-6 rounded-full" />
+                    <div class="flex flex-col">
+                        <span class="text-sm font-medium">{{ user?.fullName }}</span>
+                        <span class="text-xs text-base-content/60">{{ user?.emailAddresses[0]?.emailAddress }}</span>
+                    </div>
                 </div>
             </div>
 

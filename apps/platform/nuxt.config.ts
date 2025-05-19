@@ -6,7 +6,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxt/eslint',
-    '@nuxt/fonts'
+    '@nuxt/fonts',
+    '@clerk/nuxt'
   ],
   ssr: false,
   vite: {
@@ -29,9 +30,13 @@ export default defineNuxtConfig({
   nitro: {
     preset: "bun",
   },
-  plugins: [
-    '~/plugins/clerk'
-  ],
+  clerk: {
+    skipServerMiddleware: true,
+    afterSignOutUrl: '/sign-in',
+  },
+  // plugins: [
+  //   '~/plugins/clerk'
+  // ],
   runtimeConfig: {
     public: {
       clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY
