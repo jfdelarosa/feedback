@@ -1,0 +1,33 @@
+---
+description: 
+globs: apps/embed/**
+alwaysApply: false
+---
+# Embed Widget
+
+The embed widget is a Vue.js component that can be embedded directly into client applications to collect user feedback. It's designed to be lightweight and customizable.
+
+## Key Files
+
+- Entry Point: [apps/embed/src/entry.ts](mdc:apps/embed/src/entry.ts)
+- Main Application: [apps/embed/src/App.vue](mdc:apps/embed/src/App.vue)
+- Component Library: [apps/embed/src/components](mdc:apps/embed/src/components)
+
+## Bundle Output
+
+The build process creates a bundled file that:
+- Exposes a framework-agnostic Web Component
+- Provides a basic JavaScript SDK for programmatic control
+- Can be integrated into any frontend framework (React, Angular, Vue, Svelte, etc.)
+- Maintains minimal dependencies to reduce payload size
+
+## Integration Methods
+
+The widget supports multiple integration methods:
+- As a custom element / web component: `<pulse-feedback />`
+- Through direct JavaScript SDK import: `import { PulseFeedback } from '@pulsekit/embed'`
+- Via a script tag with auto-initialization: `<script src="pulsekit.js"></script>`
+
+## Architecture
+
+The embed widget communicates with the API to store feedback and retrieve existing items. It uses a lightweight design to minimize impact on the host application and maintains its own isolated state management to avoid conflicts with the parent application.

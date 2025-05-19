@@ -1,7 +1,7 @@
 {
   "name": "@pulsekit/api",
   "scripts": {
-    "dev": "bun run --hot src/index.ts",
+    "dev": "bun run --hot src/app.ts",
     "db:generate": "bunx drizzle-kit generate",
     "db:migrate": "bunx drizzle-kit migrate"
   },

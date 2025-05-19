@@ -1,0 +1,28 @@
+---
+description: 
+globs: packages/api/**
+alwaysApply: false
+---
+# API Package
+
+The API package handles all backend functionality, including data storage, authentication, and business logic for the PulseKit platform.
+
+## Key Directories
+
+- Routes: [packages/api/src/routes](mdc:packages/api/src/routes) - API endpoints and controllers
+- Database: [packages/api/src/db](mdc:packages/api/src/db) - Database models and queries
+- Libraries: [packages/api/src/lib](mdc:packages/api/src/lib) - Utility functions and shared code
+
+## Main Features
+
+- Feedback Endpoints: CRUD operations for feedback items
+- Authentication: User and team authentication 
+- Data Persistence: Database schemas and queries
+- Middleware: Request processing and validation
+
+## Architecture
+
+The API is built with TypeScript and uses:
+- REST endpoints for standard CRUD operations
+- Database ORM via Drizzle for type-safe database access
+- JWT for authentication

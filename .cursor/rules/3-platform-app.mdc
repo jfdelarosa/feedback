@@ -1,0 +1,22 @@
+---
+description: 
+globs: apps/platform/**
+alwaysApply: false
+---
+# Platform Dashboard
+
+The platform dashboard is a Nuxt.js application that allows teams to manage feedback, view insights, and configure the embed widget for their products.
+
+## Key Directories
+
+- Pages: [apps/platform/pages](mdc:apps/platform/pages) - App routes and views
+- Components: [apps/platform/components](mdc:apps/platform/components) - Reusable UI components
+- Layouts: [apps/platform/layouts](mdc:apps/platform/layouts) - Page layouts and templates
+- Server: [apps/platform/server](mdc:apps/platform/server) - Server-side logic
+
+## Main Features
+
+- Feedback Management: View, categorize, and respond to user feedback
+- Team Settings: Manage team members and permissions
+- Widget Configuration: Customize the embed widget appearance and behavior
+- Analytics: Track feedback trends and user engagement

@@ -39,3 +39,11 @@ SaaS companies, product teams, and customer success teams.
 ## Brand Identity
 
 PulseKit is designed to be invisible to end users and intuitive for teams. The branding is modern, neutral, and developer-first. It’s not another platform—it's an embedded layer of communication between your users and your roadmap.
+
+## Project Structure
+
+The project is organized as a monorepo with the following main components:
+
+- **Platform App** (@apps/platform): The dashboard for teams to manage feedback and settings
+- **Embed Widget** (@apps/embed): The embeddable component that gets integrated into client applications
+- **API** (@packages/api): Backend services and endpoints

@@ -5,6 +5,7 @@ import type { AppOpenAPI } from "@/lib/types";
 import { BASE_PATH } from "@/lib/constants";
 import createRouter from "@/lib/create-router";
 import feedback from "@/routes/feedback/feedback.index";
+import clerk from "@/routes/clerk/clerk.index";
 
 export function registerRoutes(app: AppOpenAPI) {
     return app
@@ -18,14 +19,7 @@ export function registerRoutes(app: AppOpenAPI) {
                 openapi: "3.0.0",
             },
         )
-        .use("*", cors({
-            allowHeaders: ["Content-Type", "Authorization"],
-            allowMethods: ["POST", "GET", "PUT", "DELETE", "OPTIONS"],
-            credentials: true,
-            exposeHeaders: ["Content-Length"],
-            maxAge: 600,
-            origin: process.env.ORIGIN_URL!,
-        }))
+        .use("*", cors())
         .use("*", logger())
         .get("/health", (c) => {
             return c.json({
@@ -35,8 +29,12 @@ export function registerRoutes(app: AppOpenAPI) {
             });
         })
         // Apply auth middleware to subsequent routes
-        .use("*", clerkMiddleware())
+        .use("*", clerkMiddleware({
+            publishableKey: process.env.CLERK_PUBLISHABLE_KEY!,
+            secretKey: process.env.CLERK_SECRET_KEY!,
+        }))
         .route("/", feedback)
+        .route("/", clerk)
 }
 
 export const router = registerRoutes(

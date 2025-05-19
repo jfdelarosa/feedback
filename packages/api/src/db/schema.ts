@@ -12,21 +12,24 @@ import {
 
 // User table for users identified via Clerk
 export const usersTable = pgTable("users", {
-    id: text().primaryKey(), // Clerk user ID
+    id: text().primaryKey(),
     email: varchar({ length: 255 }),
-    name: varchar({ length: 255 }),
-    externalId: text(), // Customer's user ID from their system
-    organizationId: text().notNull(), // Reference to the organization the user belongs to
+    clerkId: text(),
+    organizationId: text(),
     createdAt: timestamp().notNull().defaultNow(),
     updatedAt: timestamp().notNull().defaultNow(),
+    firstName: varchar({ length: 255 }),
+    lastName: varchar({ length: 255 }),
+    imageUrl: varchar({ length: 255 }),
 });
 
 // Organizations table for customer organizations
 export const organizationsTable = pgTable("organizations", {
-    id: text().primaryKey(), // Clerk organization ID
+    id: text().primaryKey(),
     name: varchar({ length: 255 }).notNull(),
-    // Domain used for SSO and organization identification
-    domain: varchar({ length: 255 }),
+    clerkId: text(),
+    clerkUserId: text(),
+    createdBy: text(),
     createdAt: timestamp().notNull().defaultNow(),
     updatedAt: timestamp().notNull().defaultNow(),
 });
@@ -49,11 +52,6 @@ export const feedbackVotesTable = pgTable("feedback_votes", {
     feedbackId: text().notNull().references(() => feedbackTable.id, { onDelete: "cascade" }),
     userId: text().notNull().references(() => usersTable.id),
     createdAt: timestamp().notNull().defaultNow(),
-}, (table) => {
-    return {
-        // Ensure a user can only vote once per feedback item
-        userFeedbackUnique: primaryKey({ columns: [table.userId, table.feedbackId] }),
-    };
 });
 
 // Comments table
@@ -75,11 +73,6 @@ export const commentVotesTable = pgTable("comment_votes", {
     commentId: uuid().notNull().references(() => commentsTable.id, { onDelete: "cascade" }),
     userId: text().notNull().references(() => usersTable.id),
     createdAt: timestamp().notNull().defaultNow(),
-}, (table) => {
-    return {
-        // Ensure a user can only vote once per comment
-        userCommentUnique: primaryKey({ columns: [table.userId, table.commentId] }),
-    };
 });
 
 // NOTE: The parentId in commentsTable is intended to reference another comment's id
