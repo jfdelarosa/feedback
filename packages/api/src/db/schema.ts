@@ -8,6 +8,7 @@ import {
     uuid,
     foreignKey,
     primaryKey,
+    jsonb,
 } from "drizzle-orm/pg-core";
 
 // User table for users identified via Clerk
@@ -50,10 +51,9 @@ export const projectsTable = pgTable("projects", {
 export const feedbackTable = pgTable("feedback", {
     id: text().primaryKey(),
     title: varchar({ length: 255 }).notNull(),
-    description: text().notNull(),
+    content: text().notNull(),
     status: varchar({ length: 50 }).default("open").notNull(), // open, in-progress, completed, declined
-    organizationId: text().notNull().references(() => organizationsTable.id),
-    userId: text().notNull().references(() => usersTable.id), // User who submitted the feedback
+    userId: text().notNull().references(() => clientUsersTable.id), // User who submitted the feedback
     projectId: text().references(() => projectsTable.id),
     createdAt: timestamp().notNull().defaultNow(),
     updatedAt: timestamp().notNull().defaultNow(),
@@ -86,6 +86,19 @@ export const commentVotesTable = pgTable("comment_votes", {
     commentId: uuid().notNull().references(() => commentsTable.id, { onDelete: "cascade" }),
     userId: text().notNull().references(() => usersTable.id),
     createdAt: timestamp().notNull().defaultNow(),
+});
+
+// Client users table (for end users of our customers' applications)
+export const clientUsersTable = pgTable("client_users", {
+    id: text().primaryKey(),
+    email: varchar({ length: 255 }),
+    name: varchar({ length: 255 }),
+    avatar: text(),
+    projectId: text().notNull().references(() => projectsTable.id, { onDelete: "cascade" }),
+    externalId: text(), // Optional ID from the customer's system
+    metadata: jsonb(), // JSON string for additional custom data
+    createdAt: timestamp().notNull().defaultNow(),
+    updatedAt: timestamp().notNull().defaultNow(),
 });
 
 // NOTE: The parentId in commentsTable is intended to reference another comment's id

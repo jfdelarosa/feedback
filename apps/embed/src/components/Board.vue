@@ -30,6 +30,7 @@ interface FeedbackComment {
 const feedbackItems = ref<FeedbackItem[]>([]);
 const loading = ref(true);
 const error = ref<string | null>(null);
+const newFeedbackTitle = ref('');
 const newFeedback = ref('');
 const activeTab = ref('all');
 
@@ -80,7 +81,9 @@ async function submit() {
 
     try {
         const data = {
+            title: newFeedbackTitle.value,
             content: newFeedback.value,
+            userId: currentUser.value?.id,
         };
 
         const result = await submitFeedback(data);
@@ -150,6 +153,7 @@ onMounted(() => {
         </div>
 
         <div class="flex flex-col gap-2 mb-6" v-if="!isReadonly">
+            <input type="text" class="input input-bordered w-full" v-model="newFeedbackTitle" placeholder="Title" />
             <textarea class="textarea textarea-bordered w-full" v-model="newFeedback"
                 placeholder="Share your feedback or suggestions..."></textarea>
             <button class="btn btn-primary self-end" @click="submit" :disabled="!newFeedback.trim()">

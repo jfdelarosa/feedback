@@ -28,7 +28,7 @@ interface SDKState {
 const state: SDKState = {
     initialized: false,
     apiKey: null,
-    baseUrl: 'http://localhost:3001',
+    baseUrl: 'http://localhost:3001/public',
     user: null,
 };
 
@@ -82,6 +82,12 @@ export function identify(user: PulseKitUser): typeof SDK {
         console.error('PulseKit: User ID is required');
         return SDK;
     }
+
+
+    request('/identify', {
+        method: 'POST',
+        body: JSON.stringify(user),
+    })
 
     // Store user information
     state.user = user;

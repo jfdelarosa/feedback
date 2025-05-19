@@ -2,7 +2,7 @@
 import * as SDK from '@/lib/sdk'
 import Board from '@/components/Board.vue'
 
-SDK.init('f9475d9f-c4f4-41b7-9531-c92b7525d262')
+SDK.init('0196e9f8-86a4-7000-98c9-9871b50d2909')
 
 SDK.identify({
   id: '123',
