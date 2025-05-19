@@ -7,13 +7,10 @@ import { feedbackTable, feedbackVotesTable, organizationsTable } from "@/db/sche
 import type { CreateRoute, GetOneRoute, ListRoute } from "./feedback.routes";
 import { getAuth } from '@hono/clerk-auth'
 import { sql } from "drizzle-orm";
+import { createSelectSchema } from "drizzle-zod";
+
 export const list: AppRouteHandler<ListRoute> = async (c) => {
-	const auth = getAuth(c)
-	const clerkClient = c.get('clerk')
-
-	const { data } = await clerkClient.users.getOrganizationMembershipList({ userId: auth?.userId! })
-
-	const organizationId = data[0].organization.id
+	const organizationId = c.get('organizationId')
 
 	const feedback = await db.select(
 		{
@@ -25,14 +22,15 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 			updatedAt: feedbackTable.updatedAt,
 			organizationId: feedbackTable.organizationId,
 			userId: feedbackTable.userId,
+			projectId: feedbackTable.projectId,
 			votes: sql<number>`COUNT(${feedbackVotesTable.id})`.as('votes'),
 		}
 	)
 		.from(feedbackTable)
-		.leftJoin(organizationsTable, eq(feedbackTable.organizationId, organizationsTable.id))
 		.leftJoin(feedbackVotesTable, eq(feedbackTable.id, feedbackVotesTable.feedbackId))
 		.groupBy(feedbackTable.id)
-		.where(eq(organizationsTable.clerkId, organizationId))
+		.where(eq(feedbackTable.organizationId, organizationId))
+
 	return c.json(feedback);
 };
 

@@ -8,6 +8,10 @@ import feedback from "@/routes/feedback/feedback.index";
 import clerk from "@/routes/clerk/clerk.index";
 import dashboard from "@/routes/dashboard/dashboard.index";
 import project from "@/routes/project/project.index";
+import { getAuth } from '@hono/clerk-auth'
+import { db } from '@/db'
+import { organizationsTable } from '@/db/schema'
+import { eq } from 'drizzle-orm'
 
 export function registerRoutes(app: AppOpenAPI) {
     return app
@@ -35,6 +39,25 @@ export function registerRoutes(app: AppOpenAPI) {
             publishableKey: process.env.CLERK_PUBLISHABLE_KEY!,
             secretKey: process.env.CLERK_SECRET_KEY!,
         }))
+        .use("*", async (c, next) => {
+            const auth = getAuth(c)
+            const clerkClient = c.get('clerk')
+            const { data } = await clerkClient.users.getOrganizationMembershipList({ userId: auth?.userId! })
+            const organizationId = data[0].organization.id
+            const [organization] = await db
+                .select({
+                    id: organizationsTable.id,
+                })
+                .from(organizationsTable)
+                .where(
+                    eq(organizationsTable.clerkId, organizationId)
+                )
+                .limit(1)
+
+            c.set('organizationId', organization.id)
+
+            await next()
+        })
         .route("/", feedback)
         .route("/", clerk)
         .route("/", dashboard)
