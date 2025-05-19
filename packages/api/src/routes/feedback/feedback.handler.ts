@@ -3,24 +3,56 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 import type { AppRouteHandler } from "@/lib/types";
 import { db } from "@/db";
-import { feedbackTable } from "@/db/schema";
+import { feedbackTable, feedbackVotesTable, organizationsTable } from "@/db/schema";
 import type { CreateRoute, GetOneRoute, ListRoute } from "./feedback.routes";
-
+import { getAuth } from '@hono/clerk-auth'
+import { sql } from "drizzle-orm";
 export const list: AppRouteHandler<ListRoute> = async (c) => {
-	const feedback = await db.select()
-		.from(feedbackTable)
+	const auth = getAuth(c)
+	const clerkClient = c.get('clerk')
 
+	const { data } = await clerkClient.users.getOrganizationMembershipList({ userId: auth?.userId! })
+
+	const organizationId = data[0].organization.id
+
+	const feedback = await db.select(
+		{
+			id: feedbackTable.id,
+			title: feedbackTable.title,
+			description: feedbackTable.description,
+			status: feedbackTable.status,
+			createdAt: feedbackTable.createdAt,
+			updatedAt: feedbackTable.updatedAt,
+			organizationId: feedbackTable.organizationId,
+			userId: feedbackTable.userId,
+			votes: sql<number>`COUNT(${feedbackVotesTable.id})`.as('votes'),
+		}
+	)
+		.from(feedbackTable)
+		.leftJoin(organizationsTable, eq(feedbackTable.organizationId, organizationsTable.id))
+		.leftJoin(feedbackVotesTable, eq(feedbackTable.id, feedbackVotesTable.feedbackId))
+		.groupBy(feedbackTable.id)
+		.where(eq(organizationsTable.clerkId, organizationId))
 	return c.json(feedback);
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (c) => {
 	const data = await c.req.valid("json");
 
+	const auth = getAuth(c)
+	const clerkClient = c.get('clerk')
+
+	const { data: organizationData } = await clerkClient.users.getOrganizationMembershipList({ userId: auth?.userId! })
+
+	const organizationId = organizationData[0].organization.id
+
 	const newFeedback = await db.insert(feedbackTable)
 		.values({
 			id: Bun.randomUUIDv7(),
 			title: data.title,
 			description: data.description,
+			organizationId: organizationId,
+			userId: auth?.userId!,
 		})
 		.returning();
 

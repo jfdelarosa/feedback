@@ -5,6 +5,10 @@
     "db:generate": "bunx drizzle-kit generate",
     "db:migrate": "bunx drizzle-kit migrate"
   },
+  "exports": {
+    "./routes": "./src/routes/index.ts",
+    "./schema": "./src/db/schema.ts"
+  },
   "dependencies": {
     "@clerk/backend": "^1.32.2",
     "@hono/clerk-auth": "^2.0.0",
@@ -12,7 +16,7 @@
     "@neondatabase/serverless": "^1.0.0",
     "drizzle-orm": "^0.43.1",
     "drizzle-zod": "^0.7.1",
-    "hono": "^4.7.9",
+    "hono": "^4.7.10",
     "stoker": "^1.4.2"
   },
   "devDependencies": {

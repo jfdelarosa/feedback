@@ -9,26 +9,26 @@ import clerk from "@/routes/clerk/clerk.index";
 
 export function registerRoutes(app: AppOpenAPI) {
     return app
-        .doc(
-            "/doc",
-            {
-                info: {
-                    title: "My API",
-                    version: "1.0.0",
-                },
-                openapi: "3.0.0",
-            },
-        )
+        // .doc(
+        //     "/doc",
+        //     {
+        //         info: {
+        //             title: "My API",
+        //             version: "1.0.0",
+        //         },
+        //         openapi: "3.0.0",
+        //     },
+        // )
         .use("*", cors())
         .use("*", logger())
-        .get("/health", (c) => {
-            return c.json({
-                status: "ok",
-                timestamp: new Date().toISOString(),
-                uptime: process.uptime(),
-            });
-        })
-        // Apply auth middleware to subsequent routes
+        // .get("/health", (c) => {
+        //     return c.json({
+        //         status: "ok",
+        //         timestamp: new Date().toISOString(),
+        //         uptime: process.uptime(),
+        //     });
+        // })
+        // // Apply auth middleware to subsequent routes
         .use("*", clerkMiddleware({
             publishableKey: process.env.CLERK_PUBLISHABLE_KEY!,
             secretKey: process.env.CLERK_SECRET_KEY!,

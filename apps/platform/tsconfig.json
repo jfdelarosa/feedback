@@ -3,5 +3,11 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-  }
+    "strict": true
+  },
+  "references": [
+    {
+      "path": "../../packages/api"
+    }
+  ]
 }

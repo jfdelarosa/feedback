@@ -2,12 +2,9 @@ import type { AppRouteHandler } from "@/lib/types";
 import type { HanlderRoute } from "./clerk.routes";
 import { db } from "@/db";
 import { organizationsTable, usersTable } from "@/db/schema";
-import { createClerkClient, UserJSON } from "@clerk/backend";
+import { clerk } from "@/lib/clerk";
+import { UserJSON } from "@clerk/backend";
 
-const clerk = createClerkClient({
-	publishableKey: process.env.CLERK_PUBLISHABLE_KEY!,
-	secretKey: process.env.CLERK_SECRET_KEY!,
-})
 
 async function createUser(body: { data: UserJSON }) {
 

@@ -29,6 +29,11 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: "bun",
+    routeRules: {
+      "/api/**": {
+        proxy: `${process.env.NUXT_PUBLIC_API_URL}/**`
+      }
+    },
   },
   clerk: {
     skipServerMiddleware: true,

@@ -17,7 +17,9 @@ export const list = createRoute({
 	path: "/feedback",
 	responses: {
 		[HttpStatusCodes.OK]: jsonContent(
-			z.array(selectFeedbackSchema),
+			z.array(selectFeedbackSchema.extend({
+				votes: z.number(),
+			})),
 			"The list of feedback",
 		),
 	},

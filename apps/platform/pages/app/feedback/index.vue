@@ -5,25 +5,16 @@ definePageMeta({
     layout: 'dashboard'
 })
 
+const apiClient = useApi()
 
-const newPosts = [
-    {
-        title: 'Add dark mode support',
-        votes: 3,
-    },
-    {
-        title: 'Change the color of the button',
-        votes: 1,
-    },
-    {
-        title: 'Improve mobile responsiveness',
-        votes: 5,
-    },
-]
+const { data: feedback } = await useAsyncData('feedback', async () => {
+    const req = await apiClient.api.feedback.$get()
+
+    return req.json()
+})
 </script>
 
 <template>
-
     <div class="grid grid-cols-6 gap-4">
         <div class="col-span-6">
             <AppTitle>Feedback</AppTitle>
@@ -34,7 +25,7 @@ const newPosts = [
                 <h2 class="card-title pt-4 px-4 text-secondary">New Posts</h2>
 
                 <ul class="list">
-                    <li class="list-row items-center" v-for="post in newPosts" :key="post.title">
+                    <li class="list-row items-center" v-for="post in feedback" :key="post.title">
                         <div class="list-col-grow">
                             <a href="#" class="hover:underline">{{ post.title }}</a>
                         </div>
