@@ -37,11 +37,11 @@ const items = [
             </div>
 
             <div class="p-2 space-y-4">
-                <div class="flex items-center gap-2">
+                <div class="btn btn-ghost btn-neutral">
                     <img :src="user?.imageUrl" class="size-6 rounded-full" />
                     <div class="flex flex-col">
                         <span class="text-sm font-medium">{{ user?.fullName }}</span>
-                        <span class="text-xs text-base-content/60">{{ user?.emailAddresses[0]?.emailAddress }}</span>
+                        <span class="text-xs">{{ user?.emailAddresses[0]?.emailAddress }}</span>
                     </div>
                 </div>
             </div>
