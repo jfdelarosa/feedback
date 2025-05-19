@@ -24,7 +24,7 @@ const { data: feedback } = await useAsyncData('feedback', async () => {
             <div class="card-body p-0">
                 <h2 class="card-title pt-4 px-4 text-secondary">New Posts</h2>
 
-                <ul class="list">
+                <ul class="list" v-if="feedback.length > 0">
                     <li class="list-row items-center" v-for="post in feedback" :key="post.title">
                         <div class="list-col-grow">
                             <a href="#" class="hover:underline">{{ post.title }}</a>
@@ -37,6 +37,10 @@ const { data: feedback } = await useAsyncData('feedback', async () => {
                         </div>
                     </li>
                 </ul>
+
+                <div class="list-col-grow px-4 pb-4" v-else>
+                    <p class="text-sm text-base-content/60">No posts found</p>
+                </div>
             </div>
         </div>
 

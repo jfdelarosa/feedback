@@ -11,6 +11,8 @@ export const getDefaultProject: AppRouteHandler<GetDefaultProjectRoute> = async 
 	const auth = getAuth(c)
 	const clerkClient = c.get('clerk')
 
+	console.log(auth)
+
 	const { data } = await clerkClient.users.getOrganizationMembershipList({ userId: auth?.userId! })
 
 	const organizationId = data[0].organization.id

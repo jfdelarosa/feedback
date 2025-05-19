@@ -28,7 +28,7 @@ const { data: mostPopularPosts } = await useAsyncData('topVotedFeedback', async 
             <div class="card-body p-0">
                 <h2 class="card-title pt-4 px-4 text-secondary">New Posts</h2>
 
-                <ul class="list">
+                <ul class="list" v-if="recentPosts.length > 0">
                     <li class="list-row items-center" v-for="post in recentPosts" :key="post.id">
                         <div class="list-col-grow">
                             <a href="#" class="hover:underline">{{ post.title }}</a>
@@ -41,6 +41,10 @@ const { data: mostPopularPosts } = await useAsyncData('topVotedFeedback', async 
                         </div>
                     </li>
                 </ul>
+
+                <div class="list-col-grow px-4 pb-4" v-else>
+                    <p class="text-sm text-base-content/60">No posts found</p>
+                </div>
             </div>
         </div>
 
@@ -48,7 +52,7 @@ const { data: mostPopularPosts } = await useAsyncData('topVotedFeedback', async 
             <div class="card-body p-0">
                 <h2 class="card-title pt-4 px-4 text-secondary">Most Popular Posts</h2>
 
-                <ul class="list">
+                <ul class="list" v-if="mostPopularPosts.length > 0">
                     <li class="list-row items-center" v-for="post in mostPopularPosts" :key="post.id">
                         <div class="list-col-grow">
                             <a href="#" class="hover:underline">{{ post.title }}</a>
@@ -61,6 +65,10 @@ const { data: mostPopularPosts } = await useAsyncData('topVotedFeedback', async 
                         </div>
                     </li>
                 </ul>
+
+                <div class="list-col-grow px-4 pb-4" v-else>
+                    <p class="text-sm text-base-content/60">No posts found</p>
+                </div>
             </div>
         </div>
     </div>
