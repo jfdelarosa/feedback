@@ -5,37 +5,17 @@ definePageMeta({
     layout: 'dashboard'
 })
 
+const apiClient = useApi()
 
-const newPosts = [
-    {
-        title: 'Add dark mode support',
-        votes: 3,
-    },
-    {
-        title: 'Change the color of the button',
-        votes: 1,
-    },
-    {
-        title: 'Improve mobile responsiveness',
-        votes: 5,
-    },
-]
+const { data: recentPosts } = await useAsyncData('recentFeedback', async () => {
+    const req = await apiClient.api.dashboard['recent-feedback'].$get()
+    return req.json()
+})
 
-const mostPopularPosts = [
-    {
-        title: 'Add export functionality',
-        votes: 8,
-    },
-    {
-        title: 'Improve mobile responsiveness',
-        votes: 5,
-    },
-    {
-        title: 'Add support for multiple languages',
-        votes: 4,
-    },
-]
-
+const { data: mostPopularPosts } = await useAsyncData('topVotedFeedback', async () => {
+    const req = await apiClient.api.dashboard['top-voted-feedback'].$get()
+    return req.json()
+})
 </script>
 
 <template>
@@ -49,7 +29,7 @@ const mostPopularPosts = [
                 <h2 class="card-title pt-4 px-4 text-secondary">New Posts</h2>
 
                 <ul class="list">
-                    <li class="list-row items-center" v-for="post in newPosts" :key="post.title">
+                    <li class="list-row items-center" v-for="post in recentPosts" :key="post.id">
                         <div class="list-col-grow">
                             <a href="#" class="hover:underline">{{ post.title }}</a>
                         </div>
@@ -69,7 +49,7 @@ const mostPopularPosts = [
                 <h2 class="card-title pt-4 px-4 text-secondary">Most Popular Posts</h2>
 
                 <ul class="list">
-                    <li class="list-row items-center" v-for="post in mostPopularPosts" :key="post.title">
+                    <li class="list-row items-center" v-for="post in mostPopularPosts" :key="post.id">
                         <div class="list-col-grow">
                             <a href="#" class="hover:underline">{{ post.title }}</a>
                         </div>

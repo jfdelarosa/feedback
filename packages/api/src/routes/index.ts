@@ -6,6 +6,7 @@ import { BASE_PATH } from "@/lib/constants";
 import createRouter from "@/lib/create-router";
 import feedback from "@/routes/feedback/feedback.index";
 import clerk from "@/routes/clerk/clerk.index";
+import dashboard from "@/routes/dashboard/dashboard.index";
 
 export function registerRoutes(app: AppOpenAPI) {
     return app
@@ -35,6 +36,7 @@ export function registerRoutes(app: AppOpenAPI) {
         }))
         .route("/", feedback)
         .route("/", clerk)
+        .route("/", dashboard)
 }
 
 export const router = registerRoutes(
