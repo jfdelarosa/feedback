@@ -50,6 +50,13 @@
       "when": 1747686019575,
       "tag": "0006_curious_dreadnoughts",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1747690119527,
+      "tag": "0007_secret_shooting_star",
+      "breakpoints": true
     }
   ]
 }

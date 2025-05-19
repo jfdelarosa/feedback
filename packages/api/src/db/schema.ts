@@ -10,7 +10,7 @@ import {
     primaryKey,
     jsonb,
 } from "drizzle-orm/pg-core";
-
+import { relations } from "drizzle-orm";
 // User table for users identified via Clerk
 export const usersTable = pgTable("users", {
     id: text().primaryKey(),
@@ -63,8 +63,10 @@ export const feedbackTable = pgTable("feedback", {
 export const feedbackVotesTable = pgTable("feedback_votes", {
     id: uuid().defaultRandom().primaryKey(),
     feedbackId: text().notNull().references(() => feedbackTable.id, { onDelete: "cascade" }),
-    userId: text().notNull().references(() => usersTable.id),
+    userId: text().notNull().references(() => clientUsersTable.id),
+    value: integer().default(1).notNull(), // 1 for upvote, -1 for downvote
     createdAt: timestamp().notNull().defaultNow(),
+    updatedAt: timestamp().notNull().defaultNow(),
 });
 
 // Comments table
@@ -100,6 +102,23 @@ export const clientUsersTable = pgTable("client_users", {
     createdAt: timestamp().notNull().defaultNow(),
     updatedAt: timestamp().notNull().defaultNow(),
 });
+
+// Feedback votes relation
+export const feedbackVotesRelation = relations(feedbackTable, ({ one, many }) => ({
+    votes: many(feedbackVotesTable),
+    user: one(clientUsersTable, {
+        fields: [feedbackTable.userId],
+        references: [clientUsersTable.id],
+    }),
+}));
+
+// Feedback votes to feedback relation
+export const feedbackVotesToFeedbackRelation = relations(feedbackVotesTable, ({ one }) => ({
+    feedback: one(feedbackTable, {
+        fields: [feedbackVotesTable.feedbackId],
+        references: [feedbackTable.id],
+    }),
+}));
 
 // NOTE: The parentId in commentsTable is intended to reference another comment's id
 // This self-referential relationship will need to be handled in the migration file

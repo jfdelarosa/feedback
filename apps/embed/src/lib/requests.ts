@@ -5,7 +5,11 @@ import { SDK } from './sdk';
  * @returns Promise with feedback items
  */
 export async function getFeedbackItems() {
-    return SDK.request('/feedback');
+    const state = SDK.getState();
+
+    console.log('state', state.user)
+
+    return SDK.request(`/feedback?userId=${state.user?.id}`);
 }
 
 /**
@@ -26,10 +30,13 @@ export async function submitFeedback(data: any) {
  * @param vote - Vote value
  * @returns Promise with the updated feedback item
  */
-export async function voteFeedback(id: string, vote: number) {
+export async function voteFeedback(id: string) {
+    const state = SDK.getState();
     return SDK.request(`/feedback/${id}/vote`, {
         method: 'POST',
-        body: JSON.stringify({ vote })
+        body: JSON.stringify({
+            userId: state.user?.id
+        })
     });
 }
 
@@ -40,8 +47,12 @@ export async function voteFeedback(id: string, vote: number) {
  * @returns Promise with the updated feedback item
  */
 export async function commentFeedback(id: string, comment: string) {
+    const state = SDK.getState();
     return SDK.request(`/feedback/${id}/comment`, {
         method: 'POST',
-        body: JSON.stringify({ comment })
+        body: JSON.stringify({
+            comment,
+            userId: state.user?.id
+        })
     });
 }

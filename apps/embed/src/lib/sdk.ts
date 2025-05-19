@@ -10,7 +10,8 @@ export interface PulseKitOptions {
 }
 
 export interface PulseKitUser {
-    id: string;
+    id?: string;
+    externalId?: string;
     email?: string;
     name?: string;
     avatar?: string;
@@ -67,7 +68,7 @@ export function init(apiKey: string, options: PulseKitOptions = {}): typeof SDK 
  * @param user - User identification object
  * @returns The SDK instance for chaining
  */
-export function identify(user: PulseKitUser): typeof SDK {
+export async function identify(user: PulseKitUser): Promise<typeof SDK> {
     if (!state.initialized) {
         console.error('PulseKit: SDK must be initialized before identifying users');
         return SDK;
@@ -78,19 +79,20 @@ export function identify(user: PulseKitUser): typeof SDK {
         return SDK;
     }
 
-    if (!user.id) {
+    if (!user.externalId) {
         console.error('PulseKit: User ID is required');
         return SDK;
     }
 
 
-    request('/identify', {
+    const res = await request('/identify', {
         method: 'POST',
         body: JSON.stringify(user),
     })
 
     // Store user information
-    state.user = user;
+    state.user = res.user;
+
     return SDK;
 }
 

@@ -8,7 +8,7 @@ declare global {
     interface Window {
         PulseKit: {
             init: (apiKey: string, options?: PulseKitOptions) => typeof SDK;
-            identify: (user: PulseKitUser) => typeof SDK;
+            identify: (user: PulseKitUser) => Promise<typeof SDK>;
             getState: () => { initialized: boolean; user: PulseKitUser | null; baseUrl: string };
             version: string;
             Board: any;
