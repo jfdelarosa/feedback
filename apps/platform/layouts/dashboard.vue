@@ -1,7 +1,6 @@
 <script setup>
-// Import Lucide icons
-import { MessageSquare, BarChart2, Settings, Users } from 'lucide-vue-next';
-const { user } = useUser()
+import { UserButton } from '@clerk/vue'
+import { MessageSquare, BarChart2, Code, Users } from 'lucide-vue-next';
 
 const items = [
     {
@@ -20,9 +19,9 @@ const items = [
         href: '/app/users'
     },
     {
-        name: 'Settings',
-        icon: Settings,
-        href: '/app/settings'
+        name: 'API',
+        icon: Code,
+        href: '/app/embed-code'
     }
 ]
 </script>
@@ -41,15 +40,19 @@ const items = [
                 </div>
             </div>
 
-            <div class="p-2 space-y-4">
-                <div class="btn btn-ghost btn-neutral">
-                    <img :src="user?.imageUrl" class="size-6 rounded-full" />
-                    <div class="flex flex-col">
-                        <span class="text-sm font-medium">{{ user?.fullName }}</span>
-                        <span class="text-xs">{{ user?.emailAddresses[0]?.emailAddress }}</span>
+            <UserButton show-name>
+                <UserButton.UserProfilePage label="Custom Page" url="custom">
+                    <template #labelIcon>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
+                        </svg>
+                    </template>
+                    <div>
+                        <h1>Custom page</h1>
+                        <p>This is the content of the custom page.</p>
                     </div>
-                </div>
-            </div>
+                </UserButton.UserProfilePage>
+            </UserButton>
 
             <!-- Nav -->
             <nav class="flex-1 py-4 px-2 space-y-4">

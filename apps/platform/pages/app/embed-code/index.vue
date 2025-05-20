@@ -6,6 +6,10 @@ import { steps as sveltekitSteps } from '../../../utils/instructions/sveltekit';
 
 const apiClient = useApi()
 
+definePageMeta({
+    layout: 'dashboard'
+})
+
 const tabs = [
     {
         name: 'General',
@@ -48,8 +52,11 @@ function parseCode(code: string) {
 </script>
 
 
+
 <template>
     <div class="space-y-4">
+        <AppTitle>Settings</AppTitle>
+
         <div class="card shadow shadow-base-200 bg-white col-span-3">
             <div class="card-body">
                 <h2 class="card-title text-secondary text-base">
