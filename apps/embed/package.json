@@ -15,6 +15,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
     "daisyui": "^5.0.35",
+    "date-fns": "^4.1.0",
     "tailwindcss": "^4.1.7",
     "vue": "^3.5.13"
   },

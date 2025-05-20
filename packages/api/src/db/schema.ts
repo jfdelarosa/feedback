@@ -106,6 +106,7 @@ export const clientUsersTable = pgTable("client_users", {
 // Feedback votes relation
 export const feedbackVotesRelation = relations(feedbackTable, ({ one, many }) => ({
     votes: many(feedbackVotesTable),
+    comments: many(commentsTable),
     user: one(clientUsersTable, {
         fields: [feedbackTable.userId],
         references: [clientUsersTable.id],
@@ -118,6 +119,18 @@ export const feedbackVotesToFeedbackRelation = relations(feedbackVotesTable, ({ 
         fields: [feedbackVotesTable.feedbackId],
         references: [feedbackTable.id],
     }),
+}));
+
+export const feedbackCommentsRelation = relations(commentsTable, ({ one, many }) => ({
+    feedback: one(feedbackTable, {
+        fields: [commentsTable.feedbackId],
+        references: [feedbackTable.id],
+    }),
+    user: one(clientUsersTable, {
+        fields: [commentsTable.userId],
+        references: [clientUsersTable.id],
+    }),
+
 }));
 
 // NOTE: The parentId in commentsTable is intended to reference another comment's id

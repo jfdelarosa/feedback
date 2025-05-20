@@ -12,24 +12,34 @@ const app = new Hono<AppEnv>();
 
 
 function getProjectId(c: Context) {
-    let token = c.req.header("Authorization")?.split(" ");
+    let projectId = c.req.header('X-PulseKit-Project');
 
-    if (!token) {
-        throw new Error("No token provided")
+    if (!projectId) {
+        throw new Error("No project ID provided")
     }
 
-    if (token[0] !== "Bearer" || token.length !== 2) {
-        throw new Error("Invalid token")
-    }
+    return projectId
+}
 
-    return token[1]
+function getUser(c: Context) {
+    const user = c.req.header('X-PulseKit-User');
+
+    return user ? JSON.parse(user) : null
 }
 
 
 app.post("/identify", async (c) => {
     try {
         const projectId = getProjectId(c)
-        const { email, name, avatar, externalId } = await c.req.json()
+        const user = getUser(c)
+
+        if (!user) {
+            return c.json({
+                message: "User not found",
+            }, 404)
+        }
+
+        const { email, name, avatar, externalId } = user
 
         if (!externalId) {
             return c.json({
@@ -120,6 +130,7 @@ app.get("/feedback", async (c) => {
                         userId: true,
                     },
                 },
+                comments: true,
                 user: {
                     columns: {
                         id: true,
@@ -271,12 +282,12 @@ app.get("/feedback/:feedbackId", async (c) => {
 app.post("/feedback/:feedbackId/vote", async (c) => {
     try {
         const feedbackId = c.req.param("feedbackId");
-        const { userId } = await c.req.json();
+        const user = getUser(c)
 
-        if (!userId) {
+        if (!user) {
             return c.json({
-                message: "Missing required field: userId",
-            }, HttpStatusCodes.BAD_REQUEST);
+                message: "User not found",
+            }, HttpStatusCodes.NOT_FOUND);
         }
 
         // Check if the feedback exists
@@ -299,7 +310,7 @@ app.post("/feedback/:feedbackId/vote", async (c) => {
             .where(
                 and(
                     eq(feedbackVotesTable.feedbackId, feedbackId),
-                    eq(feedbackVotesTable.userId, userId)
+                    eq(feedbackVotesTable.userId, user.id)
                 )
             )
             .limit(1);
@@ -316,7 +327,7 @@ app.post("/feedback/:feedbackId/vote", async (c) => {
                 .insert(feedbackVotesTable)
                 .values({
                     feedbackId,
-                    userId,
+                    userId: user.id,
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 });

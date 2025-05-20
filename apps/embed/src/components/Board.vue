@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
-import { getFeedbackItems, submitFeedback, voteFeedback, commentFeedback } from '@/lib/requests';
-import { SDK } from '@/lib/sdk';
+import { ref, computed, watch } from 'vue';
+import { identify, getFeedbackItems, submitFeedback, voteFeedback, commentFeedback } from '@/lib/requests';
 import type { PulseKitUser } from '@/lib/sdk';
 import type { FeedbackItem } from './types';
 import Feedback from './feedback.vue';
+
+// Define props
+const props = defineProps<{
+    projectId: string; // UUID for the project
+    user?: PulseKitUser | null;
+}>();
 
 const feedbackItems = ref<FeedbackItem[]>([]);
 const loading = ref(true);
@@ -13,14 +18,8 @@ const newFeedbackTitle = ref('');
 const newFeedback = ref('');
 const activeTab = ref('all');
 
-// Check SDK initialization
-const isInitialized = ref(false);
-
-// Get current user
-const currentUser = computed<PulseKitUser | null>(() => {
-    const state = SDK.getState();
-    return state.user;
-});
+// Get current user from props
+const currentUser = ref<PulseKitUser | null>(props.user || null);
 
 // Check if the user is identified
 const isIdentified = computed(() => {
@@ -32,18 +31,13 @@ const isReadonly = computed(() => {
     return !isIdentified.value;
 });
 
+
 // Load feedback items
 async function loadFeedback() {
-    if (!isInitialized.value) {
-        error.value = 'SDK not initialized. Please call PulseKit.init() first.';
-        loading.value = false;
-        return;
-    }
-
     try {
         loading.value = true;
         error.value = null;
-        feedbackItems.value = await getFeedbackItems();
+        feedbackItems.value = await getFeedbackItems(props.projectId, currentUser.value);
     } catch (err) {
         error.value = err instanceof Error ? err.message : 'Failed to load feedback';
     } finally {
@@ -62,8 +56,9 @@ async function submit() {
             userId: currentUser.value?.id,
         };
 
-        const result = await submitFeedback(data);
+        const result = await submitFeedback(data, props.projectId, currentUser.value);
         feedbackItems.value = [result, ...feedbackItems.value];
+        newFeedbackTitle.value = '';
         newFeedback.value = '';
     } catch (err) {
         error.value = err instanceof Error ? err.message : 'Failed to submit feedback';
@@ -75,7 +70,7 @@ async function vote(id: string, voteValue: number) {
     if (isReadonly.value) return;
 
     try {
-        const updatedItem = await voteFeedback(id);
+        const updatedItem = await voteFeedback(id, props.projectId, currentUser.value);
 
         const index = feedbackItems.value.findIndex(item => item.id === id);
         if (index !== -1) {
@@ -95,7 +90,7 @@ async function addComment(id: string, commentText: string) {
     if (!commentText.trim() || isReadonly.value) return;
 
     try {
-        const updatedItem = await commentFeedback(id, commentText);
+        const updatedItem = await commentFeedback(id, commentText, props.projectId, currentUser.value);
         const index = feedbackItems.value.findIndex(item => item.id === id);
         if (index !== -1) {
             feedbackItems.value[index] = updatedItem;
@@ -105,24 +100,24 @@ async function addComment(id: string, commentText: string) {
     }
 }
 
-onMounted(() => {
-    const clear = setInterval(() => {
-        const state = SDK.getState();
+// Watch for changes to projectId or user and reload feedback
+watch(
+    [() => props.projectId, () => props.user],
+    async () => {
+        if (props.user) {
+            const res = await identify(props.projectId, props.user);
 
-        if (!state.initialized) {
-            return;
+            currentUser.value = res.user;
         }
 
-        isInitialized.value = true;
         loadFeedback();
-        clearInterval(clear);
-    }, 100)
-});
+    },
+    { immediate: true }
+);
 </script>
 
 <template>
-    <div data-theme="light" class="bg-transparent font-sans text-gray-800 max-w-3xl mx-auto p-4 flex flex-col gap-4"
-        v-if="isInitialized">
+    <div data-theme="light" class="bg-transparent font-sans text-gray-800 max-w-3xl mx-auto p-4 flex flex-col gap-4">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-semibold m-0">Feedback Board</h2>
             <div class="flex gap-2">
