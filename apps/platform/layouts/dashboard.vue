@@ -1,6 +1,6 @@
 <script setup>
 // Import Lucide icons
-import { MessageSquare, BarChart2, Settings } from 'lucide-vue-next';
+import { MessageSquare, BarChart2, Settings, Users } from 'lucide-vue-next';
 const { user } = useUser()
 
 const items = [
@@ -10,9 +10,14 @@ const items = [
         href: '/app'
     },
     {
-        name: 'Feedback',
+        name: 'Feedbacks',
         icon: MessageSquare,
         href: '/app/feedback'
+    },
+    {
+        name: "Users",
+        icon: Users,
+        href: '/app/users'
     },
     {
         name: 'Settings',

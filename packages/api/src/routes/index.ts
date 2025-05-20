@@ -8,6 +8,7 @@ import feedback from "@/routes/feedback/feedback.index";
 import clerk from "@/routes/clerk/clerk.index";
 import dashboard from "@/routes/dashboard/dashboard.index";
 import project from "@/routes/project/project.index";
+import users from "@/routes/users/users.index";
 import publicRoutes from "@/routes/public/index";
 import { getAuth } from '@hono/clerk-auth'
 import { db } from '@/db'
@@ -63,7 +64,8 @@ export function registerRoutes(app: AppOpenAPI) {
     router.route("/", feedback)
         .route("/", clerk)
         .route("/", dashboard)
-        .route("/", project);
+        .route("/", project)
+        .route("/", users);
 
     return router;
 }
