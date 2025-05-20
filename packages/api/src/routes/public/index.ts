@@ -188,8 +188,6 @@ app.post("/feedback", async (c) => {
             }, HttpStatusCodes.NOT_FOUND)
         }
 
-        console.log(existingUser)
-
         // Create the feedback
         const feedback = await db.insert(feedbackTable).values({
             id: Bun.randomUUIDv7(),
