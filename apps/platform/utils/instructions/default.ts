@@ -2,28 +2,34 @@ import type { InstructionStep } from "./types";
 
 export const steps: InstructionStep[] = [
     {
-        description: 'Load and initialize the script:',
-        code: `<script src="https://trypulsekit.com/sdk.js"></script>
-<script>
-    window.pulsekit.init("PROJECT_KEY");
-</script>`
+        description: 'Load the script from CDN:',
+        code: `<script src="https://cdn.jsdelivr.net/gh/jfdelarosa/pulsekit/apps/embed/dist/pulsekit.js"></script>`
     },
     {
-        description: 'Create a small utility wrapper:',
-        code: `export const identifyUser = (user: { id: string; email?: string }) => {
-    if (typeof window !== "undefined" && window.pulsekit) {
-        window.pulsekit.identify(user);
-    } else {
-        console.warn("pulsekit not loaded yet");
-    }
-};`
+        description: 'Add the web component to your page:',
+        code: `<pulse-feedback 
+    projectId="PROJECT_KEY" 
+    user='{"id": "user123", "name": "John Doe", "email": "john@example.com", "avatar": "https://example.com/avatar.jpg"}' 
+/>`
     },
     {
-        description: 'Now you can call <AppInlineCode>identifyUser</AppInlineCode> whenever your app has user info (after login, or when session is ready).',
-        code: `import { identifyUser } from "@/lib/pulsekit";  
+        description: 'If you need to dynamically set the user object:',
+        code: `// Create the element
+const feedbackElement = document.createElement('pulse-feedback');
 
-function load(user) {
-    identifyUser({ id: user.id, email: user.email });
-}`
+// Set attributes
+feedbackElement.setAttribute('projectId', 'PROJECT_KEY');
+
+// Set user object
+const user = { 
+    id: 'user123',
+    name: 'John Doe',
+    email: 'john@example.com',
+    avatar: 'https://example.com/avatar.jpg'
+};
+feedbackElement.setAttribute('user', JSON.stringify(user));
+
+// Add to DOM
+document.getElementById('feedback-container').appendChild(feedbackElement);`
     }
 ]

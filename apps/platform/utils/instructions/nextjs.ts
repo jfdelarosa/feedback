@@ -2,29 +2,16 @@ import type { InstructionStep } from "./types";
 
 export const steps: InstructionStep[] = [
   {
-    description: 'Place the script in <AppInlineCode>_app.tsx</AppInlineCode> (or <AppInlineCode>_app.js</AppInlineCode>) using <AppInlineCode>next/script</AppInlineCode>:',
+    description: 'Add the script to your <AppInlineCode>_app.tsx</AppInlineCode> (or <AppInlineCode>_app.js</AppInlineCode>) using <AppInlineCode>next/script</AppInlineCode>:',
     code: `import Script from "next/script";
-import { useEffect } from "react";
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    // Optional: run anything once script is ready
-    if (window.pulsekit) {
-      window.pulsekit.init("PROJECT_KEY");
-    }
-  }, []);
-
   return (
     <>
       <Script
-        src="https://trypulsekit.com/embed.js"
+        src="https://cdn.jsdelivr.net/gh/jfdelarosa/pulsekit/apps/embed/dist/pulsekit.js"
         strategy="afterInteractive"
-        onLoad={() => {
-          if (window.pulsekit) {
-            window.pulsekit.init("PROJECT_KEY");
-          }
-        }}
       />
       <Component {...pageProps} />
     </>
@@ -34,28 +21,31 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp;`
   },
   {
-    description: 'Create a small utility wrapper in <AppInlineCode>lib/pulsekit.ts</AppInlineCode>:',
-    code: `export const identifyUser = (user: { id: string; email?: string }) => {
-  if (typeof window !== "undefined" && window.pulsekit) {
-    window.pulsekit.identify(user);
-  } else {
-    console.warn("pulsekit not loaded yet");
-  }
-};`
+    description: 'Add the web component directly to any page:',
+    code: `import { useUser } from "@/path/to/your/user-hook"; // Your user hook
+
+export default function Feedback() {
+  const { user } = useUser(); // Get user data from your auth system
+  
+  if (!user) return <div>Loading...</div>;
+  
+  return (
+    <pulse-feedback
+      projectId="PROJECT_KEY" 
+      user={JSON.stringify(user)}
+    />
+  );
+}`
   },
   {
-    description: 'Now you can call <AppInlineCode>identifyUser</AppInlineCode> whenever your app has user info (after login, or when session is ready).',
-    code: `import { useEffect } from "react";
-import { identifyUser } from "@/lib/pulsekit";  
-
-const Dashboard = ({ user }) => {
-  useEffect(() => {
-    if (user) {
-      identifyUser({ id: user.id, email: user.email });
-    }
-  }, [user]);
-
-  return <div>Welcome, {user.name}</div>;
-};`
+    description: 'For TypeScript support, add type definitions in a <AppInlineCode>.d.ts</AppInlineCode> file:',
+    code: `declare namespace JSX {
+  interface IntrinsicElements {
+    'pulse-feedback': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+      projectId: string;
+      user: string; // JSON stringified user object
+    };
+  }
+}`
   }
 ]
