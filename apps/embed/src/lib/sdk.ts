@@ -1,16 +1,4 @@
-/**
- * PulseKit Embed SDK
- * Provides request handling for the PulseKit feedback system
- */
-
-// Types
-export interface PulseKitUser {
-    id?: string;
-    externalId?: string;
-    email?: string;
-    name?: string;
-    avatar?: string;
-}
+import type { PulseKitUser } from '@/types';
 
 /**
  * Make an API request
@@ -58,6 +46,12 @@ export async function request(
     } catch (error) {
         console.error('PulseKit: API request failed', error);
         throw error;
+    }
+}
+
+export function useRequest(projectId: string, user?: PulseKitUser | null) {
+    return async (endpoint: string, options: RequestInit = {}) => {
+        return request(endpoint, options, projectId, user);
     }
 }
 

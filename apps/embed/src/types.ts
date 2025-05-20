@@ -1,3 +1,11 @@
+export interface PulseKitUser {
+    id?: string;
+    externalId?: string;
+    email?: string;
+    name?: string;
+    avatar?: string;
+}
+
 export interface FeedbackItem {
     id: string;
     title: string;

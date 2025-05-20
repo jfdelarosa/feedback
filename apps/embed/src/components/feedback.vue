@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { formatDistanceToNow } from "date-fns"
-import type { FeedbackItem } from './types';
+import type { FeedbackItem } from '../types';
 import type { PulseKitUser } from '@/lib/sdk';
 import comments from './comments.vue';
 import { computed } from 'vue';
