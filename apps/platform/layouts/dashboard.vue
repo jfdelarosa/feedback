@@ -40,19 +40,7 @@ const items = [
                 </div>
             </div>
 
-            <UserButton show-name>
-                <UserButton.UserProfilePage label="Custom Page" url="custom">
-                    <template #labelIcon>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-                        </svg>
-                    </template>
-                    <div>
-                        <h1>Custom page</h1>
-                        <p>This is the content of the custom page.</p>
-                    </div>
-                </UserButton.UserProfilePage>
-            </UserButton>
+            <UserButton show-name />
 
             <!-- Nav -->
             <nav class="flex-1 py-4 px-2 space-y-4">

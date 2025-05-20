@@ -47,6 +47,7 @@
         "@nuxt/fonts": "0.11.4",
         "@pulsekit/api": "workspace:*",
         "@tailwindcss/vite": "^4.1.7",
+        "date-fns": "^4.1.0",
         "eslint": "^9.0.0",
         "hono": "^4.7.10",
         "lucide-vue-next": "^0.511.0",

@@ -5,10 +5,10 @@ definePageMeta({
     layout: 'dashboard'
 })
 
-const apiClient = useApi()
+
 
 const { data: feedback, pending: feedbackPending } = await useLazyAsyncData('feedback', async () => {
-    const req = await apiClient.api.feedback.$get()
+    const req = await fetch('/api/feedback')
 
     return req.json()
 })
@@ -20,7 +20,7 @@ const { data: feedback, pending: feedbackPending } = await useLazyAsyncData('fee
             <AppTitle>Feedback</AppTitle>
         </div>
 
-        <div class="card shadow shadow-base-200 bg-white col-span-3">
+        <div class="card shadow shadow-base-200 bg-white col-span-6">
             <div class="card-body p-0">
                 <h2 class="card-title pt-4 px-4 text-secondary">New Posts</h2>
 
@@ -29,9 +29,10 @@ const { data: feedback, pending: feedbackPending } = await useLazyAsyncData('fee
                 </div>
 
                 <ul class="list" v-else-if="feedback.length > 0">
-                    <li class="list-row items-center" v-for="post in feedback" :key="post.title">
+                    <li class="list-row items-center" v-for="post in feedback" :key="post.id">
                         <div class="list-col-grow">
-                            <a href="#" class="hover:underline">{{ post.title }}</a>
+                            <NuxtLink :to="`/app/feedback/${post.id}`" class="hover:underline">{{ post.title }}
+                            </NuxtLink>
                         </div>
                         <div>
                             <button class="btn btn-ghost btn-sm flex flex-col gap-0 btn-square btn-lg">

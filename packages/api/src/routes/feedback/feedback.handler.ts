@@ -38,12 +38,12 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
 	const { id } = c.req.valid("param");
 
-	const feedback = await db.select()
-		.from(feedbackTable)
-		.where(
-			eq(feedbackTable.id, id),
-		)
-		.limit(1);
+	const feedback = await db.query.feedbackTable.findFirst({
+		where: eq(feedbackTable.id, id),
+		with: {
+			user: true,
+		},
+	});
 
 	if (!feedback) {
 		return c.json(
@@ -54,5 +54,5 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
 		);
 	}
 
-	return c.json(feedback[0], HttpStatusCodes.OK);
+	return c.json(feedback, HttpStatusCodes.OK);
 };
