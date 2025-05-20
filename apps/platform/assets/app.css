@@ -6,7 +6,7 @@ html {
 }
 
 @plugin "daisyui" {
-    themes: caramellatte --default;
+    themes: all;
 }
 
 @theme {

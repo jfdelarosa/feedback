@@ -1,6 +1,8 @@
 <script setup>
+import { Toaster } from 'vue-sonner'
+
 import { UserButton } from '@clerk/vue'
-import { MessageSquare, BarChart2, Code, Users } from 'lucide-vue-next';
+import { MessageSquare, BarChart2, Code, Users, Settings } from 'lucide-vue-next';
 
 const items = [
     {
@@ -22,7 +24,13 @@ const items = [
         to: "app-users"
     },
     {
-        name: 'API',
+        name: 'Settings',
+        icon: Settings,
+        href: '/app/settings',
+        to: "app-settings"
+    },
+    {
+        name: 'Developer Guide',
         icon: Code,
         href: '/app/embed-code',
         to: "app-embed-code"
@@ -44,10 +52,10 @@ const isActive = (item) => {
 
 
 <template>
-
     <div class="min-h-screen bg-base-100 flex container max-w-5xl mx-auto">
+        <Toaster />
         <!-- Sidebar - desktop -->
-        <aside class="hidden lg:flex flex-col w-50">
+        <aside class="hidden lg:flex flex-col w-50 items-center">
             <!-- Logo -->
             <div class="px-4 py-5">
                 <div class="flex items-center gap-2">
@@ -63,9 +71,9 @@ const isActive = (item) => {
                 <ul class="space-y-1">
                     <li v-for="item in items" :key="item.name">
                         <NuxtLink :to="{ name: item.to }"
-                            class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content/70 hover:bg-base-200 hover:text-base-content active:bg-base-300/50 transition-all duration-300"
-                            :class="{ 'bg-base-200 text-base-content font-semibold': isActive(item) }">
-                            <component :is="item.icon" class="size-4 opacity-70" stroke-width="2.5" />
+                            class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content hover:bg-base-200 hover:text-base-content active:bg-base-300/50 transition-colors duration-300"
+                            :class="{ 'bg-base-200 text-primary/80 font-medium hover:text-primary/70': isActive(item) }">
+                            <component :is="item.icon" class="size-4 text-base-content/50" stroke-width="2.5" />
                             {{ item.name }}
                         </NuxtLink>
                     </li>

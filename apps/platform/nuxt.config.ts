@@ -24,7 +24,10 @@ export default defineNuxtConfig({
     head: {
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/logo.svg' }
-      ]
+      ],
+      htmlAttrs: {
+        'data-theme': 'caramellatte'
+      }
     }
   },
   nitro: {

@@ -4,15 +4,15 @@ import { steps as nextjsSteps } from '../../../utils/instructions/nextjs';
 import { steps as nuxtSteps } from '../../../utils/instructions/nuxt3';
 import { steps as sveltekitSteps } from '../../../utils/instructions/sveltekit';
 
-const apiClient = useApi()
-
 definePageMeta({
     layout: 'dashboard'
 })
 
+const apiClient = useApi()
+
 const tabs = [
     {
-        name: 'General',
+        name: 'Vanilla JS',
         steps: defaultSteps
     },
     {
@@ -29,15 +29,16 @@ const tabs = [
     }
 ]
 
-function parseHtml(html: string) {
-    return html.replace(/<AppInlineCode>(.*?)<\/AppInlineCode>/g, '<code class="bg-base-300 px-1 py-0.5 rounded-md font-mono">$1</code>');
-}
-
-const { data: project, pending: projectPending } = useLazyAsyncData('project', async () => {
+const { data: project } = useLazyAsyncData('project', async () => {
     const req = await apiClient.api.project.default.$get()
 
     return req.json()
 })
+
+function parseHtml(html: string) {
+    return html.replace(/<AppInlineCode>(.*?)<\/AppInlineCode>/g, '<code class="bg-base-300 px-1 py-0.5 rounded-md font-mono">$1</code>');
+}
+
 
 function parseCode(code: string) {
     if (project.value) {
@@ -55,37 +56,12 @@ function parseCode(code: string) {
 
 <template>
     <div class="space-y-4">
-        <AppTitle>Settings</AppTitle>
+        <AppTitle>Developer Guide</AppTitle>
 
         <div class="card shadow shadow-base-200 bg-white col-span-3">
             <div class="card-body">
-                <h2 class="card-title text-secondary text-base">
-                    General
-                </h2>
-
-                <div v-if="projectPending">
-                    Loading...
-                </div>
-
-                <div v-else class="grid grid-cols-2 gap-2">
-                    <fieldset class="fieldset">
-                        <legend class="fieldset-legend">Project Name</legend>
-                        <input type="text" class="input" placeholder="Type here" :value="project?.name" />
-                    </fieldset>
-
-                    <fieldset class="fieldset">
-                        <legend class="fieldset-legend">Project Key</legend>
-                        <input readonly type="text" class="input input-bordered w-full" :value="project?.id" />
-                    </fieldset>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="card shadow shadow-base-200 bg-white col-span-3">
-            <div class="card-body">
-                <h2 class="card-title text-secondary text-base">
-                    Install instructions
+                <h2 class="card-title text-secondary text-base mb-2">
+                    Quick Start Guide
                 </h2>
 
                 <div class="tabs tabs-lift">

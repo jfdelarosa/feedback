@@ -16,7 +16,7 @@ import { organizationsTable } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 
 export function registerRoutes(app: AppOpenAPI) {
-    const router = app
+    return app
         // .doc(
         //     "/doc",
         //     {
@@ -28,46 +28,45 @@ export function registerRoutes(app: AppOpenAPI) {
         //     },
         // )
         .use("*", cors())
-        .use("*", logger());
+        .use("*", logger())
 
-    // Register public routes first (no auth required)
-    router.route("/public", publicRoutes);
+        // Register public routes first (no auth required)
+        .route("/public", publicRoutes)
 
-    // Apply auth middleware to protected routes
-    router.use("*", clerkMiddleware({
-        publishableKey: process.env.CLERK_PUBLISHABLE_KEY!,
-        secretKey: process.env.CLERK_SECRET_KEY!,
-    }));
+        // Apply auth middleware to protected routes
+        .use("*", clerkMiddleware({
+            publishableKey: process.env.CLERK_PUBLISHABLE_KEY!,
+            secretKey: process.env.CLERK_SECRET_KEY!,
+        }))
 
-    // Apply organization middleware to authenticated routes
-    router.use("*", async (c, next) => {
-        const auth = getAuth(c)
-        const clerkClient = c.get('clerk')
-        const { data } = await clerkClient.users.getOrganizationMembershipList({ userId: auth?.userId! })
-        const organizationId = data[0].organization.id
-        const [organization] = await db
-            .select({
-                id: organizationsTable.id,
-            })
-            .from(organizationsTable)
-            .where(
-                eq(organizationsTable.clerkId, organizationId)
-            )
-            .limit(1)
+        // Apply organization middleware to authenticated routes
+        .use("*", async (c, next) => {
+            const auth = getAuth(c)
+            const clerkClient = c.get('clerk')
+            const { data } = await clerkClient.users.getOrganizationMembershipList({ userId: auth?.userId! })
+            const organizationId = data[0].organization.id
+            const [organization] = await db
+                .select({
+                    id: organizationsTable.id,
+                })
+                .from(organizationsTable)
+                .where(
+                    eq(organizationsTable.clerkId, organizationId)
+                )
+                .limit(1)
 
-        c.set('organizationId', organization.id)
+            c.set('organizationId', organization.id)
 
-        await next()
-    });
+            await next()
+        })
 
-    // Register protected routes
-    router.route("/", feedback)
+        // Register protected routes
+        .route("/", feedback)
         .route("/", clerk)
         .route("/", dashboard)
         .route("/", project)
         .route("/", users);
 
-    return router;
 }
 
 export const router = registerRoutes(

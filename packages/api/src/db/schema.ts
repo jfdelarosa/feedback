@@ -45,6 +45,7 @@ export const projectsTable = pgTable("projects", {
     isDefault: boolean().default(true).notNull(),
     createdAt: timestamp().notNull().defaultNow(),
     updatedAt: timestamp().notNull().defaultNow(),
+    theme: varchar({ length: 255 }).default("light").notNull(),
 });
 
 // Feedback table
