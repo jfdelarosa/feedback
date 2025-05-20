@@ -6,24 +6,40 @@ const items = [
     {
         name: 'Dashboard',
         icon: BarChart2,
-        href: '/app'
+        href: '/app',
+        to: "app"
     },
     {
         name: 'Feedbacks',
         icon: MessageSquare,
-        href: '/app/feedback'
+        href: '/app/feedback',
+        to: "app-feedback"
     },
     {
         name: "Users",
         icon: Users,
-        href: '/app/users'
+        href: '/app/users',
+        to: "app-users"
     },
     {
         name: 'API',
         icon: Code,
-        href: '/app/embed-code'
+        href: '/app/embed-code',
+        to: "app-embed-code"
     }
 ]
+
+const route = useRoute()
+
+const isActive = (item) => {
+    // Handle root dashboard item separately
+    if (item.href === '/app') {
+        return route.path === '/app'
+    }
+
+    // For other items, check if the current path starts with their specific path
+    return route.path.startsWith(item.href + '/') || route.path === item.href
+}
 </script>
 
 
@@ -46,9 +62,9 @@ const items = [
             <nav class="flex-1 py-4 px-2 space-y-4">
                 <ul class="space-y-1">
                     <li v-for="item in items" :key="item.name">
-                        <NuxtLink :to="item.href"
-                            class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content/70 hover:bg-base-200"
-                            active-class="bg-base-300 text-primary font-medium ">
+                        <NuxtLink :to="{ name: item.to }"
+                            class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content/70 hover:bg-base-200 hover:text-base-content active:bg-base-300/50 transition-all duration-300"
+                            :class="{ 'bg-base-200 text-base-content font-semibold': isActive(item) }">
                             <component :is="item.icon" class="size-4 opacity-70" stroke-width="2.5" />
                             {{ item.name }}
                         </NuxtLink>

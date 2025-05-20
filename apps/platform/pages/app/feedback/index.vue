@@ -35,10 +35,9 @@ const { data: feedback, pending: feedbackPending } = await useLazyAsyncData('fee
                             </NuxtLink>
                         </div>
                         <div>
-                            <button class="btn btn-ghost btn-sm flex flex-col gap-0 btn-square btn-lg">
-                                <ChevronUp class="size-6" />
-                                {{ post.votes }}
-                            </button>
+                            <AppVoteButton>
+                                {{ post.votes || 0 }}
+                            </AppVoteButton>
                         </div>
                     </li>
                 </ul>

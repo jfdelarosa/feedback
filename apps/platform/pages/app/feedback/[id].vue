@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ChevronLeftIcon } from 'lucide-vue-next';
+
 definePageMeta({
     layout: 'dashboard'
 })
@@ -38,7 +40,10 @@ const statuses = ref([{
     <div class="grid grid-cols-6 gap-4 items-start">
         <div class="col-span-6 flex items-center justify-between">
             <AppTitle>Feedback Details</AppTitle>
-            <NuxtLink to="/app/feedback" class="btn btn-ghost">Back to List</NuxtLink>
+            <NuxtLink to="/app/feedback" class="btn btn-ghost">
+                <ChevronLeftIcon class="size-4" />
+                Back to List
+            </NuxtLink>
         </div>
 
         <div v-if="feedbackPending" class="col-span-6">
