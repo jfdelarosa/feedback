@@ -49,7 +49,9 @@ function formatDate(date: string) {
                     <img v-if="feedback?.user?.avatar" :src="feedback?.user?.avatar" alt="User avatar"
                         class="size-6 rounded-full bg-base-300" />
                     <span v-else class="size-6 rounded-full bg-base-300 inline-block"></span>
-                    <span class="text-sm">{{ feedback?.user?.name || feedback?.user?.email || 'Anonymous' }}</span>
+                    <span class="text-sm text-base-content/70 font-medium">{{ feedback?.user?.name ||
+                        feedback?.user?.email ||
+                        'Anonymous' }}</span>
                 </div>
 
                 <div class="space-x-2">
