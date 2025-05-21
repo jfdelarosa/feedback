@@ -44,7 +44,7 @@ export function useFeedback(projectId: string, user: Ref<PulseKitUser | null>) {
                     body: JSON.stringify(data)
                 }
             )
-            feedbackItems.value = [result, ...feedbackItems.value];
+            feedbackItems.value = [result.feedback, ...feedbackItems.value];
             return result;
         } catch (err) {
             error.value = err instanceof Error ? err.message : 'Failed to submit feedback';

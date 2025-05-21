@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { eq, sql, and } from "drizzle-orm";
+import { eq, sql, and, desc } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 import { db } from "@/db";
@@ -141,6 +141,7 @@ app.get("/feedback", async (c) => {
                 },
             },
             where: eq(feedbackTable.projectId, projectId),
+            orderBy: [desc(feedbackTable.createdAt)],
         })
 
 
@@ -188,18 +189,39 @@ app.post("/feedback", async (c) => {
             }, HttpStatusCodes.NOT_FOUND)
         }
 
+        const feedbackId = Bun.randomUUIDv7()
+
         // Create the feedback
-        const feedback = await db.insert(feedbackTable).values({
-            id: Bun.randomUUIDv7(),
+        await db.insert(feedbackTable).values({
+            id: feedbackId,
             title,
             content,
             projectId,
             userId: existingUser[0].id,
-        }).returning()
+        })
+
+        const feedback = await db.query.feedbackTable.findFirst({
+            where: eq(feedbackTable.id, feedbackId),
+            with: {
+                votes: {
+                    columns: {
+                        userId: true,
+                    },
+                },
+                comments: true,
+                user: {
+                    columns: {
+                        id: true,
+                        name: true,
+                        avatar: true,
+                    },
+                }
+            }
+        })
 
         return c.json({
             message: "Feedback created successfully",
-            feedback: feedback[0]
+            feedback: feedback
         }, HttpStatusCodes.CREATED)
 
     } catch (error) {

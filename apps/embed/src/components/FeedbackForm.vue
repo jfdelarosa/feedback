@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 const props = defineProps<{
     isReadonly: boolean;
+    disabled: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -21,12 +22,29 @@ function submit() {
 </script>
 
 <template>
-    <div class="flex flex-col gap-2 mb-6" v-if="!isReadonly">
-        <input type="text" class="input input-bordered w-full" v-model="title" placeholder="Title" />
-        <textarea class="textarea textarea-bordered w-full" v-model="content"
-            placeholder="Share your feedback or suggestions..."></textarea>
-        <button class="btn btn-primary self-end" @click="submit" :disabled="!content.trim()">
-            Submit
-        </button>
+
+    <div class="card card-border shadow-sm bg-base-100" v-if="!isReadonly">
+        <div class="card-body p-4">
+            <h2 class="card-title">Submit Feedback</h2>
+            <p class="text-sm text-base-content/50">Share your feedback or suggestions...</p>
+
+            <div>
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Title</legend>
+                    <input type="text" class="input input-bordered input-sm w-full" v-model="title" />
+                </fieldset>
+
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Description</legend>
+
+                    <textarea class="textarea textarea-bordered textarea-sm w-full" v-model="content"></textarea>
+                </fieldset>
+            </div>
+
+            <div class="card-actions justify-end">
+                <button class="btn btn-primary btn-sm" @click="submit"
+                    :disabled="!content.trim() || disabled">Submit</button>
+            </div>
+        </div>
     </div>
 </template>

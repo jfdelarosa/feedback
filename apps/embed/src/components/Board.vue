@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import type { PulseKitUser } from '@/types';
 import Feedback from './feedback.vue';
 import FeedbackForm from './FeedbackForm.vue';
-import BoardHeader from './BoardHeader.vue';
 import { useFeedback } from '@/composables/useFeedback';
 import { useComments } from '@/composables/useComments';
 import { useUser } from '@/composables/useUser';
@@ -48,6 +47,10 @@ function updateTab(tab: string) {
     activeTab.value = tab;
 }
 
+const link = computed(() => {
+    return `https://trypulsekit.com/?utm_source=pulsekit-embed&utm_medium=${props.projectId}&utm_campaign=powered-by`
+})
+
 // Watch for changes to projectId or user and reload feedback
 onMounted(
     async () => {
@@ -62,8 +65,6 @@ onMounted(
 
 <template>
     <div data-theme="light" class="bg-transparent font-sans text-gray-800 max-w-3xl mx-auto p-4 flex flex-col gap-4">
-        <BoardHeader :active-tab="activeTab" :is-readonly="isReadonly" @update-tab="updateTab" />
-
         <div class="bg-gray-50 border border-gray-200 rounded p-3 mb-4" v-if="isReadonly">
             <div class="flex items-center gap-2">
                 <span class="text-xl">ℹ️</span>
@@ -71,7 +72,7 @@ onMounted(
             </div>
         </div>
 
-        <FeedbackForm :is-readonly="isReadonly" @submit="handleSubmit" />
+        <FeedbackForm :disabled="loading || isReadonly" :is-readonly="isReadonly" @submit="handleSubmit" />
 
         <div v-if="error" class="bg-red-50 text-red-800 p-4 rounded mb-4 flex flex-col gap-2">
             {{ error }}
@@ -92,7 +93,7 @@ onMounted(
                 :current-user="currentUser" @vote="voteOnFeedback" @add-comment="addComment" />
         </div>
 
-        <a class="btn btn-primary btn-sm btn-outline" href="https://pulsekit.com">
+        <a class="btn btn-primary btn-sm btn-outline self-center" :href="link" target="_blank">
             Powered by PulseKit
         </a>
     </div>

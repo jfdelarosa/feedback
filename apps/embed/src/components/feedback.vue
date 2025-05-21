@@ -37,30 +37,30 @@ function formatDate(date: string) {
 <template>
     <div class="card card-border bg-base-100 shadow-sm">
         <div class="card-body p-4">
-            <time :title="feedback.createdAt" class="text-sm text-base-content/50">
+            <time :title="feedback.createdAt" class="text-xs text-base-content/50">
                 {{ formatDate(feedback.createdAt) }}
             </time>
             <h2 class="card-title">
                 {{ feedback.title }}
             </h2>
-            <p class="pb-1">{{ feedback.content }}</p>
-            <div class="card-actions justify-between items-center">
+            <p class="pb-1 text-sm">{{ feedback.content }}</p>
+            <div class="card-actions justify-between items-end">
                 <div class="flex items-center gap-2">
                     <img v-if="feedback?.user?.avatar" :src="feedback?.user?.avatar" alt="User avatar"
-                        class="size-6 rounded-full bg-base-300" />
-                    <span v-else class="size-6 rounded-full bg-base-300 inline-block"></span>
-                    <span class="text-sm text-base-content/70 font-medium">{{ feedback?.user?.name ||
+                        class="size-4 rounded-full bg-base-300" />
+                    <span v-else class="size-4 rounded-full bg-base-300 inline-block"></span>
+                    <span class="text-xs text-base-content/70 font-medium">{{ feedback?.user?.name ||
                         feedback?.user?.email ||
                         'Anonymous' }}</span>
                 </div>
 
                 <div class="space-x-2">
                     <button @click="feedback.showComments = !feedback.showComments"
-                        class="btn btn-sm btn-outline btn-secondary">
+                        class="btn btn-sm btn-outline btn-accent">
                         💬 {{ feedback.comments.length || 0 }}
                     </button>
 
-                    <button @click="vote(feedback.id, 1)" :disabled="isReadonly" class="btn btn-sm btn-secondary"
+                    <button @click="vote(feedback.id, 1)" :disabled="isReadonly" class="btn btn-sm btn-accent"
                         :class="{ 'btn-outline': !hasVoted }">
                         👍 {{ feedback.votes.length || 0 }}
                     </button>
