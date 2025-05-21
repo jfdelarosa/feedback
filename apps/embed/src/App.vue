@@ -7,7 +7,7 @@ import type { PulseKitUser } from '@/types';
 const projectId = '0196e9f8-86a4-7000-98c9-9871b50d2909'; // UUID for the project
 
 // User information
-const user = ref<PulseKitUser | null>({
+const user = JSON.stringify({
   externalId: '0196ea24-fdd6-7000-bb99-c6f5493fc681',
   email: 'test@test.com',
   name: 'Test User',

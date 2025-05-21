@@ -10,7 +10,7 @@ import { vAutoAnimate } from '@formkit/auto-animate'
 
 const props = defineProps<{
     projectId: string;
-    user?: PulseKitUser | null;
+    user?: string | null;
 }>();
 
 const { setProjectId, setUser } = useState();
@@ -40,9 +40,9 @@ onMounted(
         setProjectId(props.projectId)
 
         if (props.user) {
-            setUser(props.user)
+            setUser(JSON.parse(props.user))
 
-            identifyUser(props.user);
+            identifyUser(JSON.parse(props.user));
         }
 
         nextTick(() => {
@@ -68,11 +68,11 @@ onMounted(
             <button @click="loadFeedback" class="btn btn-sm btn-error self-end">Try Again</button>
         </div>
 
-        <div v-else-if="loading" class="text-center py-8 text-primary-content/50">
+        <div v-else-if="loading" class="text-center py-8 text-primary/50">
             Loading feedback...
         </div>
 
-        <div v-else-if="feedbackItems.length === 0" class="text-center py-8 text-primary-content/50">
+        <div v-else-if="feedbackItems.length === 0" class="text-center py-8 text-primary/50">
             No feedback items yet.
             <span v-if="!isReadonly">Be the first to share your thoughts!</span>
         </div>

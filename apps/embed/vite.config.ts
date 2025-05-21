@@ -12,7 +12,7 @@ export default defineConfig({
       template: {
         compilerOptions: {
           // This ensures styles are properly scoped within shadow DOM
-          isCustomElement: (tag) => tag.includes('-')
+          isCustomElement: (tag) => tag.includes('pulse-feedback')
         }
       },
       customElement: true, // Enable Vue custom element support

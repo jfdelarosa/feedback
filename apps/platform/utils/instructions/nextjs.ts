@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Script
-        src="https://cdn.jsdelivr.net/gh/jfdelarosa/pulsekit/apps/embed/dist/pulsekit.js"
+        src="https://cdn.jsdelivr.net/gh/jfdelarosa/pulsekit@main/apps/embed/dist/pulsekit.js"
         strategy="afterInteractive"
       />
       <Component {...pageProps} />
