@@ -3,7 +3,7 @@ import { UserPlus, MessageSquare, Vote } from 'lucide-vue-next';
 </script>
 
 <template>
-    <section id="hero" class="container mx-auto pt-12 pb-32 px-6">
+    <section id="hero" class="container mx-auto pt-12 pb-18 px-6">
         <div class="flex flex-col items-center text-center space-y-10">
             <div class="space-y-8 max-w-3xl">
                 <h1
