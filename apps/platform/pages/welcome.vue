@@ -1,15 +1,28 @@
+<script setup lang="ts">
+import { Code, MessageSquare, ChevronRight, MessageCircle } from 'lucide-vue-next';
+import { vConfetti } from '@neoconfetti/vue';
+
+definePageMeta({
+    layout: 'default',
+})
+</script>
+
 <template>
     <section class="container mx-auto px-4 pt-8 pb-16 flex flex-col items-center">
+
         <!-- Hero Section -->
         <div class="text-center mb-12">
             <div class="size-20 mx-auto mb-6 rounded-full bg-base-300 flex items-center justify-center">
                 <span class="text-3xl">🎉</span>
+                <div class="mt-30" v-confetti="{ particleCount: 100 }" />
             </div>
             <h1 class="text-3xl font-bold font-lora mb-4 text-primary">Welcome to PulseKit!</h1>
             <p class="text-xl max-w-2xl mx-auto text-base-content/80">
                 Thank you for joining us. Your journey to better user feedback starts now.
             </p>
         </div>
+
+
 
         <!-- Features Cards - Horizontal Layout -->
         <div class="flex flex-col md:flex-row gap-8 max-w-5xl mx-auto mb-16">
@@ -74,11 +87,3 @@
         </div>
     </section>
 </template>
-
-<script setup>
-import { Code, MessageSquare, ChevronRight, MessageCircle } from 'lucide-vue-next';
-
-definePageMeta({
-    layout: 'default',
-})
-</script>
