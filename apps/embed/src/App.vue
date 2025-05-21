@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import Board from '@/components/Board.vue';
-import type { PulseKitUser } from '@/types';
 
 // Config values - in a real app, these would be loaded from environment or props
 const projectId = '0196e9f8-86a4-7000-98c9-9871b50d2909'; // UUID for the project

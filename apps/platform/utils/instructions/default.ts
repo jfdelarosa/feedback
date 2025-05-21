@@ -9,7 +9,7 @@ export const steps: InstructionStep[] = [
         description: 'Add the web component to your page:',
         code: `<pulse-feedback 
     projectId="PROJECT_KEY" 
-    user='{"id": "user123", "name": "John Doe", "email": "john@example.com", "avatar": "https://example.com/avatar.jpg"}' 
+    user='{"externalId": "user123", "name": "John Doe", "email": "john@example.com", "avatar": "https://example.com/avatar.jpg"}' 
 />`
     },
     {
@@ -22,7 +22,7 @@ feedbackElement.setAttribute('projectId', 'PROJECT_KEY');
 
 // Set user object
 const user = { 
-    id: 'user123',
+    externalId: 'user123',
     name: 'John Doe',
     email: 'john@example.com',
     avatar: 'https://example.com/avatar.jpg'
