@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { FeedbackComment } from '@/types';
+import { useFormatters } from "@/composables/useFormatters"
+import { vAutoAnimate } from '@formkit/auto-animate'
 
 defineProps<{
-    feedback: any;
     isReadonly: boolean;
+    comments: FeedbackComment[];
 }>();
 
 const emit = defineEmits<{
@@ -11,31 +14,42 @@ const emit = defineEmits<{
 }>();
 
 const newComment = ref('');
+const { formatDate } = useFormatters();
+
 
 function addComment() {
     emit('addComment', newComment.value);
-
     newComment.value = '';
 };
 </script>
 
 <template>
-    <div class="p-4 border-t border-gray-100 bg-base-200/80">
-        <div v-for="comment in feedback.comments" :key="comment.id"
-            class="mb-4 pb-4 border-b border-gray-50 last:border-0">
-            <div class="flex items-center gap-2 text-xs mb-1">
-                <img v-if="comment.userAvatar" :src="comment.userAvatar" alt="User avatar"
-                    class="w-6 h-6 rounded-full bg-gray-100" />
-                <span v-else class="w-6 h-6 rounded-full bg-gray-100 inline-block"></span>
-                <span>{{ comment.userName || 'Anonymous' }}</span>
+    <div class="p-4 border-t border-base-300 bg-base-200/80 space-y-4">
+        <div class="space-y-4">
+            <div v-for="comment in comments" :key="comment.id" v-auto-animate>
+                <div class="flex items-center gap-2 text-xs mb-1">
+                    <img v-if="comment.user.avatar" :src="comment.user.avatar" alt="User avatar"
+                        class="w-6 h-6 rounded-full bg-base-300" />
+                    <span v-else class="w-6 h-6 rounded-full bg-base-300 inline-block"></span>
+                    <div class="text-xs space-x-1">
+                        <span class="text-base-content/70  font-semibold">
+                            {{ comment.user.name || comment.user.email || 'Anonymous' }}
+                        </span>
+                        <span class="text-base-content/50">
+                            {{ formatDate(comment.createdAt) }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="pl-8 text-sm">{{ comment.content }}</div>
             </div>
-            <div class="pl-8 text-sm">{{ comment.content }}</div>
         </div>
+
 
         <div class="flex flex-col gap-2" v-if="!isReadonly">
             <textarea class="textarea textarea-bordered text-sm w-full" v-model="newComment"
                 placeholder="Add a comment..."></textarea>
-            <button class="btn btn-sm btn-primary self-end" @click="addComment">
+            <button class="btn btn-sm btn-primary self-end" :disabled="!newComment.trim()" @click="addComment">
                 Submit
             </button>
         </div>

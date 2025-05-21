@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { eq, sql, and, desc } from "drizzle-orm";
+import { eq, sql, and, desc, asc } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 import { db } from "@/db";
@@ -129,7 +129,11 @@ app.get("/feedback", async (c) => {
                         userId: true,
                     },
                 },
-                comments: true,
+                comments: {
+                    columns: {
+                        id: true,
+                    },
+                },
                 user: {
                     columns: {
                         id: true,
@@ -143,8 +147,12 @@ app.get("/feedback", async (c) => {
             orderBy: [desc(feedbackTable.createdAt)],
         })
 
+        const feedbackWithCommentCount = feedback.map(item => ({
+            ...item,
+            comments: item.comments.length,
+        }))
 
-        return c.json(feedback);
+        return c.json(feedbackWithCommentCount);
     } catch (error) {
         console.error("Error fetching feedback:", error)
 
@@ -154,6 +162,32 @@ app.get("/feedback", async (c) => {
             },
             400
         );
+    }
+});
+
+// Get comments for a specific feedback item
+app.get("/feedback/:feedbackId/comments", async (c) => {
+    try {
+        const feedbackId = c.req.param("feedbackId");
+
+        const comments = await db.query.commentsTable.findMany({
+            where: eq(commentsTable.feedbackId, feedbackId),
+            orderBy: asc(commentsTable.createdAt),
+            with: {
+                user: true,
+            },
+        })
+
+        return c.json({
+            comments
+        });
+    } catch (error) {
+        console.error("Error fetching comments:", error);
+
+        return c.json({
+            message: "Failed to fetch comments",
+            error: error instanceof Error ? error.message : "Unknown error"
+        }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
     }
 });
 
@@ -207,7 +241,11 @@ app.post("/feedback", async (c) => {
                         userId: true,
                     },
                 },
-                comments: true,
+                comments: {
+                    columns: {
+                        id: true,
+                    },
+                },
                 user: {
                     columns: {
                         id: true,
@@ -218,9 +256,15 @@ app.post("/feedback", async (c) => {
             }
         })
 
+
+        const feedbackWithCommentCount = {
+            ...feedback,
+            comments: feedback?.comments.length || 0,
+        }
+
         return c.json({
             message: "Feedback created successfully",
-            feedback: feedback
+            feedback: feedbackWithCommentCount
         }, HttpStatusCodes.CREATED)
 
     } catch (error) {
@@ -370,13 +414,10 @@ app.post("/feedback/:feedbackId/vote", async (c) => {
             },
         });
 
-
-
         return c.json({
             message: "Vote toggled successfully",
             feedback: updatedFeedback
         });
-
     } catch (error) {
         console.error("Error voting on feedback:", error);
 
@@ -414,48 +455,29 @@ app.post("/feedback/:feedbackId/comment", async (c) => {
             }, HttpStatusCodes.NOT_FOUND);
         }
 
+        const commentId = Bun.randomUUIDv7()
+
         // Create the comment
         await db.insert(commentsTable).values({
-            id: Bun.randomUUIDv7(),
+            id: commentId,
             content: comment,
             feedbackId,
             userId: user.id,
-        });
+        })
 
-        const feedback = await db.query.feedbackTable.findFirst({
-            where: eq(feedbackTable.id, feedbackId),
+        const newComment = await db.query.commentsTable.findFirst({
+            where: eq(commentsTable.id, commentId),
             with: {
-                votes: {
-                    columns: {
-                        userId: true,
-                    },
-                },
-                comments: true,
-                user: {
-                    columns: {
-                        id: true,
-                        name: true,
-                        avatar: true,
-                        email: true,
-                    },
-                },
+                user: true,
             },
-        });
+        })
 
         return c.json({
             message: "Comment added successfully",
-            feedback
+            comment: newComment
         });
     } catch (error) {
         console.error("Error adding comment:", error);
-
-        // Check if it's a token error from getProjectId
-        if (error instanceof Error &&
-            (error.message === "No token provided" || error.message === "Invalid token")) {
-            return c.json({
-                message: error.message,
-            }, HttpStatusCodes.UNAUTHORIZED);
-        }
 
         return c.json({
             message: "Failed to add comment",

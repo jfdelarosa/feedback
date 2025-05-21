@@ -1,16 +1,18 @@
 import { ref } from 'vue';
 import { useRequest } from '@/lib/sdk';
+import { useState } from './useState';
 
 export function useComments() {
     const error = ref<string | null>(null);
     const request = useRequest();
+    const { user } = useState();
 
     // Add comment to feedback
     async function addComment(id: string, commentText: string) {
-        if (!commentText.trim()) return null;
+        if (!commentText.trim() || !user.value?.id) return null;
 
         try {
-            const updatedItem = await request(
+            const { comment } = await request(
                 `/feedback/${id}/comment`,
                 {
                     method: 'POST',
@@ -18,9 +20,10 @@ export function useComments() {
                         comment: commentText,
                     })
                 }
-            )
+            );
 
-            return updatedItem;
+
+            return comment;
         } catch (err) {
             error.value = err instanceof Error ? err.message : 'Failed to add comment';
             return null;

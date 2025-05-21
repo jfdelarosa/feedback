@@ -17,7 +17,7 @@ export interface FeedbackItem {
         userId: string;
     }[];
     userVote?: number;
-    comments: FeedbackComment[];
+    comments: number;
     showComments?: boolean;
     newComment?: string;
     user: {
@@ -32,7 +32,6 @@ export interface FeedbackComment {
     id: string;
     content: string;
     userId: string;
-    userName?: string;
-    userAvatar?: string;
+    user: PulseKitUser;
     createdAt: string;
 }
