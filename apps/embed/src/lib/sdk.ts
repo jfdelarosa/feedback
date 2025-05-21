@@ -16,7 +16,7 @@ export async function request(
     projectId: string,
     user?: PulseKitUser | null,
 ) {
-    const baseUrl = 'http://localhost:3002/public';
+    const baseUrl = import.meta.env.VITE_API_URL;
 
 
     if (!projectId) {
