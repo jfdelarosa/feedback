@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { formatDistanceToNow } from "date-fns"
 import type { FeedbackItem } from '../types';
-import type { PulseKitUser } from '@/lib/sdk';
 import comments from './comments.vue';
 import { computed } from 'vue';
+import { useState } from '@/composables/useState';
 
 const props = defineProps<{
     feedback: FeedbackItem;
     isReadonly: boolean;
-    currentUser: PulseKitUser | null;
 }>();
+
+const { user } = useState();
 
 const emit = defineEmits<{
     (e: 'vote', id: string, vote: number): void;
@@ -25,7 +26,7 @@ const addComment = (comment: string) => {
 }
 
 const hasVoted = computed(() => {
-    return props.feedback.votes.some(vote => vote.userId === props.currentUser?.id);
+    return props.feedback.votes.some(vote => vote.userId === user.value?.id);
 })
 
 // Relative to now, use intl

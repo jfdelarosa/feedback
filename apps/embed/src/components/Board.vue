@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { onMounted, computed, nextTick } from 'vue';
 import type { PulseKitUser } from '@/types';
 import Feedback from './feedback.vue';
 import FeedbackForm from './FeedbackForm.vue';
 import { useFeedback } from '@/composables/useFeedback';
 import { useComments } from '@/composables/useComments';
 import { useUser } from '@/composables/useUser';
+import { useState } from '@/composables/useState';
+import { vAutoAnimate } from '@formkit/auto-animate'
 
 // Define props
 const props = defineProps<{
@@ -13,14 +15,13 @@ const props = defineProps<{
     user?: PulseKitUser | null;
 }>();
 
-const activeTab = ref('all');
+const { setProjectId, setUser } = useState();
 
 // Set up user management
 const {
-    currentUser,
     isReadonly,
     identifyUser
-} = useUser(props.projectId, props.user);
+} = useUser();
 
 // Set up feedback management
 const {
@@ -30,22 +31,18 @@ const {
     loadFeedback,
     submitNewFeedback,
     voteOnFeedback
-} = useFeedback(props.projectId, currentUser);
+} = useFeedback();
 
 // Set up comments management
 const {
     addComment
-} = useComments(props.projectId, currentUser, feedbackItems);
+} = useComments();
 
 // Handle form submission
 async function handleSubmit(title: string, content: string) {
     await submitNewFeedback(title, content);
 }
 
-// Handle tab changes
-function updateTab(tab: string) {
-    activeTab.value = tab;
-}
 
 const link = computed(() => {
     return `https://trypulsekit.com/?utm_source=pulsekit-embed&utm_medium=${props.projectId}&utm_campaign=powered-by`
@@ -54,11 +51,17 @@ const link = computed(() => {
 // Watch for changes to projectId or user and reload feedback
 onMounted(
     async () => {
+        setProjectId(props.projectId)
+
         if (props.user) {
-            await identifyUser();
+            setUser(props.user)
+
+            identifyUser(props.user);
         }
 
-        loadFeedback();
+        nextTick(() => {
+            loadFeedback();
+        })
     }
 );
 </script>
@@ -88,9 +91,9 @@ onMounted(
             <span v-if="!isReadonly">Be the first to share your thoughts!</span>
         </div>
 
-        <div v-else class="flex flex-col gap-4">
+        <div v-else class="flex flex-col gap-4" v-auto-animate>
             <Feedback v-for="item in feedbackItems" :key="item.id" :feedback="item" :is-readonly="isReadonly"
-                :current-user="currentUser" @vote="voteOnFeedback" @add-comment="addComment" />
+                @vote="voteOnFeedback" @add-comment="addComment" />
         </div>
 
         <a class="btn btn-primary btn-sm btn-outline self-center" :href="link" target="_blank">

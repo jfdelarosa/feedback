@@ -1,15 +1,16 @@
 import type { PulseKitUser } from '@/types';
 import { ref, computed } from 'vue';
 import { useRequest } from '@/lib/sdk';
+import { useState } from './useState';
 
-export function useUser(projectId: string, initialUser?: PulseKitUser | null) {
-    const currentUser = ref<PulseKitUser | null>(initialUser || null);
+
+export function useUser() {
+    const { user, setUser } = useState();
     const error = ref<string | null>(null);
-    const request = useRequest(projectId, initialUser);
 
     // Check if the user is identified
     const isIdentified = computed(() => {
-        return !!currentUser.value;
+        return !!user.value;
     });
 
     // Check if board is in readonly mode
@@ -18,13 +19,16 @@ export function useUser(projectId: string, initialUser?: PulseKitUser | null) {
     });
 
     // Identify user
-    async function identifyUser() {
+    async function identifyUser(initialUser?: PulseKitUser | null) {
         try {
+            const request = useRequest();
+
             const res = await request('/identify', {
                 method: 'POST',
                 body: JSON.stringify(initialUser)
             })
-            currentUser.value = res.user;
+
+            setUser(res.user);
             return res.user;
         } catch (err) {
             error.value = err instanceof Error ? err.message : 'Failed to identify user';
@@ -33,7 +37,6 @@ export function useUser(projectId: string, initialUser?: PulseKitUser | null) {
     }
 
     return {
-        currentUser,
         error,
         isIdentified,
         isReadonly,

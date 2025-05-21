@@ -75,7 +75,7 @@ export const commentsTable = pgTable("comments", {
     id: uuid().defaultRandom().primaryKey(),
     content: text().notNull(),
     feedbackId: text().notNull().references(() => feedbackTable.id, { onDelete: "cascade" }),
-    userId: text().notNull().references(() => usersTable.id),
+    userId: text().notNull().references(() => clientUsersTable.id),
     // For nested comments/replies - nullable parentId for top-level comments
     parentId: uuid(), // Will be used to reference another comment
     isOfficialResponse: boolean().default(false).notNull(), // To mark official team responses

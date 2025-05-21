@@ -1,14 +1,16 @@
-import type { Ref } from 'vue';
-import type { PulseKitUser, FeedbackItem } from '@/types';
+import type { FeedbackItem } from '@/types';
 import { ref } from 'vue';
 import { useRequest } from '@/lib/sdk';
+import { useState } from './useState';
 
-export function useFeedback(projectId: string, user: Ref<PulseKitUser | null>) {
+
+export function useFeedback() {
+    const { user } = useState();
     const feedbackItems = ref<FeedbackItem[]>([]);
     const loading = ref(true);
     const error = ref<string | null>(null);
 
-    const request = useRequest(projectId, user.value);
+    const request = useRequest();
 
     // Load feedback items
     async function loadFeedback() {

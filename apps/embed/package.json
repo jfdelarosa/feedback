@@ -13,6 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "@tailwindcss/vite": "^4.1.7",
     "daisyui": "^5.0.35",
     "date-fns": "^4.1.0",

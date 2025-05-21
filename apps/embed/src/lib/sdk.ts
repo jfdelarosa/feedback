@@ -1,4 +1,5 @@
 import type { PulseKitUser } from '@/types';
+import { useState } from '@/composables/useState';
 
 /**
  * Make an API request
@@ -49,9 +50,11 @@ export async function request(
     }
 }
 
-export function useRequest(projectId: string, user?: PulseKitUser | null) {
+export function useRequest() {
     return async (endpoint: string, options: RequestInit = {}) => {
-        return request(endpoint, options, projectId, user);
+        const { user, projectId } = useState();
+
+        return request(endpoint, options, projectId.value!, user.value);
     }
 }
 
