@@ -53,7 +53,7 @@ onMounted(
 </script>
 
 <template>
-    <div data-theme="light" class="bg-transparent font-sans text-gray-800 max-w-3xl mx-auto p-4 flex flex-col gap-4">
+    <div data-theme="light" class="bg-transparent text-primary flex flex-col gap-4">
         <div class="bg-base-200/80 shadow-sm border border-base-300 rounded-lg p-3 mb-4" v-if="isReadonly">
             <div class="flex items-center gap-2">
                 <span class="text-xl">ℹ️</span>

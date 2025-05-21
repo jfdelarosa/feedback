@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { Plug, MessageSquare, Vote } from 'lucide-vue-next';
-
-const { openModal } = useWaitlist()
+import { UserPlus, MessageSquare, Vote } from 'lucide-vue-next';
 </script>
 
 <template>
@@ -19,9 +17,9 @@ const { openModal } = useWaitlist()
             </div>
 
             <div class="flex flex-col justify-center sm:flex-row gap-4 w-full">
-                <button class="btn btn-neutral md:btn-lg flex items-center gap-2" @click="openModal">
-                    <Plug class="w-5 h-5" /> Get early access
-                </button>
+                <nuxt-link to="/sign-up" class="btn btn-neutral md:btn-lg flex items-center gap-2">
+                    <UserPlus class="w-5 h-5" /> Start for free
+                </nuxt-link>
                 <a href="#how-it-works" class="btn btn-outline md:btn-lg flex items-center gap-2">
                     <MessageSquare class="w-5 h-5" /> See how it works
                 </a>
@@ -29,7 +27,7 @@ const { openModal } = useWaitlist()
 
             <div class="flex items-center gap-1 text-sm text-secondary/60">
                 <Vote class="w-4 h-4" /> <span>
-                    Join our closed beta
+                    No credit card required
                 </span>
             </div>
         </div>

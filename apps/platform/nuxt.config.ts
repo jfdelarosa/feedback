@@ -27,7 +27,12 @@ export default defineNuxtConfig({
       ],
       htmlAttrs: {
         'data-theme': 'caramellatte'
-      }
+      },
+      script: [
+        {
+          src: 'https://cdn.trypulsekit.com/pulsekit.js'
+        }
+      ]
     }
   },
   nitro: {
@@ -48,6 +53,11 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+    }
+  },
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag.startsWith('pulse-')
     }
   }
 })

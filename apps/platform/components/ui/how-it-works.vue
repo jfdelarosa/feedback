@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const { openModal } = useWaitlist()
 const steps = [
     {
         title: "Create Your Account",
@@ -39,9 +38,9 @@ const steps = [
         </div>
 
         <div class="flex justify-center mt-20">
-            <button class="btn btn-accent btn-lg px-8" @click="openModal">
-                Get early access
-            </button>
+            <nuxt-link to="/sign-up" class="btn btn-accent btn-lg px-8">
+                Get Started
+            </nuxt-link>
         </div>
     </section>
 </template>

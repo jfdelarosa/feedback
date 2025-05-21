@@ -4,6 +4,11 @@ import { Toaster } from 'vue-sonner'
 import { UserButton } from '@clerk/vue'
 import { MessageSquare, BarChart2, Code, Users, Settings, MessageCircleHeart } from 'lucide-vue-next';
 
+useSeoMeta({
+    title: 'PulseKit',
+    description: 'Get user feedback that actually matters',
+})
+
 const items = [
     {
         name: 'Dashboard',

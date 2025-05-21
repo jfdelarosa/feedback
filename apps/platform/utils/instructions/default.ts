@@ -3,7 +3,7 @@ import type { InstructionStep } from "./types";
 export const steps: InstructionStep[] = [
     {
         description: 'Load the script from CDN:',
-        code: `<script src="https://cdn.jsdelivr.net/gh/jfdelarosa/pulsekit@main/apps/embed/dist/pulsekit.js"></script>`
+        code: `<script src="https://cdn.trypulsekit.com/pulsekit.js"></script>`
     },
     {
         description: 'Add the web component to your page:',

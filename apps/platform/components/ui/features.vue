@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Lightbulb, Gauge, PuzzleIcon, MessageCircle, UserCheck, BarChartHorizontal } from 'lucide-vue-next';
-
-const { openModal } = useWaitlist()
 const features = [
     {
         title: "In-App Feedback",
@@ -75,9 +73,9 @@ const features = [
         </div>
 
         <div class="flex justify-center mt-12">
-            <button class="btn btn-neutral" @click="openModal">
+            <nuxt-link to="/sign-up" class="btn btn-neutral">
                 Start collecting feedback
-            </button>
+            </nuxt-link>
         </div>
     </section>
 </template>

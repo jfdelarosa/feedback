@@ -7,5 +7,5 @@ definePageMeta({
 </script>
 
 <template>
-    <SignIn :with-sign-up="true" sign-up-url="/sign-up" fallback-redirect-url="/app" />
+    <SignIn :with-sign-up="true" sign-up-url="/sign-up" fallback-redirect-url="/app" force-redirect-url="/app" />
 </template>
