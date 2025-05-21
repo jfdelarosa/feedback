@@ -2,7 +2,7 @@
 useHead({
     script: [
         {
-            src: 'https://cdn.jsdelivr.net/gh/jfdelarosa/pulsekit/apps/embed/dist/pulsekit.js'
+            src: 'https://cdn.jsdelivr.net/gh/jfdelarosa/pulsekit@main/apps/embed/dist/pulsekit.js'
         }
     ]
 })
@@ -15,12 +15,12 @@ definePageMeta({
 
 
 const customUser = computed(() => {
-    return {
+    return JSON.stringify({
         id: user.value?.id,
         email: user.value?.emailAddresses[0].emailAddress,
         name: user.value?.firstName,
         avatar: user.value?.imageUrl
-    }
+    })
 })
 </script>
 
@@ -29,6 +29,8 @@ const customUser = computed(() => {
         <div class="col-span-6 flex items-center justify-between">
             <AppTitle>Feedback</AppTitle>
         </div>
+
+        <pre>{{ customUser }}</pre>
 
         <pulse-feedback v-if="isLoaded" project-id="0196f1bf-e676-7000-a8e1-9a3c1c550520" :user="customUser" />
     </div>
