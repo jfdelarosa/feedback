@@ -1,4 +1,4 @@
-const isProtectedPage = createRouteMatcher(['/app(.*)'])
+const isProtectedPage = createRouteMatcher(['/app(.*)', '/welcome'])
 const isGuestPage = createRouteMatcher(['/sign-(in|up)'])
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
