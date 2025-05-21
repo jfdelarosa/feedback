@@ -81,7 +81,7 @@ export function useFeedback() {
         try {
 
             // Actual API call
-            const updatedItem = await request(
+            const { feedback } = await request(
                 `/feedback/${id}/vote`,
                 {
                     method: 'POST',
@@ -91,7 +91,17 @@ export function useFeedback() {
                 }
             );
 
-            return updatedItem;
+            // Update the local feedbackItems with the updated feedback
+            const index = feedbackItems.value.findIndex(item => item.id === id);
+
+            if (index !== -1) {
+                feedbackItems.value[index] = {
+                    ...feedbackItems.value[index],
+                    votes: feedback.votes
+                };
+            }
+
+            return feedback;
         } catch (err) {
             error.value = err instanceof Error ? err.message : 'Failed to vote';
             return null;
