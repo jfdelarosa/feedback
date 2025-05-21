@@ -3,7 +3,7 @@ import { PricingTable } from "@clerk/vue"
 </script>
 
 <template>
-    <section id="pricing" class="bg-base-200">
+    <section id="pricing" class="bg-base-200 px-6">
         <div class="container max-w-4xl mx-auto py-16">
 
             <div class="text-center mb-12 px-4">

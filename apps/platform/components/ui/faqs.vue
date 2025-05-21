@@ -1,5 +1,5 @@
 <template>
-    <section id="faqs" class="bg-base-200">
+    <section id="faqs" class="bg-base-200 px-6">
 
         <div class="container max-w-2xl mx-auto py-16">
 
