@@ -29,20 +29,24 @@ export function registerRoutes(app: AppOpenAPI) {
         // )
         .use("*", cors())
         .use("*", logger())
-
-        // Register public routes first (no auth required)
         .route("/public", publicRoutes)
-
-        // Apply auth middleware to protected routes
         .use("*", clerkMiddleware({
             publishableKey: process.env.CLERK_PUBLISHABLE_KEY!,
             secretKey: process.env.CLERK_SECRET_KEY!,
         }))
+        .route("/", clerk)
 
         // Apply organization middleware to authenticated routes
         .use("*", async (c, next) => {
             const auth = getAuth(c)
             const clerkClient = c.get('clerk')
+
+            if (!auth?.userId) {
+                return c.json({
+                    message: "Unauthorized"
+                }, 401)
+            }
+
             const { data } = await clerkClient.users.getOrganizationMembershipList({ userId: auth?.userId! })
             const organizationId = data[0].organization.id
             const [organization] = await db
@@ -62,7 +66,6 @@ export function registerRoutes(app: AppOpenAPI) {
 
         // Register protected routes
         .route("/", feedback)
-        .route("/", clerk)
         .route("/", dashboard)
         .route("/", project)
         .route("/", users);

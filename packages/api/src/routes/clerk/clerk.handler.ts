@@ -1,14 +1,11 @@
 import type { AppRouteHandler } from "@/lib/types";
 import type { HanlderRoute } from "./clerk.routes";
+import type { ClerkClient } from "@clerk/backend";
 import { db } from "@/db";
 import { organizationsTable, usersTable, projectsTable } from "@/db/schema";
-import { clerk } from "@/lib/clerk";
 import { UserJSON } from "@clerk/backend";
 
-async function createUser(body: { data: UserJSON }) {
-
-	console.log("CLERK HANDLER")
-	console.log(body?.data)
+async function createUser(body: { data: UserJSON }, clerkClient: ClerkClient) {
 
 	try {
 		let email = null
@@ -28,7 +25,7 @@ async function createUser(body: { data: UserJSON }) {
 			imageUrl: body.data.image_url,
 		})
 
-		const clerkOrganization = await clerk.organizations.createOrganization({
+		const clerkOrganization = await clerkClient.organizations.createOrganization({
 			name: "Default Organization",
 			createdBy: body.data.id,
 		})
@@ -58,11 +55,12 @@ async function createUser(body: { data: UserJSON }) {
 }
 
 export const handler: AppRouteHandler<HanlderRoute> = async (c) => {
+	const clerkClient = c.get('clerk')
 	const body = await c.req.json()
 
 	switch (body.type) {
 		case "user.created":
-			await createUser(body)
+			await createUser(body, clerkClient)
 			break;
 	}
 
