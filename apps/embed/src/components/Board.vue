@@ -96,7 +96,7 @@ onMounted(
                 @vote="voteOnFeedback" @add-comment="addComment" />
         </div>
 
-        <a class="btn btn-primary btn-sm btn-outline self-center" :href="link" target="_blank">
+        <a class="btn btn-secondary btn-xs self-center" :href="link" target="_blank">
             Powered by PulseKit
         </a>
     </div>
