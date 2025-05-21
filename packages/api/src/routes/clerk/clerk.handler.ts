@@ -7,6 +7,9 @@ import { UserJSON } from "@clerk/backend";
 
 async function createUser(body: { data: UserJSON }) {
 
+	console.log("CLERK HANDLER")
+	console.log(body?.data)
+
 	try {
 		let email = null
 
