@@ -32,7 +32,7 @@ const logos = [
             <h2 class="text-xl font-lora font-bold text-center text-accent">Trusted by</h2>
 
 
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-2xl mx-auto px-6 items-center justify-center">
+            <div class="grid grid-cols-2 lg:grid-cols-4 md:gap-8 max-w-2xl mx-auto px-6 items-center justify-center">
                 <a v-for="logo in logos" :key="logo.src" :href="logo.link" target="_blank">
                     <img :src="logo.src" :alt="logo.alt"
                         class="w-full object-contain filter brightness-0 opacity-50 hover:brightness-100 transition-all duration-300 hover:opacity-100"
