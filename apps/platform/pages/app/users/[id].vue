@@ -83,7 +83,7 @@ watchEffect(() => {
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs text-base-content/60">{{ formatDate(item.createdAt) }}</p>
-                                <NuxtLink :to="`/app/feedback/${item.id}`"
+                                <NuxtLink :to="`/app/posts/${item.id}`"
                                     class="text-primary hover:underline font-semibold">
                                     {{ item.title }}
                                 </NuxtLink>
@@ -106,7 +106,7 @@ watchEffect(() => {
                     <div v-for="comment in userData?.comments" :key="comment.id" class="bg-white shadow rounded-lg p-4">
                         <p class="text-xs text-base-content/60">
                             Commented on
-                            <NuxtLink :to="`/app/feedback/${comment.feedbackId}`" class="text-primary hover:underline">
+                            <NuxtLink :to="`/app/posts/${comment.feedbackId}`" class="text-primary hover:underline">
                                 feedback #{{ comment.feedbackId }}
                             </NuxtLink>
                             · {{ formatDate(comment.createdAt) }}
@@ -126,7 +126,7 @@ watchEffect(() => {
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-xs text-base-content/60">{{ formatDate(item.createdAt) }}</p>
-                                <NuxtLink :to="`/app/feedback/${item.id}`"
+                                <NuxtLink :to="`/app/posts/${item.id}`"
                                     class="text-primary hover:underline font-semibold">
                                     {{ item.title }}
                                 </NuxtLink>

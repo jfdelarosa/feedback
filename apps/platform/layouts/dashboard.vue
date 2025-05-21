@@ -2,7 +2,7 @@
 import { Toaster } from 'vue-sonner'
 
 import { UserButton } from '@clerk/vue'
-import { MessageSquare, BarChart2, Code, Users, Settings } from 'lucide-vue-next';
+import { MessageSquare, BarChart2, Code, Users, Settings, MessageCircleHeart } from 'lucide-vue-next';
 
 const items = [
     {
@@ -14,8 +14,8 @@ const items = [
     {
         name: 'Feedbacks',
         icon: MessageSquare,
-        href: '/app/feedback',
-        to: "app-feedback"
+        href: '/app/posts',
+        to: "app-posts"
     },
     {
         name: "Users",
@@ -55,7 +55,7 @@ const isActive = (item) => {
     <div class="min-h-screen bg-base-100 flex container max-w-5xl mx-auto">
         <Toaster />
         <!-- Sidebar - desktop -->
-        <aside class="hidden lg:flex flex-col w-50 items-center">
+        <aside class="hidden lg:flex flex-col w-56 items-center">
             <!-- Logo -->
             <div class="px-4 py-5">
                 <div class="flex items-center gap-2">
@@ -72,12 +72,17 @@ const isActive = (item) => {
                     <li v-for="item in items" :key="item.name">
                         <NuxtLink :to="{ name: item.to }"
                             class="flex items-center gap-3 text-sm px-3 py-2 rounded-md text-base-content hover:bg-base-200 hover:text-base-content active:bg-base-300/50 transition-colors duration-300"
-                            :class="{ 'bg-base-200 text-primary/80 font-medium hover:text-primary/70': isActive(item) }">
+                            :class="{ 'bg-base-200 text-primary/80 hover:text-primary/70': isActive(item) }">
                             <component :is="item.icon" class="size-4 text-base-content/50" stroke-width="2.5" />
                             {{ item.name }}
                         </NuxtLink>
                     </li>
                 </ul>
+
+                <NuxtLink to="/app/feedback" class="btn btn-info btn-wide btn-outline btn-sm">
+                    <MessageCircleHeart class="size-4 text-error" />
+                    Share your feedback
+                </NuxtLink>
             </nav>
         </aside>
 

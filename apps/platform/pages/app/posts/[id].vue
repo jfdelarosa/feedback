@@ -40,7 +40,7 @@ const statuses = ref([{
     <div class="grid grid-cols-6 gap-4 items-start">
         <div class="col-span-6 flex items-center justify-between">
             <AppTitle>Feedback Details</AppTitle>
-            <NuxtLink to="/app/feedback" class="btn btn-ghost">
+            <NuxtLink to="/app/posts" class="btn btn-ghost">
                 <ChevronLeftIcon class="size-4" />
                 Back to List
             </NuxtLink>
