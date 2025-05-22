@@ -6,6 +6,15 @@ export interface PulseKitUser {
     avatar?: string;
 }
 
+export interface Project {
+    id: string;
+    name: string;
+    description: string | null;
+    theme: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface FeedbackItem {
     id: string;
     title: string;

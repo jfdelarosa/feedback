@@ -3,7 +3,7 @@ import { eq, sql, and, desc, asc } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 import { db } from "@/db";
-import { feedbackTable, feedbackVotesTable, commentsTable, clientUsersTable, feedbackVotesRelation } from "@/db/schema";
+import { feedbackTable, feedbackVotesTable, commentsTable, clientUsersTable, feedbackVotesRelation, projectsTable } from "@/db/schema";
 import type { AppEnv } from "@/lib/types";
 import { Context } from "hono";
 
@@ -481,6 +481,34 @@ app.post("/feedback/:feedbackId/comment", async (c) => {
 
         return c.json({
             message: "Failed to add comment",
+            error: error instanceof Error ? error.message : "Unknown error"
+        }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    }
+});
+
+// Get project information
+app.get("/project", async (c) => {
+    try {
+        const projectId = getProjectId(c);
+
+        const project = await db
+            .select()
+            .from(projectsTable)
+            .where(eq(projectsTable.id, projectId))
+            .limit(1);
+
+        if (project.length === 0) {
+            return c.json({
+                message: "Project not found",
+            }, HttpStatusCodes.NOT_FOUND);
+        }
+
+        return c.json(project[0]);
+    } catch (error) {
+        console.error("Error fetching project:", error);
+
+        return c.json({
+            message: "Failed to fetch project information",
             error: error instanceof Error ? error.message : "Unknown error"
         }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
     }

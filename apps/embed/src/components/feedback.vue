@@ -61,10 +61,10 @@ async function handleAddComment(commentText: string) {
             <time :title="feedback.createdAt" class="text-xs text-base-content/50">
                 {{ formatDate(feedback.createdAt) }}
             </time>
-            <h2 class="card-title">
+            <h2 class="card-title text-primary">
                 {{ feedback.title }}
             </h2>
-            <p class="pb-1 text-sm">{{ feedback.content }}</p>
+            <p class="pb-1 text-sm text-base-content">{{ feedback.content }}</p>
 
             <div class="card-actions justify-between items-end">
                 <div class="flex items-center gap-2">
