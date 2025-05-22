@@ -75,7 +75,7 @@ watchEffect(() => {
                 <input type="radio" name="user" class="tab mb-1" aria-label="Feedback" checked />
                 <div class="tab-content space-y-4">
                     <div v-if="!userData?.feedback?.length" class="p-8 text-center">
-                        <p class="text-gray-500">This user hasn't submitted any feedback yet.</p>
+                        <p class="text-base-content/60">This user hasn't submitted any feedback yet.</p>
                     </div>
 
                     <div v-for="item in userData?.feedback" :key="item.id"

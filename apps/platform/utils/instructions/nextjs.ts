@@ -31,7 +31,7 @@ export default function Feedback() {
   
   return (
     <pulse-feedback
-      projectId="PROJECT_KEY" 
+      project-id="PROJECT_KEY" 
       user={JSON.stringify(user)}
     />
   );

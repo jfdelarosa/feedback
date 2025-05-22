@@ -26,7 +26,7 @@ export const steps: InstructionStep[] = [
 
 <!-- Use the web component directly -->
 <pulse-feedback
-  projectId="PROJECT_KEY"
+  project-id="PROJECT_KEY"
   user="{JSON.stringify($user)}"
 />
 `

@@ -30,7 +30,7 @@ const user = useUser() // Your user composable
     <h1>Feedback</h1>
     <!-- Use web component directly -->
     <pulse-feedback 
-      projectId="PROJECT_KEY"
+      project-id="PROJECT_KEY"
       :user="JSON.stringify(user)"
     />
   </div>
