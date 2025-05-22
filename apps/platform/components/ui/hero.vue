@@ -30,6 +30,11 @@ import { UserPlus, MessageSquare, Vote } from 'lucide-vue-next';
                     No credit card required
                 </span>
             </div>
+
+            <div
+                class="mt-8 w-full max-w-4xl rounded-xl overflow-hidden shadow-2xl ring-1 ring-gray-200/50 transform hover:scale-[1.01] transition-all duration-300">
+                <img src="/screenshot.png" alt="PulseKit Dashboard" class="w-full h-auto" />
+            </div>
         </div>
     </section>
 </template>
