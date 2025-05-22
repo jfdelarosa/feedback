@@ -41,7 +41,7 @@ function addComment() {
                     </div>
                 </div>
 
-                <div class="pl-8 text-sm">{{ comment.content }}</div>
+                <div class="pl-8 text-sm text-base-content">{{ comment.content }}</div>
             </div>
         </div>
 
