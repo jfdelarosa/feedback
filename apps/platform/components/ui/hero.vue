@@ -24,7 +24,7 @@ import { Play, Sparkles } from 'lucide-vue-next';
                         friction of external tools.
                     </p>
                     <p
-                        class="hidden md:flex text-lg md:text-xl font-lato text-base-content/70 max-w-2xl mx-auto leading-7 md:leading-8">
+                        class="hidden md:block text-lg md:text-xl font-lato text-base-content/70 max-w-2xl mx-auto leading-7 md:leading-8">
                         No new logins. No context switching.
                     </p>
                 </div>
