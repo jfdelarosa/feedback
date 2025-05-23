@@ -66,7 +66,8 @@ const html = await codeToHtml(code, {
                 <div class="flex items-center justify-center gap-2 mt-8">
                     <Zap class="size-5 text-warning" />
                     <p class="text-sm text-base-content/70 font-lato">
-                        <span class="font-bold">Pro tip:</span> Our widget loads async and won't impact your page
+                        <span class="font-bold text-secondary">Pro tip:</span> Our widget loads async and won't impact
+                        your page
                         performance
                     </p>
                 </div>
