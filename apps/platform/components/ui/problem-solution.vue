@@ -20,11 +20,11 @@ const solutions = [
     <section id="problem-solution" class="py-20 bg-base-100">
         <div class="container mx-auto px-6 max-w-6xl">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-lora font-bold text-base-content mb-4">
+                <h2 class="text-3xl md:text-5xl font-lora font-bold text-secondary mb-4">
                     The Feedback Dilemma SaaS Teams Face
                 </h2>
                 <p class="text-xl font-lato text-base-content/70 max-w-3xl mx-auto">
-                    Traditional feedback tools create barriers between you and your users' insights
+                    Traditional feedback tools create friction
                 </p>
             </div>
 
