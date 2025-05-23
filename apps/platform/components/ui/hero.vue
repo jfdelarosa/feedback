@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Play, Sparkles, ChevronRight } from 'lucide-vue-next';
+import { Play, Sparkles } from 'lucide-vue-next';
 </script>
 
 <template>
@@ -34,11 +34,9 @@ import { Play, Sparkles, ChevronRight } from 'lucide-vue-next';
                 <a href="https://tally.so/r/3lZypW" target="_blank"
                     class="btn btn-primary btn-lg flex items-center gap-2 shadow-lg hover:shadow-xl transition-all">
                     Join Waitlist
-                    <ChevronRight class="size-5" />
                 </a>
                 <a href="#how-it-works" class="btn btn-outline btn-primary btn-lg flex items-center gap-2">
-                    <Play class="size-5" />
-                    See How It Works
+                    How It Works
                 </a>
             </div>
 
