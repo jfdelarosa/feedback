@@ -12,7 +12,7 @@ export default defineConfig({
       template: {
         compilerOptions: {
           // This ensures styles are properly scoped within shadow DOM
-          isCustomElement: (tag) => tag.includes('pulse-feedback')
+          isCustomElement: (tag) => tag.includes('pulse-kit')
         }
       },
       customElement: true, // Enable Vue custom element support
@@ -38,7 +38,7 @@ export default defineConfig({
       entry: 'src/entry.ts',
       name: 'PulseKit',
       formats: ['iife', 'es'],
-      fileName: (format) => format === 'iife' ? 'pulsekit.js' : 'pulsekit.esm.js',
+      fileName: (format) => format === 'iife' ? 'widget.js' : 'widget.esm.js',
     },
     rollupOptions: {
       output: {

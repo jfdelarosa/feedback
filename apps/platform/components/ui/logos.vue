@@ -3,7 +3,7 @@ const logos = [
     {
         src: "/logos/lunanotes.png",
         alt: "LunaNotes",
-        class: "h-20",
+        class: "h-10",
         link: "https://lunanotes.io"
     },
     {
@@ -13,32 +13,47 @@ const logos = [
         link: "https://mindy.gt/"
     },
     {
-        src: "/logos/tumenudigital.png",
-        alt: "TuMenuDigital.mx",
-        class: "h-20",
-        link: "https://tumenudigital.mx"
-    },
-    {
         src: "/logos/rizk.png",
         alt: "Rizk",
         class: "h-16",
         link: "https://rizk.tools"
     },
+    {
+        src: "/logos/tumenudigital.png",
+        alt: "TuMenuDigital.mx",
+        class: "h-10",
+        link: "https://tumenudigital.mx"
+    },
 ]
 </script>
 <template>
-    <section id="logos">
-        <div class="container max-w-7xl mx-auto pt-4">
-            <h2 class="text-xl font-lora font-bold text-center text-accent">Trusted by</h2>
-
-
-            <div class="grid grid-cols-2 lg:grid-cols-4 md:gap-8 max-w-2xl mx-auto px-6 items-center justify-center">
-                <a v-for="logo in logos" :key="logo.src" :href="logo.link" target="_blank">
+    <section id="logos" class="container max-w-7xl mx-auto px-6">
+        <div class="flex items-center justify-center gap-12">
+            <div class="flex items-center gap-12 ">
+                <a v-for="logo in logos" :key="logo.src" :href="logo.link" target="_blank" class="group">
                     <img :src="logo.src" :alt="logo.alt"
-                        class="w-full object-contain filter brightness-0 opacity-50 hover:brightness-100 transition-all duration-300 hover:opacity-100"
+                        class="object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 transform hover:scale-105"
                         :class="logo.class" />
                 </a>
             </div>
         </div>
     </section>
 </template>
+
+<style scoped>
+@keyframes pulse-slow {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.95;
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
+}
+</style>

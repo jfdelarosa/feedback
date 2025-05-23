@@ -17,12 +17,14 @@
     "@nuxt/eslint": "1.4.0",
     "@nuxt/fonts": "0.11.4",
     "@pulsekit/api": "workspace:*",
+    "@selemondev/svgl-vue": "^0.0.3",
     "@tailwindcss/vite": "^4.1.7",
     "date-fns": "^4.1.0",
     "eslint": "^9.0.0",
     "hono": "^4.7.10",
     "lucide-vue-next": "^0.511.0",
     "nuxt": "^3.17.3",
+    "nuxt-shiki": "0.3.0",
     "tailwindcss": "^4.1.7",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "daisyui": "^5.0.35",
+    "shiki": "^3.4.2",
     "typescript": "^5.8.3"
   }
 }

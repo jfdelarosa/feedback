@@ -5995,7 +5995,7 @@ const tc = {
 }, xu = { class: "p-4 border-t border-base-300 bg-base-200/80 space-y-4" }, _u = { class: "space-y-4" }, Eu = { class: "flex items-center gap-2 text-xs mb-1" }, Nu = ["src"], Ou = {
   key: 1,
   class: "w-6 h-6 rounded-full bg-base-300 inline-block"
-}, Cu = { class: "text-xs space-x-1" }, Du = { class: "text-base-content/70 font-semibold" }, Su = { class: "text-base-content/50" }, Vu = { class: "pl-8 text-sm" }, Tu = {
+}, Cu = { class: "text-xs space-x-1" }, Du = { class: "text-base-content/70 font-semibold" }, Su = { class: "text-base-content/50" }, Vu = { class: "pl-8 text-sm text-base-content" }, Tu = {
   key: 0,
   class: "flex flex-col gap-2"
 }, Mu = ["disabled"], Pu = /* @__PURE__ */ Eo({

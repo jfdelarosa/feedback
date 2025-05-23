@@ -27,18 +27,18 @@ useSeoMeta({
                             <ul class="bg-base-100 rounded-t-none p-2 !right-0 w-[200px]">
                                 <li><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
                                 <li>
-                                    <nuxt-link to="/sign-up" class="btn btn-secondary">
-                                        Get Started
-                                    </nuxt-link>
+                                    <a href="https://tally.so/r/3lZypW" target="_blank" class="btn btn-secondary">
+                                        Join Waitlist
+                                    </a>
                                 </li>
                             </ul>
                         </details>
                     </li>
                 </ul>
 
-                <nuxt-link to="/sign-up" class="btn btn-secondary hidden md:flex">
-                    Get Started
-                </nuxt-link>
+                <a href="https://tally.so/r/3lZypW" target="_blank" class="btn btn-secondary hidden md:flex">
+                    Join Waitlist
+                </a>
             </div>
         </div>
 

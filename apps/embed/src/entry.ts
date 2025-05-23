@@ -16,7 +16,7 @@ declare global {
 const Board = defineCustomElement(BoardComponent);
 
 // Register the custom element
-customElements.define('pulse-feedback', Board);
+customElements.define('pulsekit-board', Board);
 
 // Expose SDK globally
 window.PulseKit = {

@@ -1,81 +1,89 @@
 <script setup lang="ts">
-import { Lightbulb, Gauge, PuzzleIcon, MessageCircle, UserCheck, BarChartHorizontal } from 'lucide-vue-next';
+import { MessageSquareText, Zap, Puzzle, Vote, Target, BarChart3 } from 'lucide-vue-next';
+
 const features = [
     {
-        title: "In-App Feedback",
-        description: "Embed feedback collection directly inside your product interface",
-        catchPhrase: "so users never have to leave your application",
-        icon: MessageCircle,
-        iconColor: "text-brand-blue"
+        title: "Native In-App Experience",
+        description: "Embed feedback collection seamlessly into your product interface.",
+        benefit: "Users never leave your app",
+        icon: MessageSquareText,
     },
     {
-        title: "Zero Friction",
-        description: "Eliminate barriers with a feedback process that requires no new accounts",
-        catchPhrase: "making it easy for users to share their thoughts",
-        icon: Gauge,
-        iconColor: "text-brand-purple"
+        title: "Zero Friction Collection",
+        description: "No new accounts, passwords, or verification emails required.",
+        benefit: "Remove all barriers to getting honest user feedback",
+        icon: Zap,
     },
     {
-        title: "Easy Integration",
-        description: "Add our lightweight SDK to any web application with minimal code",
-        catchPhrase: "supporting all major frontend frameworks",
-        icon: PuzzleIcon,
-        iconColor: "text-brand-pink"
+        title: "One-Line Integration",
+        description: "Add PulseKit with a single line of code. Works with any stack.",
+        benefit: "Go live in minutes, not days or weeks",
+        icon: Puzzle,
     },
     {
-        title: "Idea Voting",
-        description: "Let users vote on feature requests and suggestions",
-        catchPhrase: "helping you prioritize what to build next",
-        icon: UserCheck,
-        iconColor: "text-brand-blue"
+        title: "Upvoting & Prioritization",
+        description: "Let users vote on features to validate your roadmap decisions.",
+        benefit: "Build what users actually want, backed by real data",
+        icon: Vote,
     },
     {
-        title: "Actionable Insights",
-        description: "Organize feedback into structured data for your product team",
-        catchPhrase: "turning user suggestions into product improvements",
-        icon: Lightbulb,
-        iconColor: "text-brand-purple"
+        title: "Smart Categorization",
+        description: "Auto-organize feedback into actionable insights and themes.",
+        benefit: "Turn chaos into clarity with AI-powered organization",
+        icon: Target,
     },
     {
-        title: "Analytics Dashboard",
-        description: "View feedback trends and patterns in a simple dashboard",
-        catchPhrase: "giving your team clear insights about user needs",
-        icon: BarChartHorizontal,
-        iconColor: "text-brand-pink"
-    }
+        title: "Real-Time Analytics",
+        description: "Track feedback trends, sentiment, and user engagement metrics.",
+        benefit: "Make data-driven product decisions with confidence",
+        icon: BarChart3,
+    },
 ];
 </script>
 
 <template>
-    <section id="features" class="container mx-auto py-16">
-        <div class="text-center mb-12 px-4">
-            <h2 class="text-3xl md:text-5xl font-lora font-bold text-secondary mb-4">Key Features</h2>
-            <p class="text-xl font-lato text-accent/80 max-w-2xl mx-auto">
-                Everything you need to collect, organize, and act on user feedback without the complexity.
+    <section id="features" class="container mx-auto py-24 px-6 max-w-6xl">
+        <div class="text-center mb-16 px-4">
+            <h2 class="text-3xl md:text-5xl font-lora font-bold text-base-content mb-4">
+                Features That Drive Real Results
+            </h2>
+            <p class="text-xl font-lato text-base-content/70 max-w-3xl mx-auto">
+                PulseKit isn't just another feedback tool. It's a complete solution designed specifically for SaaS
+                product teams who want to build better products faster.
             </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="(feature, index) in features" :key="index" class="card">
+            <div v-for="(feature, index) in features" :key="index"
+                class="card group bg-white border border-base-200 rounded-xl shadow shadow-base-200">
                 <div class="card-body">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-base-200 rounded-full size-12 flex items-center justify-center">
-                            <component :is="feature.icon" class="size-6 text-neutral/50" :class="feature.iconColor" />
+                    <div class="flex items-start justify-between">
+                        <div class="bg-primary/10 rounded-xl p-3">
+                            <component :is="feature.icon" class="w-6 h-6 text-primary" />
                         </div>
-                        <h3 class="card-title ml-3 font-lora text-xl">{{ feature.title }}</h3>
                     </div>
-                    <p class="font-lato text-secondary/80">{{ feature.description }} <span
-                            class="italic font-lora text-neutral/90 font-medium text-lg">{{ feature.catchPhrase
-                            }}</span>.
+
+                    <h3 class="card-title text-2xl font-extrabold mb-2 font-lora">{{ feature.title }}</h3>
+                    <p class="text-secondary text-sm mb-3 font-lato">{{ feature.description }}</p>
+                    <p class="text-xs text-accent font-medium font-lato">
+                        → {{ feature.benefit }}
                     </p>
                 </div>
             </div>
         </div>
 
-        <div class="flex justify-center mt-12">
-            <nuxt-link to="/sign-up" class="btn btn-neutral">
-                Start collecting feedback
-            </nuxt-link>
+        <div class="mt-16 text-center">
+            <!-- <p class="text-base-content/60 mb-6">
+                Still have questions about our features?
+            </p> -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://tally.so/r/3lZypW" target="_blank" class="btn btn-primary font-lato font-bold">
+                    Join Waitlist
+                </a>
+                <!-- <a href="/demo" class="btn btn-outline btn-primary">
+                    Book a Demo
+                </a> -->
+            </div>
         </div>
     </section>
 </template>
