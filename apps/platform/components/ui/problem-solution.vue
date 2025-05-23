@@ -32,21 +32,21 @@ const solutions = [
                 <!-- Problems -->
                 <div class="space-y-4 bg-white border border-base-200 rounded-xl px-4 py-8 shadow shadow-base-200">
                     <div class="text-center md:text-left mb-8">
-                        <img src="/landing/cross.png" alt="PulseKit" class="w-20" />
+                        <img src="/landing/cross.png" alt="PulseKit" class="w-20 mx-auto md:mx-0" />
 
                         <!-- <div class="badge badge-error badge-lg mb-4">The Problem</div> -->
                         <h3 class="text-2xl font-bold text-secondary font-lato">What's Broken Today</h3>
                     </div>
                     <div v-for="(problem, index) in problems" :key="`problem-${index}`" class="flex items-center gap-4">
                         <X class="size-5 text-secondary/50" />
-                        <p class="text-primary text-sm font-lato">{{ problem }}</p>
+                        <p class="text-primary text-sm font-lato flex-1">{{ problem }}</p>
                     </div>
                 </div>
 
                 <!-- Solutions -->
                 <div class="space-y-4 bg-white border border-base-200 rounded-xl px-4 py-8 shadow shadow-base-200">
                     <div class="text-center md:text-left mb-8">
-                        <img src="/landing/check.png" alt="PulseKit" class="w-20" />
+                        <img src="/landing/check.png" alt="PulseKit" class="w-20 mx-auto md:mx-0" />
 
                         <!-- <div class="badge badge-success badge-lg mb-4">The Solution</div> -->
                         <h3 class="text-2xl font-bold text-success font-lato">How PulseKit Fixes It</h3>
@@ -54,7 +54,7 @@ const solutions = [
                     <div v-for="(solution, index) in solutions" :key="`solution-${index}`"
                         class="flex items-center gap-4">
                         <Check class="size-5 text-green-500" />
-                        <p class="text-primary text-base font-lato font-semibold">{{ solution }}</p>
+                        <p class="text-primary text-base font-lato font-semibold flex-1">{{ solution }}</p>
                     </div>
                 </div>
             </div>

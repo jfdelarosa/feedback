@@ -6,7 +6,7 @@ import { Play, Sparkles, ChevronRight } from 'lucide-vue-next';
     <section id="hero" class="container mx-auto p-6">
         <div class="flex flex-col items-center text-center space-y-10">
             <!-- Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
+            <div class="md:inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full hidden">
                 <Sparkles class="w-4 h-4 text-primary" />
                 <span class="text-sm font-medium text-primary">Embed feedback collection in 5 minutes</span>
             </div>
@@ -24,7 +24,7 @@ import { Play, Sparkles, ChevronRight } from 'lucide-vue-next';
                         friction of external tools.
                     </p>
                     <p
-                        class="text-lg md:text-xl font-lato text-base-content/70 max-w-2xl mx-auto leading-7 md:leading-8">
+                        class="hidden md:flex text-lg md:text-xl font-lato text-base-content/70 max-w-2xl mx-auto leading-7 md:leading-8">
                         No new logins. No context switching.
                     </p>
                 </div>

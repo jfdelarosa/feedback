@@ -41,8 +41,7 @@ const faqs = [
                     Everything You Need to Know
                 </h2>
                 <p class="text-xl font-lato text-base-content/70 max-w-2xl mx-auto">
-                    Got questions? We've got answers. If you can't find what you're looking for, our support team is
-                    always happy to help.
+                    Got questions? We've got answers.
                 </p>
             </div>
 

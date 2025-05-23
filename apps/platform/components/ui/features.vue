@@ -48,8 +48,8 @@ const features = [
                 Features That Drive Real Results
             </h2>
             <p class="text-xl font-lato text-base-content/70 max-w-3xl mx-auto">
-                PulseKit isn't just another feedback tool. It's a complete solution designed specifically for SaaS
-                product teams who want to build better products faster.
+                Designed for teams who want to build better
+                products faster.
             </p>
         </div>
 
