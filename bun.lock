@@ -3,6 +3,9 @@
   "workspaces": {
     "": {
       "name": "@pulsekit/app",
+      "dependencies": {
+        "lucide-vue-next": "^0.511.0",
+      },
       "devDependencies": {
         "@types/bun": "latest",
       },

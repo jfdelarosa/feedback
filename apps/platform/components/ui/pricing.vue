@@ -1,58 +1,7 @@
 <script setup lang="ts">
 import { Check, Star } from 'lucide-vue-next';
 
-const plans = [
-    {
-        name: "Free",
-        price: "$0",
-        period: "forever",
-        description: "For early-stage products and makers.",
-        features: [
-            "Up to 250 feedback items",
-            "1 feedback board",
-            "Basic analytics dashboard",
-            "Email notifications",
-            "Community support",
-            "PulseKit watermark (required)"
-        ],
-        cta: "Start Free",
-        highlighted: false,
-    },
-    {
-        name: "Growth",
-        price: "$49",
-        period: "per month",
-        description: "For SaaS teams ready to scale.",
-        features: [
-            "Up to 5,000 feedback items",
-            "Up to 3 feedback boards",
-            "3 team members",
-            "Advanced analytics & reporting",
-            "Priority support",
-            "Export to CSV/JSON"
-        ],
-        cta: "Start Free Trial",
-        highlighted: true,
-        badge: "Most Popular"
-    },
-    {
-        name: "Scale",
-        price: "$199",
-        period: "per month",
-        description: "For large teams and enterprises.",
-        features: [
-            "Everything in Growth, plus:",
-            "Unlimited feedback items",
-            "Unlimited feedback boards",
-            "Unlimited team members",
-            "Slack & webhook integrations",
-            "API access",
-            "No PulseKit watermark",
-        ],
-        cta: "Contact Sales",
-        highlighted: false
-    }
-];
+const { plans } = usePricing()
 </script>
 
 <template>
@@ -82,7 +31,7 @@ const plans = [
                         <p class="text-base-content/60 text-sm font-lato">{{ plan.description }}</p>
 
                         <div class="mb-6">
-                            <span class="text-5xl font-bold text-base-content font-lato">{{ plan.price }}</span>
+                            <span class="text-5xl font-bold text-base-content font-lato">{{ plan.formatedPrice }}</span>
                             <span class="text-base-content/60 ml-2 font-lato">{{ plan.period }}</span>
                         </div>
 
