@@ -6485,7 +6485,7 @@ const af = ["data-theme"], df = {
     o[r] = n;
   return o;
 }, _f = /* @__PURE__ */ xf(yf, [["styles", [wf]]]), oc = /* @__PURE__ */ nd(_f);
-customElements.define("pulse-feedback", oc);
+customElements.define("pulsekit-board", oc);
 window.PulseKit = {
   // Components
   Board: oc
