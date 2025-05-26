@@ -4,7 +4,12 @@
   "compilerOptions": {
     "declaration": true,
     "baseUrl": ".",
-    "strict": true
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
   },
   "references": [
     {

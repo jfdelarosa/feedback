@@ -8,11 +8,7 @@ import type { GetOneRoute, ListRoute } from "./feedback.routes";
 import { sql } from "drizzle-orm";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
-	const organizationId = c.get('organizationId')
-
-	const projectId = await db.select({
-		id: projectsTable.id,
-	}).from(projectsTable).where(eq(projectsTable.organizationId, organizationId))
+	const activeProjectId = c.get("activeProjectId");
 
 	const feedback = await db.select(
 		{
@@ -30,7 +26,7 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 		.from(feedbackTable)
 		.leftJoin(feedbackVotesTable, eq(feedbackTable.id, feedbackVotesTable.feedbackId))
 		.groupBy(feedbackTable.id)
-		.where(eq(feedbackTable.projectId, projectId[0].id))
+		.where(eq(feedbackTable.projectId, activeProjectId))
 
 	return c.json(feedback);
 };

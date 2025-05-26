@@ -1,1 +1,0 @@
-ALTER TABLE "projects" ADD COLUMN "theme" varchar(255) DEFAULT 'light' NOT NULL;

@@ -1,7 +1,6 @@
 <script setup>
 import { Toaster } from 'vue-sonner'
 
-import { UserButton } from '@clerk/vue'
 import { MessageSquare, BarChart2, Code, Users, Settings, MessageCircleHeart } from 'lucide-vue-next';
 
 useSeoMeta({
@@ -68,8 +67,6 @@ const isActive = (item) => {
                     <span class="text-xl font-bold">PulseKit</span>
                 </div>
             </div>
-
-            <UserButton show-name />
 
             <!-- Nav -->
             <nav class="flex-1 py-4 px-2 space-y-4">

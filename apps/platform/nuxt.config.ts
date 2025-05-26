@@ -4,10 +4,19 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
-  modules: ['@nuxt/eslint', '@nuxt/fonts', '@clerk/nuxt', 'nuxt-shiki'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/fonts',
+    'nuxt-shiki',
+    "@vee-validate/nuxt",
+    "@vueuse/nuxt",
+    '@pinia/nuxt'
+  ],
   ssr: false,
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+    ],
   },
   css: ["~/assets/app.css"],
   fonts: {
@@ -26,7 +35,7 @@ export default defineNuxtConfig({
       },
       script: [
         {
-          src: 'https://cdn.trypulsekit.com/pulsekit.js'
+          src: 'https://cdn.trypulsekit.com/widget.js'
         }
       ]
     }
@@ -39,21 +48,9 @@ export default defineNuxtConfig({
       }
     },
   },
-  clerk: {
-    skipServerMiddleware: true,
-    afterSignOutUrl: '/sign-in',
-  },
-  // plugins: [
-  //   '~/plugins/clerk'
-  // ],
-  runtimeConfig: {
-    public: {
-      clerkPublishableKey: process.env.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-    }
-  },
   vue: {
     compilerOptions: {
-      isCustomElement: (tag) => tag.startsWith('pulse-')
+      isCustomElement: (tag) => tag.startsWith('pulsekit-')
     }
   }
 })

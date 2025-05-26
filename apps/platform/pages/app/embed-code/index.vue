@@ -30,7 +30,11 @@ const tabs = [
 ]
 
 const { data: project } = useLazyAsyncData('project', async () => {
-    const req = await apiClient.api.project.default.$get()
+    const req = await apiClient.api.projects[":id"].$get({
+        param: {
+            id: 'current'
+        }
+    })
 
     return req.json()
 })
@@ -42,6 +46,7 @@ function parseHtml(html: string) {
 
 function parseCode(code: string) {
     if (project.value) {
+
         code = code.replaceAll('PROJECT_KEY', project.value?.id);
     }
 

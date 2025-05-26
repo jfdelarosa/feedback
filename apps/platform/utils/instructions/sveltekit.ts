@@ -8,7 +8,7 @@ export const steps: InstructionStep[] = [
   
   onMount(() => {
     const script = document.createElement('script');
-    script.src = 'https://cdn.trypulsekit.com/pulsekit.js';
+    script.src = 'https://cdn.trypulsekit.com/widget.js';
     document.head.appendChild(script);
   });
 </script>

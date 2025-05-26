@@ -7,16 +7,7 @@ import { clientUsersTable, projectsTable, feedbackTable, commentsTable, feedback
 import type { ListUsersRoute, GetUserProfileRoute } from "./users.routes";
 
 export const listUsers: AppRouteHandler<ListUsersRoute> = async (c) => {
-    const organizationId = c.get('organizationId');
-
-    // Get the projects for this organization
-    const projects = await db.select({
-        id: projectsTable.id,
-    })
-        .from(projectsTable)
-        .where(eq(projectsTable.organizationId, organizationId));
-
-    const projectIds = projects.map(project => project.id);
+    const activeProjectId = c.get('activeProjectId');
 
     // Get all users across the organization's projects
     const users = await db.select({
@@ -31,16 +22,14 @@ export const listUsers: AppRouteHandler<ListUsersRoute> = async (c) => {
         updatedAt: clientUsersTable.updatedAt,
     })
         .from(clientUsersTable)
-        .where(projectIds.length > 0 ?
-            eq(clientUsersTable.projectId, projectIds[0]) :
-            undefined);
+        .where(eq(clientUsersTable.projectId, activeProjectId));
 
     return c.json(users, HttpStatusCodes.OK);
 };
 
 export const getUserProfile: AppRouteHandler<GetUserProfileRoute> = async (c) => {
     const { id } = c.req.valid("param");
-    const organizationId = c.get('organizationId');
+    const activeProjectId = c.get('activeProjectId');
 
     // Get user
     const user = await db.select().from(clientUsersTable).where(eq(clientUsersTable.id, id)).limit(1);
@@ -57,7 +46,7 @@ export const getUserProfile: AppRouteHandler<GetUserProfileRoute> = async (c) =>
         id: projectsTable.id,
     })
         .from(projectsTable)
-        .where(eq(projectsTable.organizationId, organizationId));
+        .where(eq(projectsTable.id, activeProjectId));
 
     const projectIds = projects.map(project => project.id);
 

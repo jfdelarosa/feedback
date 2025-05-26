@@ -7,7 +7,7 @@ export const steps: InstructionStep[] = [
 useHead({
   script: [
     {
-      src: 'https://cdn.trypulsekit.com/pulsekit.js'
+      src: 'https://cdn.trypulsekit.com/widget.js'
     }
   ]
 })

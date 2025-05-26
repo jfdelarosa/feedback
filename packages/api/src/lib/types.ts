@@ -11,6 +11,7 @@ export type AppEnv = {
 		user: any;
 		session: any;
 		organizationId: string;
+		activeProjectId: string;
 	};
 };
 
