@@ -4,6 +4,7 @@ import * as routes from "./users.routes";
 
 const router = createRouter()
     .openapi(routes.listUsers, handlers.listUsers)
-    .openapi(routes.getUserProfile, handlers.getUserProfile);
+    .openapi(routes.getUserProfile, handlers.getUserProfile)
+    .openapi(routes.claimClientUser, handlers.claimClientUser);
 
 export default router; 

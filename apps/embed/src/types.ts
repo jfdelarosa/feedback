@@ -41,6 +41,8 @@ export interface FeedbackComment {
     id: string;
     content: string;
     userId: string;
-    user: PulseKitUser;
+    isOfficialResponse: boolean;
+    representingClientUser: PulseKitUser;
+    authorPlatformUser: PulseKitUser;
     createdAt: string;
 }

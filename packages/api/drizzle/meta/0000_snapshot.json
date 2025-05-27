@@ -1,5 +1,5 @@
 {
-  "id": "46678742-e2e1-45cb-914f-ea0b0b10f441",
+  "id": "84fbf6ce-b6ef-4f05-9722-9e54ccb0f2a0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -362,11 +362,17 @@
           "primaryKey": false,
           "notNull": true
         },
-        "userId": {
-          "name": "userId",
+        "platformUserId": {
+          "name": "platformUserId",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "clientUserId": {
+          "name": "clientUserId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "createdAt": {
           "name": "createdAt",
@@ -391,12 +397,25 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "comment_votes_userId_user_id_fk": {
-          "name": "comment_votes_userId_user_id_fk",
+        "comment_votes_platformUserId_user_id_fk": {
+          "name": "comment_votes_platformUserId_user_id_fk",
           "tableFrom": "comment_votes",
           "tableTo": "user",
           "columnsFrom": [
-            "userId"
+            "platformUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comment_votes_clientUserId_client_users_id_fk": {
+          "name": "comment_votes_clientUserId_client_users_id_fk",
+          "tableFrom": "comment_votes",
+          "tableTo": "client_users",
+          "columnsFrom": [
+            "clientUserId"
           ],
           "columnsTo": [
             "id"
@@ -434,11 +453,17 @@
           "primaryKey": false,
           "notNull": true
         },
-        "userId": {
-          "name": "userId",
+        "authorPlatformUserId": {
+          "name": "authorPlatformUserId",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "representingClientUserId": {
+          "name": "representingClientUserId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "parentId": {
           "name": "parentId",
@@ -483,12 +508,25 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "comments_userId_client_users_id_fk": {
-          "name": "comments_userId_client_users_id_fk",
+        "comments_authorPlatformUserId_user_id_fk": {
+          "name": "comments_authorPlatformUserId_user_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "user",
+          "columnsFrom": [
+            "authorPlatformUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "comments_representingClientUserId_client_users_id_fk": {
+          "name": "comments_representingClientUserId_client_users_id_fk",
           "tableFrom": "comments",
           "tableTo": "client_users",
           "columnsFrom": [
-            "userId"
+            "representingClientUserId"
           ],
           "columnsTo": [
             "id"
@@ -1141,6 +1179,103 @@
           ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.user_client_identities": {
+      "name": "user_client_identities",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "platformUserId": {
+          "name": "platformUserId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "clientUserId": {
+          "name": "clientUserId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "projectId": {
+          "name": "projectId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "verifiedAt": {
+          "name": "verifiedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_client_identities_platformUserId_user_id_fk": {
+          "name": "user_client_identities_platformUserId_user_id_fk",
+          "tableFrom": "user_client_identities",
+          "tableTo": "user",
+          "columnsFrom": [
+            "platformUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "user_client_identities_clientUserId_client_users_id_fk": {
+          "name": "user_client_identities_clientUserId_client_users_id_fk",
+          "tableFrom": "user_client_identities",
+          "tableTo": "client_users",
+          "columnsFrom": [
+            "clientUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "user_client_identities_projectId_projects_id_fk": {
+          "name": "user_client_identities_projectId_projects_id_fk",
+          "tableFrom": "user_client_identities",
+          "tableTo": "projects",
+          "columnsFrom": [
+            "projectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

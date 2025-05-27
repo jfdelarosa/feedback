@@ -75,7 +75,6 @@ const submit = handleSubmit(async (values) => {
 
 <template>
     <form class="card bg-white shadow-xl max-w-sm w-full" @submit="submit">
-        <pre>{{ errors }}</pre>
         <div class="card-body">
             <div class="card-header">
                 <h2 class="card-title">

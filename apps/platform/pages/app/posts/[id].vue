@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import { ChevronLeftIcon } from 'lucide-vue-next';
+import { toast } from 'vue-sonner';
 
 definePageMeta({
     layout: 'dashboard'
 })
 
 const { formatDate } = useFormatters()
+const apiClient = useApi()
 
 const route = useRoute()
 const feedbackId = route.params.id as string
 
 const newStatus = ref(null)
+const comment = ref('')
+const updating = ref(false)
+const updateError = ref<string | null>(null)
 
 const { data: feedback, pending: feedbackPending, error } = await useLazyAsyncData(
     `feedback-${feedbackId}`,
@@ -34,6 +39,42 @@ const statuses = ref([{
     label: 'Declined',
     value: 'declined'
 }])
+
+async function updateStatus() {
+    if (newStatus.value === null || newStatus.value === feedback.value.status) return
+
+    updating.value = true
+    updateError.value = null
+
+    try {
+
+        const req = await apiClient.api.feedback[":id"].status.$patch({
+            param: {
+                id: feedbackId
+            },
+            json: {
+                status: newStatus.value,
+                comment: comment.value.trim() ? comment.value : undefined
+            }
+        })
+
+        await req.json()
+
+        toast.success('Status updated successfully')
+
+        // Refresh feedback data
+        await refreshNuxtData(`feedback-${feedbackId}`)
+
+        // Reset form
+        comment.value = ''
+
+    } catch (error) {
+        const err = error as Error
+        updateError.value = err.message || 'An error occurred while updating status'
+    } finally {
+        updating.value = false
+    }
+}
 </script>
 
 <template>
@@ -117,11 +158,16 @@ const statuses = ref([{
                         </select>
 
                         <template v-if="newStatus !== null && feedback.status !== newStatus">
-                            <textarea class="textarea textarea-bordered w-full"
-                                placeholder="Add a comment (optional)"></textarea>
-                            <button class="btn btn-primary w-full flex items-center gap-2">
-                                Save
+                            <textarea class="textarea textarea-bordered w-full" placeholder="Add a comment (optional)"
+                                v-model="comment"></textarea>
+                            <button class="btn btn-primary w-full flex items-center gap-2" @click="updateStatus"
+                                :disabled="updating">
+                                <span v-if="updating">Saving...</span>
+                                <span v-else>Save</span>
                             </button>
+                            <div v-if="updateError" class="text-error text-xs mt-2">
+                                {{ updateError }}
+                            </div>
                         </template>
                     </div>
                 </div>

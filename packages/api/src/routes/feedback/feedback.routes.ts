@@ -74,6 +74,43 @@ export const getOne = createRoute({
 	tags,
 });
 
+export const updateStatus = createRoute({
+	method: "patch",
+	path: "/feedback/{id}/status",
+	request: {
+		params: IdUUIDParamsSchema,
+		body: {
+			content: {
+				"application/json": {
+					schema: z.object({
+						status: z.enum(["new", "in-progress", "completed", "declined"]),
+						comment: z.string().optional(),
+					}),
+				},
+			},
+		},
+	},
+	responses: {
+		[HttpStatusCodes.NOT_FOUND]: jsonContent(
+			notFoundSchema,
+			"Feedback not found",
+		),
+		[HttpStatusCodes.OK]: jsonContent(
+			selectFeedbackSchema,
+			"The updated feedback",
+		),
+		[HttpStatusCodes.BAD_REQUEST]: jsonContent(
+			createErrorSchema(z.object({
+				status: z.enum(["new", "in-progress", "completed", "declined"]),
+				comment: z.string().optional(),
+			})),
+			"Invalid status update data",
+		),
+	},
+	tags,
+});
+
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
+export type UpdateStatusRoute = typeof updateStatus;

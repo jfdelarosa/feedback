@@ -174,7 +174,8 @@ app.get("/feedback/:feedbackId/comments", async (c) => {
             where: eq(commentsTable.feedbackId, feedbackId),
             orderBy: asc(commentsTable.createdAt),
             with: {
-                user: true,
+                representingClientUser: true,
+                authorPlatformUser: true,
             },
         })
 
@@ -462,13 +463,14 @@ app.post("/feedback/:feedbackId/comment", async (c) => {
             id: commentId,
             content: comment,
             feedbackId,
-            userId: user.id,
+            representingClientUserId: user.id,
         })
 
         const newComment = await db.query.commentsTable.findFirst({
             where: eq(commentsTable.id, commentId),
             with: {
-                user: true,
+                representingClientUser: true,
+                authorPlatformUser: true,
             },
         })
 

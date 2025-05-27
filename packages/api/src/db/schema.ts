@@ -150,12 +150,29 @@ export const feedbackVotesTable = pgTable("feedback_votes", {
     updatedAt: timestamp().notNull().defaultNow(),
 });
 
+// User-Client Identity Mapping table
+export const userClientIdentitiesTable = pgTable("user_client_identities", {
+    id: text().primaryKey(),
+    platformUserId: text().notNull().references(() => user.id, { onDelete: "cascade" }),
+    clientUserId: text().notNull().references(() => clientUsersTable.id, { onDelete: "cascade" }),
+    projectId: text().notNull().references(() => projectsTable.id, { onDelete: "cascade" }),
+    verifiedAt: timestamp(),
+    createdAt: timestamp().notNull().defaultNow(),
+    updatedAt: timestamp().notNull().defaultNow(),
+});
+
 // Comments table
 export const commentsTable = pgTable("comments", {
     id: uuid().defaultRandom().primaryKey(),
     content: text().notNull(),
     feedbackId: text().notNull().references(() => feedbackTable.id, { onDelete: "cascade" }),
-    userId: text().notNull().references(() => clientUsersTable.id),
+
+    // WHO is actually making the comment (if logged into platform)
+    authorPlatformUserId: text().references(() => user.id), // nullable for pure client comments
+
+    // WHICH identity they're representing
+    representingClientUserId: text().references(() => clientUsersTable.id), // nullable for official-only comments
+
     // For nested comments/replies - nullable parentId for top-level comments
     parentId: uuid(), // Will be used to reference another comment
     isOfficialResponse: boolean().default(false).notNull(), // To mark official team responses
@@ -167,7 +184,11 @@ export const commentsTable = pgTable("comments", {
 export const commentVotesTable = pgTable("comment_votes", {
     id: uuid().defaultRandom().primaryKey(),
     commentId: uuid().notNull().references(() => commentsTable.id, { onDelete: "cascade" }),
-    userId: text().notNull().references(() => user.id),
+
+    // Support voting by either platform users or client users
+    platformUserId: text().references(() => user.id), // nullable
+    clientUserId: text().references(() => clientUsersTable.id), // nullable
+
     createdAt: timestamp().notNull().defaultNow(),
 });
 
@@ -202,16 +223,67 @@ export const feedbackVotesToFeedbackRelation = relations(feedbackVotesTable, ({ 
     }),
 }));
 
+// User-Client Identity Relations
+export const userClientIdentitiesRelation = relations(userClientIdentitiesTable, ({ one }) => ({
+    platformUser: one(user, {
+        fields: [userClientIdentitiesTable.platformUserId],
+        references: [user.id],
+    }),
+    clientUser: one(clientUsersTable, {
+        fields: [userClientIdentitiesTable.clientUserId],
+        references: [clientUsersTable.id],
+    }),
+    project: one(projectsTable, {
+        fields: [userClientIdentitiesTable.projectId],
+        references: [projectsTable.id],
+    }),
+}));
+
 export const feedbackCommentsRelation = relations(commentsTable, ({ one, many }) => ({
     feedback: one(feedbackTable, {
         fields: [commentsTable.feedbackId],
         references: [feedbackTable.id],
     }),
-    user: one(clientUsersTable, {
-        fields: [commentsTable.userId],
+    authorPlatformUser: one(user, {
+        fields: [commentsTable.authorPlatformUserId],
+        references: [user.id],
+    }),
+    representingClientUser: one(clientUsersTable, {
+        fields: [commentsTable.representingClientUserId],
         references: [clientUsersTable.id],
     }),
+}));
 
+// Comment votes relations
+export const commentVotesRelation = relations(commentVotesTable, ({ one }) => ({
+    comment: one(commentsTable, {
+        fields: [commentVotesTable.commentId],
+        references: [commentsTable.id],
+    }),
+    platformUser: one(user, {
+        fields: [commentVotesTable.platformUserId],
+        references: [user.id],
+    }),
+    clientUser: one(clientUsersTable, {
+        fields: [commentVotesTable.clientUserId],
+        references: [clientUsersTable.id],
+    }),
+}));
+
+// Add relations for users to their client identities
+export const userRelations = relations(user, ({ many }) => ({
+    clientIdentities: many(userClientIdentitiesTable),
+    authoredComments: many(commentsTable),
+    commentVotes: many(commentVotesTable),
+}));
+
+// Add relations for client users to their platform identities
+export const clientUserRelations = relations(clientUsersTable, ({ many }) => ({
+    platformIdentities: many(userClientIdentitiesTable),
+    representedComments: many(commentsTable),
+    feedback: many(feedbackTable),
+    votes: many(feedbackVotesTable),
+    commentVotes: many(commentVotesTable),
 }));
 
 // NOTE: The parentId in commentsTable is intended to reference another comment's id

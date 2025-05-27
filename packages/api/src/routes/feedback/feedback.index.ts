@@ -4,6 +4,7 @@ import * as routes from "./feedback.routes";
 
 const router = createRouter()
 	.openapi(routes.list, handlers.list)
-	.openapi(routes.getOne, handlers.getOne);
+	.openapi(routes.getOne, handlers.getOne)
+	.openapi(routes.updateStatus, handlers.updateStatus);
 
 export default router;
