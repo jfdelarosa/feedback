@@ -2,7 +2,7 @@
 import Board from '@/components/Board.vue';
 
 // Config values - in a real app, these would be loaded from environment or props
-const projectId = '"01970fa6-e324-7000-b5ad-a23306a99779'; // UUID for the project
+const projectId = '01970fa6-e324-7000-b5ad-a23306a99779'; // UUID for the project
 
 // User information
 const user = JSON.stringify({
