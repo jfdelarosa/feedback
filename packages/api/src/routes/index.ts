@@ -23,19 +23,10 @@ export function registerRoutes(app: AppOpenAPI) {
         //         openapi: "3.0.0",
         //     },
         // )
-        .use("*", cors({
-            allowHeaders: ["Content-Type", "Authorization"],
-            allowMethods: ["POST", "GET", "PUT", "DELETE", "OPTIONS"],
-            credentials: true,
-            exposeHeaders: ["Content-Length"],
-            maxAge: 600,
-            origin: process.env.ORIGIN_URL!,
-        }))
+        .use("*", cors())
         .use("*", logger())
         .route("/public", publicRoutes)
         .on(["POST", "GET"], "/auth/*", async (c) => {
-            console.log("auth route");
-
             return auth.handler(c.req.raw);
         })
         .use(authMiddleware)

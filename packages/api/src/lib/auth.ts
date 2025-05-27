@@ -6,6 +6,20 @@ import * as handlebars from "handlebars";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { db } from "@/db";
+import { polar, checkout, portal, usage, webhooks } from "@polar-sh/better-auth";
+import { Polar } from "@polar-sh/sdk";
+
+
+const polarClient = new Polar({
+	accessToken: process.env.POLAR_ACCESS_TOKEN,
+	// Use 'sandbox' if you're using the Polar Sandbox environment
+	// Remember that access tokens, products, etc. are completely separated between environments.
+	// Access tokens obtained in Production are for instance not usable in the Sandbox environment.
+	server: 'sandbox'
+});
+
+
+
 // Fix import issue with limax
 const slug = require('limax');
 import {
@@ -189,6 +203,31 @@ export const auth = betterAuth({
 				}
 			},
 		}),
+		polar({
+			client: polarClient,
+			createCustomerOnSignUp: true,
+			use: [
+				checkout({
+					products: [
+						{
+							productId: "fa6e9589-808e-4108-9776-feeaa777ac1a",
+							slug: "pro"
+						},
+						{
+							productId: "ffba188c-34c5-41a2-ada0-159891144a1d",
+							slug: "scale"
+						}
+					],
+					successUrl: "/success?checkout_id={CHECKOUT_ID}",
+					authenticatedUsersOnly: true
+				}),
+				portal(),
+				usage(),
+				webhooks({
+					secret: process.env.POLAR_WEBHOOK_SECRET!,
+				})
+			],
+		})
 	],
 	session: {
 		additionalFields: {

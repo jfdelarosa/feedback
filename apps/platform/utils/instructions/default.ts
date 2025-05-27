@@ -7,7 +7,7 @@ export const steps: InstructionStep[] = [
     },
     {
         description: 'Add the web component to your page:',
-        code: `<pulse-feedback 
+        code: `<pulsekit-board  
     project-id="PROJECT_KEY" 
     user='{"externalId": "user123", "name": "John Doe", "email": "john@example.com", "avatar": "https://example.com/avatar.jpg"}' 
 />`
@@ -15,7 +15,7 @@ export const steps: InstructionStep[] = [
     {
         description: 'If you need to dynamically set the user object:',
         code: `// Create the element
-const feedbackElement = document.createElement('pulse-feedback');
+const feedbackElement = document.createElement('pulsekit-board ');
 
 // Set attributes
 feedbackElement.setAttribute('projectId', 'PROJECT_KEY');

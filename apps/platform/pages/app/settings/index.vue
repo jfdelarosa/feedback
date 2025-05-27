@@ -42,7 +42,11 @@ const isSaving = ref(false)
 const saveMessage = ref('')
 
 const { data: project, pending: projectPending, refresh } = useLazyAsyncData('project', async () => {
-    const req = await apiClient.api.project.default.$get()
+    const req = await apiClient.api.projects[":id"].$get({
+        param: {
+            id: 'current'
+        }
+    })
 
     const project = await req.json()
 
@@ -59,10 +63,13 @@ const saveSettings = async () => {
     saveMessage.value = ''
 
     try {
-        const req = await apiClient.api.project[project.value.id].$patch({
+        const req = await apiClient.api.projects[":id"].$patch({
+            param: {
+                id: project.value.id
+            },
             json: {
                 name: projectName.value,
-                theme: selectedTheme.value
+                theme: selectedTheme.value || "light"
             }
         })
 

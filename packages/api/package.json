@@ -15,6 +15,8 @@
     "@hono/clerk-auth": "^2.0.0",
     "@hono/zod-openapi": "^0.19.6",
     "@neondatabase/serverless": "^1.0.0",
+    "@polar-sh/better-auth": "^1.0.1",
+    "@polar-sh/sdk": "^0.32.16",
     "better-auth": "^1.2.8",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.43.1",

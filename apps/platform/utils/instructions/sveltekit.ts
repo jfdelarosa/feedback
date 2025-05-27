@@ -25,7 +25,7 @@ export const steps: InstructionStep[] = [
 <h1>Feedback</h1>
 
 <!-- Use the web component directly -->
-<pulse-feedback
+<pulsekit-board 
   project-id="PROJECT_KEY"
   user="{JSON.stringify($user)}"
 />
@@ -37,7 +37,7 @@ export const steps: InstructionStep[] = [
 
 declare namespace svelteHTML {
   interface IntrinsicElements {
-    'pulse-feedback': {
+    'pulsekit-board ': {
       projectId: string;
       user?: string;
     }

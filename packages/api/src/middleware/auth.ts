@@ -16,12 +16,17 @@ export const authMiddleware = createMiddleware(async (c, next) => {
     c.set("user", session.user);
     c.set("session", session.session);
 
+    console.log("----")
+    console.log(session.user.id)
+
     const firstOrganization = await db.query.member.findFirst({
         where: and(
             eq(member.userId, session.user.id),
             eq(member.role, "admin")
         )
     })
+
+    console.log({ firstOrganization })
 
 
     const projectId = await db.select({

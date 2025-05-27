@@ -4,7 +4,7 @@ import * as HttpStatusPhrases from "stoker/http-status-phrases";
 import type { AppRouteHandler } from "@/lib/types";
 import { db } from "@/db";
 import { projectsTable } from "@/db/schema";
-import type { CreateRoute, GetOneRoute, ListRoute } from "./projects.routes";
+import type { CreateRoute, GetOneRoute, ListRoute, UpdateRoute } from "./projects.routes";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
 	const organizationId = c.get("organizationId");
@@ -71,4 +71,22 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
 
 
 	return c.json(project[0], HttpStatusCodes.OK);
+};
+
+export const update: AppRouteHandler<UpdateRoute> = async (c) => {
+	const organizationId = c.get("organizationId");
+	const { id } = c.req.valid("param");
+	const data = await c.req.valid("json");
+
+	const updatedProject = await db.update(projectsTable)
+		.set(data)
+		.where(
+			and(
+				eq(projectsTable.organizationId, organizationId),
+				eq(projectsTable.id, id),
+			),
+		)
+		.returning();
+
+	return c.json(updatedProject[0], HttpStatusCodes.OK);
 };

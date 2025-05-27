@@ -23,6 +23,6 @@ const customUser = computed(() => {
             <AppTitle>Feedback</AppTitle>
         </div>
 
-        <pulse-feedback v-if="isLoaded" project-id="0196f1bf-e676-7000-a8e1-9a3c1c550520" :user="customUser" />
+        <pulsekit-board v-if="isLoaded" project-id="0196f1bf-e676-7000-a8e1-9a3c1c550520" :user="customUser" />
     </div>
 </template>

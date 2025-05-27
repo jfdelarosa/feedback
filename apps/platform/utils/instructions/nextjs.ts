@@ -30,7 +30,7 @@ export default function Feedback() {
   if (!user) return <div>Loading...</div>;
   
   return (
-    <pulse-feedback
+    <pulsekit-board 
       project-id="PROJECT_KEY" 
       user={JSON.stringify(user)}
     />
@@ -41,7 +41,7 @@ export default function Feedback() {
     description: 'For TypeScript support, add type definitions in a <AppInlineCode>.d.ts</AppInlineCode> file:',
     code: `declare namespace JSX {
   interface IntrinsicElements {
-    'pulse-feedback': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+    'pulsekit-board ': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
       projectId: string;
       user: string; // JSON stringified user object
     };

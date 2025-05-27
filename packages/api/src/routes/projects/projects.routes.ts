@@ -1,5 +1,5 @@
 import { createRoute, z } from "@hono/zod-openapi";
-import { createSelectSchema } from "drizzle-zod";
+import { createSelectSchema, createUpdateSchema } from "drizzle-zod";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent } from "stoker/openapi/helpers";
 import { createErrorSchema, IdParamsSchema, IdUUIDParamsSchema } from "stoker/openapi/schemas";
@@ -17,6 +17,8 @@ const createProjectSchema = z.object({
 	name: z.string().min(1).max(255),
 	organizationId: z.string().optional(),
 });
+
+const updateProjectSchema = createUpdateSchema(projectsTable);
 
 export const list = createRoute({
 	method: "get",
@@ -80,6 +82,28 @@ export const getOne = createRoute({
 	tags,
 });
 
+export const update = createRoute({
+	method: "patch",
+	path: "/projects/{id}",
+	request: {
+		params: IdUUIDParamsSchema,
+		body: {
+			content: {
+				"application/json": {
+					schema: updateProjectSchema,
+				},
+			},
+		},
+	},
+	responses: {
+		[HttpStatusCodes.OK]: jsonContent(
+			selectProjectSchema,
+			"The updated project",
+		),
+	},
+});
+
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
+export type UpdateRoute = typeof update;
