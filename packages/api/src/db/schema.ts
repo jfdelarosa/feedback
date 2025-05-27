@@ -176,6 +176,12 @@ export const commentsTable = pgTable("comments", {
     // For nested comments/replies - nullable parentId for top-level comments
     parentId: uuid(), // Will be used to reference another comment
     isOfficialResponse: boolean().default(false).notNull(), // To mark official team responses
+
+    // Status update fields
+    isStatusUpdate: boolean().default(false),
+    statusFrom: varchar({ length: 50 }),
+    statusTo: varchar({ length: 50 }),
+
     createdAt: timestamp().notNull().defaultNow(),
     updatedAt: timestamp().notNull().defaultNow(),
 });

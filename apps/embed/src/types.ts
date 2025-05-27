@@ -45,4 +45,7 @@ export interface FeedbackComment {
     representingClientUser: PulseKitUser;
     authorPlatformUser: PulseKitUser;
     createdAt: string;
+    isStatusUpdate?: boolean;
+    statusFrom?: string;
+    statusTo?: string;
 }

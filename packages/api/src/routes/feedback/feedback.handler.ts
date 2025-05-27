@@ -75,6 +75,8 @@ export const updateStatus: AppRouteHandler<UpdateStatusRoute> = async (c) => {
 			);
 		}
 
+		const previousStatus = feedback.status;
+
 		// Update the feedback status
 		await tx.update(feedbackTable)
 			.set({
@@ -83,7 +85,19 @@ export const updateStatus: AppRouteHandler<UpdateStatusRoute> = async (c) => {
 			})
 			.where(eq(feedbackTable.id, id));
 
-		// If a comment was provided, add it
+		// Always create a status update entry in comments
+		await tx.insert(commentsTable).values({
+			content: "", // Empty content for status updates
+			feedbackId: id,
+			authorPlatformUserId: platformUserId,
+			isStatusUpdate: true,
+			statusFrom: previousStatus,
+			statusTo: status,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		});
+
+		// If a comment was provided, add it as a separate regular comment
 		if (comment) {
 			await tx.insert(commentsTable).values({
 				content: comment,

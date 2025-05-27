@@ -8,6 +8,13 @@
       "when": 1748381867621,
       "tag": "0000_lowly_blackheart",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1748387523285,
+      "tag": "0001_wild_bedlam",
+      "breakpoints": true
     }
   ]
 }
