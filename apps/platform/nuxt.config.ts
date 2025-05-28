@@ -12,7 +12,6 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     '@pinia/nuxt'
   ],
-  ssr: false,
   vite: {
     plugins: [
       tailwindcss(),
@@ -53,6 +52,7 @@ export default defineNuxtConfig({
       isCustomElement: (tag) => tag.startsWith('pulsekit-')
     }
   },
+  ssr: true,
   routeRules: {
     '/': {
       prerender: true,
@@ -62,5 +62,8 @@ export default defineNuxtConfig({
       prerender: true,
       static: true
     },
+    '/**': {
+      ssr: false,
+    }
   }
 })
