@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { user, isLoaded } = useUser();
+import { useAuthStore } from '@/stores/auth';
+
+const { session, isInitialized } = useAuthStore();
 
 
 definePageMeta({
@@ -9,10 +11,10 @@ definePageMeta({
 
 const customUser = computed(() => {
     return JSON.stringify({
-        externalId: user.value?.id,
-        email: user.value?.emailAddresses[0].emailAddress,
-        name: user.value?.firstName,
-        avatar: user.value?.imageUrl
+        externalId: session?.user?.id,
+        email: session?.user?.email,
+        name: session?.user?.name,
+        avatar: session?.user?.image
     })
 })
 </script>
@@ -23,6 +25,6 @@ const customUser = computed(() => {
             <AppTitle>Feedback</AppTitle>
         </div>
 
-        <pulsekit-board v-if="isLoaded" project-id="019713b1-3e7f-7000-b38f-45484ce56503" :user="customUser" />
+        <pulsekit-board v-if="isInitialized" project-id="019713b1-3e7f-7000-b38f-45484ce56503" :user="customUser" />
     </div>
 </template>

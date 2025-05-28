@@ -1,6 +1,14 @@
 import { useAuthStore } from '@/stores/auth'
 
 export default defineNuxtRouteMiddleware(async (to) => {
+    const isAuthPage = to.path.includes('sign-in') || to.path.includes('sign-up');
+    const isOnboardingPage = to.path.startsWith('/welcome');
+    const isAppRoute = to.path.startsWith('/app') || isAuthPage || isOnboardingPage;
+
+    if (!isAppRoute) {
+        return;
+    }
+
     const auth = useAuthStore();
 
     console.log(`[Auth Middleware] Path: ${to.path}, Auth loading: ${auth.isLoading}, Auth state: ${auth.isAuthenticated}, Has orgs: ${auth.hasOrganizations}`);
@@ -11,8 +19,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return;
     }
 
-    const isAuthPage = to.path.includes('sign-in') || to.path.includes('sign-up');
-    const isOnboardingPage = to.path.startsWith('/welcome');
 
     // Prevent redirect loops by checking if we're already being redirected
     // If we detect a potential loop, allow the navigation
