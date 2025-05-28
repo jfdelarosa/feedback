@@ -4,7 +4,7 @@ import * as HttpStatusPhrases from "stoker/http-status-phrases";
 import type { AppRouteHandler } from "@/lib/types";
 import { db } from "@/db";
 import { feedbackTable, feedbackVotesTable, projectsTable, commentsTable } from "@/db/schema";
-import type { GetOneRoute, ListRoute, UpdateStatusRoute } from "./feedback.routes";
+import type { GetOneRoute, ListRoute, UpdateStatusRoute, GetCommentsRoute, AddCommentRoute } from "./feedback.routes";
 import { sql } from "drizzle-orm";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
@@ -38,6 +38,13 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
 		where: eq(feedbackTable.id, id),
 		with: {
 			user: true,
+			comments: {
+				with: {
+					authorPlatformUser: true,
+					representingClientUser: true,
+				},
+				orderBy: commentsTable.createdAt,
+			},
 		},
 	});
 
@@ -119,4 +126,92 @@ export const updateStatus: AppRouteHandler<UpdateStatusRoute> = async (c) => {
 
 		return c.json(updatedFeedback, HttpStatusCodes.OK);
 	});
+};
+
+export const getComments: AppRouteHandler<GetCommentsRoute> = async (c) => {
+	const { id } = c.req.valid("param");
+
+	// First check if the feedback exists
+	const feedback = await db.query.feedbackTable.findFirst({
+		where: eq(feedbackTable.id, id),
+	});
+
+	if (!feedback) {
+		return c.json(
+			{
+				message: HttpStatusPhrases.NOT_FOUND,
+			},
+			HttpStatusCodes.NOT_FOUND,
+		);
+	}
+
+	// Get all comments for this feedback, including user info
+	const comments = await db.query.commentsTable.findMany({
+		where: eq(commentsTable.feedbackId, id),
+		orderBy: commentsTable.createdAt,
+		with: {
+			authorPlatformUser: true,
+			representingClientUser: true,
+		},
+	});
+
+	return c.json(comments, HttpStatusCodes.OK);
+};
+
+export const addComment: AppRouteHandler<AddCommentRoute> = async (c) => {
+	const { id } = c.req.valid("param");
+	const { content, parentId } = await c.req.json();
+	const user = c.get("user");
+	const platformUserId = user.id;
+
+	// First check if the feedback exists
+	const feedback = await db.query.feedbackTable.findFirst({
+		where: eq(feedbackTable.id, id),
+	});
+
+	if (!feedback) {
+		return c.json(
+			{
+				message: HttpStatusPhrases.NOT_FOUND,
+			},
+			HttpStatusCodes.NOT_FOUND,
+		);
+	}
+
+	// If parentId is provided, verify it exists
+	if (parentId) {
+		const parentComment = await db.query.commentsTable.findFirst({
+			where: eq(commentsTable.id, parentId),
+		});
+
+		if (!parentComment) {
+			return c.json(
+				{
+					message: "Parent comment not found",
+				},
+				HttpStatusCodes.BAD_REQUEST,
+			);
+		}
+	}
+
+	// Insert the new comment
+	const [comment] = await db.insert(commentsTable).values({
+		content,
+		feedbackId: id,
+		authorPlatformUserId: platformUserId,
+		isOfficialResponse: true, // Platform users always create official responses
+		parentId: parentId || null,
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	}).returning();
+
+	// Get the complete comment with user info
+	const commentWithUser = await db.query.commentsTable.findFirst({
+		where: eq(commentsTable.id, comment.id),
+		with: {
+			authorPlatformUser: true,
+		},
+	});
+
+	return c.json(commentWithUser, HttpStatusCodes.CREATED);
 };

@@ -16,14 +16,31 @@ const newStatus = ref(null)
 const comment = ref('')
 const updating = ref(false)
 const updateError = ref<string | null>(null)
+const newComment = ref('')
+const postingComment = ref(false)
 
 const { data: feedback, pending: feedbackPending, error } = await useLazyAsyncData(
     `feedback-${feedbackId}`,
     async () => {
-        const req = await fetch(`/api/feedback/${feedbackId}`)
+        const req = await apiClient.api.feedback[":id"].$get({
+            param: {
+                id: feedbackId
+            }
+        })
         const data = await req.json()
+
         newStatus.value = data.status
+
+
         return data
+    }
+)
+
+const { data: comments, refresh: refreshComments } = await useLazyAsyncData(
+    `comments-${feedbackId}`,
+    async () => {
+        const req = await fetch(`/api/feedback/${feedbackId}/comments`)
+        return req.json()
     }
 )
 
@@ -66,6 +83,9 @@ async function updateStatus() {
         // Refresh feedback data
         await refreshNuxtData(`feedback-${feedbackId}`)
 
+        // Refresh comments
+        await refreshComments()
+
         // Reset form
         comment.value = ''
 
@@ -74,6 +94,38 @@ async function updateStatus() {
         updateError.value = err.message || 'An error occurred while updating status'
     } finally {
         updating.value = false
+    }
+}
+
+async function addComment() {
+    if (!newComment.value.trim()) return
+
+    postingComment.value = true
+
+    try {
+        const req = await apiClient.api.feedback[":id"].comments.$post({
+            param: {
+                id: feedbackId
+            },
+            json: {
+                content: newComment.value
+            }
+        })
+
+        await req.json()
+
+        toast.success('Comment added successfully')
+
+        // Refresh comments
+        await refreshComments()
+
+        // Reset form
+        newComment.value = ''
+    } catch (error) {
+        const err = error as Error
+        toast.error(err.message || 'Failed to add comment')
+    } finally {
+        postingComment.value = false
     }
 }
 </script>
@@ -122,7 +174,118 @@ async function updateStatus() {
                         <p>{{ feedback.content }}</p>
                     </div>
 
+                    <!-- Comments Section -->
+                    <div class="mt-6 border-t border-base-300 pt-4">
+                        <h3 class="font-semibold mb-4">Comments and Updates</h3>
 
+                        <div v-if="comments && comments.length > 0" class="space-y-4">
+                            <div v-for="comment in comments" :key="comment.id"
+                                class="pb-3 border-b border-base-200 last:border-0">
+                                <!-- Status update display -->
+                                <div v-if="comment.isStatusUpdate" class="flex items-center gap-2 py-2">
+                                    <div class="flex items-center gap-2 text-xs">
+                                        <div v-if="comment.authorPlatformUser" class="flex items-center gap-2">
+                                            <img v-if="comment.authorPlatformUser.image"
+                                                :src="comment.authorPlatformUser.image" alt="User avatar"
+                                                class="w-6 h-6 rounded-full bg-base-300" />
+                                            <span v-else class="w-6 h-6 rounded-full bg-base-300 inline-block"></span>
+                                            <div class="text-sm space-x-1">
+                                                <span class="text-base-content/70 font-semibold">
+                                                    {{ comment.authorPlatformUser.name ||
+                                                        comment.authorPlatformUser.email ||
+                                                        'Anonymous' }}
+                                                </span>
+                                                <span class="text-base-content">
+                                                    marked this as <span class="font-medium">{{ comment.statusTo
+                                                    }}</span>
+                                                </span>
+                                                <span class="text-base-content/50 text-xs">
+                                                    {{ formatDate(comment.createdAt) }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div v-else-if="comment.representingClientUser" class="flex items-center gap-2">
+                                            <img v-if="comment.representingClientUser.avatar"
+                                                :src="comment.representingClientUser.avatar" alt="User avatar"
+                                                class="w-6 h-6 rounded-full bg-base-300" />
+                                            <span v-else class="w-6 h-6 rounded-full bg-base-300 inline-block"></span>
+                                            <div class="text-sm space-x-1">
+                                                <span class="text-base-content/70 font-semibold">
+                                                    {{ comment.representingClientUser.name ||
+                                                        comment.representingClientUser.email ||
+                                                        'Anonymous' }}
+                                                </span>
+                                                <span class="text-base-content">
+                                                    marked this as <span class="font-medium">{{ comment.statusTo
+                                                    }}</span>
+                                                </span>
+                                                <span class="text-base-content/50 text-xs">
+                                                    {{ formatDate(comment.createdAt) }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Regular comment display -->
+                                <div v-else>
+                                    <div class="flex items-center gap-2 text-xs mb-1">
+                                        <div v-if="comment.authorPlatformUser" class="flex items-center gap-2">
+                                            <img v-if="comment.authorPlatformUser.image"
+                                                :src="comment.authorPlatformUser.image" alt="User avatar"
+                                                class="w-6 h-6 rounded-full bg-base-300" />
+                                            <span v-else class="w-6 h-6 rounded-full bg-base-300 inline-block"></span>
+                                            <div class="text-xs space-x-1">
+                                                <span class="text-base-content/70 font-semibold">
+                                                    {{ comment.authorPlatformUser.name ||
+                                                        comment.authorPlatformUser.email ||
+                                                        'Anonymous' }}
+                                                </span>
+                                                <span class="text-base-content/50">
+                                                    {{ formatDate(comment.createdAt) }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div v-else-if="comment.representingClientUser" class="flex items-center gap-2">
+                                            <img v-if="comment.representingClientUser.avatar"
+                                                :src="comment.representingClientUser.avatar" alt="User avatar"
+                                                class="w-6 h-6 rounded-full bg-base-300" />
+                                            <span v-else class="w-6 h-6 rounded-full bg-base-300 inline-block"></span>
+                                            <div class="text-xs space-x-1">
+                                                <span class="text-base-content/70 font-semibold">
+                                                    {{ comment.representingClientUser.name ||
+                                                        comment.representingClientUser.email ||
+                                                        'Anonymous' }}
+                                                </span>
+                                                <span class="text-base-content/50">
+                                                    {{ formatDate(comment.createdAt) }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pl-8 text-sm text-base-content">{{ comment.content }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-else class="text-sm text-base-content/60 py-3">No comments yet.</div>
+
+                        <!-- Add Comment Form -->
+                        <div class="mt-4 pt-4 border-t border-base-200">
+                            <h4 class="text-sm font-medium mb-2">Add a Comment</h4>
+                            <div class="flex flex-col gap-2">
+                                <textarea class="textarea textarea-bordered text-sm w-full" v-model="newComment"
+                                    placeholder="Add a comment..."></textarea>
+                                <button class="btn btn-sm btn-primary self-end"
+                                    :disabled="!newComment.trim() || postingComment" @click="addComment">
+                                    <span v-if="postingComment">Posting...</span>
+                                    <span v-else>Post Comment</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
