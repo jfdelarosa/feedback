@@ -21,8 +21,9 @@ const { data: feedback, pending: feedbackPending, error } = await useLazyAsyncDa
     `feedback-${feedbackId}`,
     async () => {
         const req = await fetch(`/api/feedback/${feedbackId}`)
-
-        return req.json()
+        const data = await req.json()
+        newStatus.value = data.status
+        return data
     }
 )
 
@@ -145,6 +146,16 @@ async function updateStatus() {
                             <p class="text-xs text-base-content/60">{{ feedback.user.email }}</p>
                         </div>
                     </NuxtLink>
+
+                    <h3 class="font-semibold">Status</h3>
+                    <div class="badge" :class="{
+                        'badge-primary': feedback.status === 'new',
+                        'badge-warning': feedback.status === 'in-progress',
+                        'badge-success': feedback.status === 'completed',
+                        'badge-error': feedback.status === 'declined'
+                    }">
+                        {{statuses.find(s => s.value === feedback.status)?.label || 'Unknown'}}
+                    </div>
 
                     <h3 class="font-semibold">Actions</h3>
 
