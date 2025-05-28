@@ -58,9 +58,25 @@ async function handleAddComment(commentText: string) {
 <template>
     <div class="card card-border bg-base-100 shadow-sm overflow-hidden">
         <div class="card-body p-4">
-            <time :title="feedback.createdAt" class="text-xs text-base-content/50">
-                {{ formatDate(feedback.createdAt) }}
-            </time>
+            <div class="flex items-center gap-2">
+                <div v-if="feedback.categories && feedback.categories.length > 0" class="flex items-center gap-2">
+                    <span v-if="feedback.categories[0].category.color"
+                        :style="{ backgroundColor: feedback.categories[0].category.color }"
+                        class="inline-block w-3 h-3 rounded-full"></span>
+                    <span class="text-xs font-semibold text-base-content/60">
+                        {{ feedback.categories[0].category.name }}
+                    </span>
+                </div>
+
+                <span v-if="feedback.categories && feedback.categories.length > 0" class="text-base-content/50">
+                    •
+                </span>
+
+                <time :title="feedback.createdAt" class="text-xs text-base-content/50">
+                    {{ formatDate(feedback.createdAt) }}
+                </time>
+
+            </div>
             <h2 class="card-title text-primary">
                 {{ feedback.title }}
             </h2>
