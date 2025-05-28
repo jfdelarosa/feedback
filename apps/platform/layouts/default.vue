@@ -19,6 +19,8 @@ useSeoMeta({
             <div class="flex items-center gap-2">
                 <ul class="menu menu-horizontal px-1">
                     <li class="hidden md:block"><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
+                    <li class="hidden md:block"><a href="/roadmap" target="_blank">Roadmap</a></li>
+                    <li class="hidden md:block"><a href="/pricing" target="_blank">Pricing</a></li>
                     <li class="block md:hidden">
                         <details>
                             <summary>
@@ -26,6 +28,8 @@ useSeoMeta({
                             </summary>
                             <ul class="bg-base-100 rounded-t-none p-2 !right-0 w-[200px]">
                                 <li><a href="https://x.com/jfdelarosa" target="_blank">@jfdelarosa</a></li>
+                                <li><a href="/roadmap" target="_blank">Roadmap</a></li>
+                                <li><a href="/pricing" target="_blank">Pricing</a></li>
                                 <li>
                                     <a href="https://tally.so/r/3lZypW" target="_blank" class="btn btn-secondary">
                                         Join Waitlist
