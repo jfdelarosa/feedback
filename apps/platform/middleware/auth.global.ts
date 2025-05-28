@@ -9,6 +9,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return;
     }
 
+    console.log(to.path)
+
     const auth = useAuthStore();
 
     console.log(`[Auth Middleware] Path: ${to.path}, Auth loading: ${auth.isLoading}, Auth state: ${auth.isAuthenticated}, Has orgs: ${auth.hasOrganizations}`);
