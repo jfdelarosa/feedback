@@ -116,6 +116,19 @@ onMounted(async () => {
         console.error('Error during initialization sequence:', err);
     }
 });
+
+
+const filteredStatuses = computed(() => {
+    const items: Record<string, FeedbackItem[]> = {}
+
+    for (const status in feedbackItems.value) {
+        if (status !== 'declined') {
+            items[status] = feedbackItems.value[status] as unknown as FeedbackItem[];
+        }
+    }
+
+    return items;
+});
 </script>
 
 <template>
@@ -189,7 +202,7 @@ onMounted(async () => {
             <div v-else class="space-y-6 @2xl:space-y-0">
                 <!-- Mobile: Stacked columns -->
                 <div class="@2xl:hidden space-y-6" v-auto-animate>
-                    <div v-for="(items, status) in feedbackItems" :key="status"
+                    <div v-for="(items, status) in filteredStatuses" :key="status"
                         class="bg-base-100 rounded-xl border border-base-300 overflow-hidden">
                         <!-- Column Header -->
                         <div class="flex items-center justify-between p-4 border-b border-base-300"
@@ -277,7 +290,7 @@ onMounted(async () => {
 
                 <!-- Desktop: Side-by-side columns -->
                 <div class="hidden @2xl:grid @2xl:grid-cols-4 @2xl:gap-4" v-auto-animate>
-                    <div v-for="(items, status) in feedbackItems" :key="status"
+                    <div v-for="(items, status) in filteredStatuses" :key="status"
                         class="bg-base-100 rounded-xl border border-base-300 overflow-hidden min-h-96">
                         <!-- Column Header -->
                         <div class="sticky top-0 bg-base-100 border-b border-base-300 p-4"
