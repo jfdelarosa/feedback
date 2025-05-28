@@ -20,6 +20,7 @@ export const list = createRoute({
 		[HttpStatusCodes.OK]: jsonContent(
 			z.array(selectFeedbackSchema.extend({
 				votes: z.number(),
+				comments_count: z.number(),
 			})),
 			"The list of feedback",
 		),

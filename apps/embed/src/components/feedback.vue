@@ -64,7 +64,7 @@ async function handleAddComment(commentText: string) {
             <h2 class="card-title text-primary">
                 {{ feedback.title }}
             </h2>
-            <p class="pb-1 text-sm text-base-content">{{ feedback.content }}</p>
+            <p class="pb-1 text-sm text-base-content whitespace-pre-wrap">{{ feedback.content }}</p>
 
             <div class="card-actions justify-between items-end">
                 <div class="flex items-center gap-2">

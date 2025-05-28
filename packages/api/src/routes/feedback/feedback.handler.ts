@@ -20,11 +20,13 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 			updatedAt: feedbackTable.updatedAt,
 			userId: feedbackTable.userId,
 			projectId: feedbackTable.projectId,
-			votes: sql<number>`COUNT(${feedbackVotesTable.id})`.as('votes'),
+			votes: sql<number>`COUNT(DISTINCT ${feedbackVotesTable.id})`.as('votes'),
+			comments_count: sql<number>`COUNT(DISTINCT ${commentsTable.id})`.as('comments_count'),
 		}
 	)
 		.from(feedbackTable)
 		.leftJoin(feedbackVotesTable, eq(feedbackTable.id, feedbackVotesTable.feedbackId))
+		.leftJoin(commentsTable, eq(feedbackTable.id, commentsTable.feedbackId))
 		.groupBy(feedbackTable.id)
 		.where(eq(feedbackTable.projectId, activeProjectId))
 
