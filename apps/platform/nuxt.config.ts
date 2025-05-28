@@ -54,7 +54,13 @@ export default defineNuxtConfig({
     }
   },
   routeRules: {
-    '/': { prerender: true },
-    '/compare/**': { prerender: true },
+    '/': {
+      prerender: true,
+      static: true
+    },
+    '/compare/**': {
+      prerender: true,
+      static: true
+    },
   }
 })
