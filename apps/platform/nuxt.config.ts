@@ -52,5 +52,9 @@ export default defineNuxtConfig({
     compilerOptions: {
       isCustomElement: (tag) => tag.startsWith('pulsekit-')
     }
+  },
+  routeRules: {
+    '/': { prerender: true },
+    '/compare/**': { prerender: true },
   }
 })
