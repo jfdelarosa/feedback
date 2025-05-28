@@ -215,6 +215,7 @@ export const clientUsersTable = pgTable("client_users", {
 export const feedbackVotesRelation = relations(feedbackTable, ({ one, many }) => ({
     votes: many(feedbackVotesTable),
     comments: many(commentsTable),
+    categories: many(feedbackCategoriesTable),
     user: one(clientUsersTable, {
         fields: [feedbackTable.userId],
         references: [clientUsersTable.id],
@@ -295,3 +296,54 @@ export const clientUserRelations = relations(clientUsersTable, ({ many }) => ({
 // NOTE: The parentId in commentsTable is intended to reference another comment's id
 // This self-referential relationship will need to be handled in the migration file
 // or with manual SQL rather than in the schema definition to avoid TypeScript circular references
+
+// Categories table
+export const categoriesTable = pgTable("categories", {
+    id: text().primaryKey(),
+    name: varchar({ length: 255 }).notNull(),
+    description: text(),
+    color: varchar({ length: 50 }),
+    icon: varchar({ length: 100 }),
+    projectId: text().notNull().references(() => projectsTable.id, { onDelete: "cascade" }),
+    createdAt: timestamp().notNull().defaultNow(),
+    updatedAt: timestamp().notNull().defaultNow(),
+});
+
+// Feedback-Categories mapping table (many-to-many)
+export const feedbackCategoriesTable = pgTable("feedback_categories", {
+    id: uuid().defaultRandom().primaryKey(),
+    feedbackId: text().notNull().references(() => feedbackTable.id, { onDelete: "cascade" }),
+    categoryId: text().notNull().references(() => categoriesTable.id, { onDelete: "cascade" }),
+    createdAt: timestamp().notNull().defaultNow(),
+});
+
+// Category relations
+export const categoryRelations = relations(categoriesTable, ({ one, many }) => ({
+    project: one(projectsTable, {
+        fields: [categoriesTable.projectId],
+        references: [projectsTable.id],
+    }),
+    feedbackItems: many(feedbackCategoriesTable),
+}));
+
+// Feedback categories mapping relations
+export const feedbackCategoriesRelations = relations(feedbackCategoriesTable, ({ one }) => ({
+    feedback: one(feedbackTable, {
+        fields: [feedbackCategoriesTable.feedbackId],
+        references: [feedbackTable.id],
+    }),
+    category: one(categoriesTable, {
+        fields: [feedbackCategoriesTable.categoryId],
+        references: [categoriesTable.id],
+    }),
+}));
+
+// Add categories relation to projects
+export const projectRelations = relations(projectsTable, ({ many }) => ({
+    categories: many(categoriesTable),
+}));
+
+// Categories relation already included in feedbackVotesRelation
+// export const feedbackRelations = relations(feedbackTable, ({ many }) => ({
+//     categories: many(feedbackCategoriesTable),
+// }));

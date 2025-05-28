@@ -32,6 +32,7 @@ import {
 	session as sessionTable,
 	user,
 	verification,
+	categoriesTable
 } from "@/db/schema";
 import { sendEmail } from "./email";
 
@@ -53,6 +54,25 @@ function getEmailTemplate(templateName: string): string {
 		throw new Error(`Failed to read email template: ${templateName}`);
 	}
 }
+
+const defaultCategories = [
+	{
+		name: "Feature Request",
+		description: "Suggestions for new features",
+	},
+	{
+		name: "Bug Report",
+		description: "Issues with the product",
+	},
+	{
+		name: "Question",
+		description: "Questions about the product",
+	},
+	{
+		name: "Other",
+		description: "Other feedback",
+	},
+]
 
 export const auth = betterAuth({
 	basePath: "/auth",
@@ -77,6 +97,7 @@ export const auth = betterAuth({
 
 						console.log(user)
 
+						const projectId = Bun.randomUUIDv7();
 						const organizationId = Bun.randomUUIDv7();
 
 						// 5 characters
@@ -100,12 +121,18 @@ export const auth = betterAuth({
 						});
 
 						await db.insert(projectsTable).values({
-							id: Bun.randomUUIDv7(),
+							id: projectId,
 							name: "Default Project",
 							createdBy: user.id,
 							organizationId,
 						});
 
+						await db.insert(categoriesTable).values(defaultCategories.map(category => ({
+							id: Bun.randomUUIDv7(),
+							name: category.name,
+							description: category.description,
+							projectId,
+						})));
 					} catch (error) {
 						console.error("Error creating default project", error);
 					}

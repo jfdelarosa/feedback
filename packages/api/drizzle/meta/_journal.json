@@ -15,6 +15,13 @@
       "when": 1748387523285,
       "tag": "0001_wild_bedlam",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1748401380415,
+      "tag": "0002_superb_tinkerer",
+      "breakpoints": true
     }
   ]
 }

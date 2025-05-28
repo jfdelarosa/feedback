@@ -48,7 +48,7 @@ export function useFeedback() {
     }
 
     // Submit new feedback
-    async function submitNewFeedback(title: string, content: string) {
+    async function submitNewFeedback(title: string, content: string, categoryId?: string) {
         if (!content.trim() || !user.value || !user.value.id) return null;
 
         try {
@@ -60,6 +60,7 @@ export function useFeedback() {
                         title,
                         content,
                         userId: user.value.id,
+                        categoryId,
                     })
                 }
             );

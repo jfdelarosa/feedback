@@ -3,7 +3,7 @@ import { eq, sql, and, desc, asc } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 import { db } from "@/db";
-import { feedbackTable, feedbackVotesTable, commentsTable, clientUsersTable, feedbackVotesRelation, projectsTable } from "@/db/schema";
+import { feedbackTable, feedbackVotesTable, commentsTable, clientUsersTable, feedbackVotesRelation, projectsTable, categoriesTable, feedbackCategoriesTable } from "@/db/schema";
 import type { AppEnv } from "@/lib/types";
 import { Context } from "hono";
 
@@ -142,6 +142,11 @@ app.get("/feedback", async (c) => {
                         email: true,
                     },
                 },
+                categories: {
+                    with: {
+                        category: true,
+                    },
+                },
             },
             where: eq(feedbackTable.projectId, projectId),
             orderBy: [desc(feedbackTable.createdAt)],
@@ -149,7 +154,7 @@ app.get("/feedback", async (c) => {
 
         const feedbackWithCommentCount = feedback.map(item => ({
             ...item,
-            comments: item.comments.length,
+            comments: item.comments?.length || 0,
         }))
 
         return c.json(feedbackWithCommentCount);
@@ -196,7 +201,7 @@ app.post("/feedback", async (c) => {
     try {
         const projectId = getProjectId(c)
 
-        const { title, content, userId, } = await c.req.json()
+        const { title, content, userId, categoryId } = await c.req.json()
 
         // Validate required fields
         if (!title || !content || !userId) {
@@ -223,6 +228,26 @@ app.post("/feedback", async (c) => {
             }, HttpStatusCodes.NOT_FOUND)
         }
 
+        // If categoryId is provided, verify it exists and belongs to the project
+        if (categoryId) {
+            const existingCategory = await db
+                .select()
+                .from(categoriesTable)
+                .where(
+                    and(
+                        eq(categoriesTable.id, categoryId),
+                        eq(categoriesTable.projectId, projectId)
+                    )
+                )
+                .limit(1);
+
+            if (existingCategory.length === 0) {
+                return c.json({
+                    message: "Category not found or doesn't belong to this project",
+                }, HttpStatusCodes.NOT_FOUND);
+            }
+        }
+
         const feedbackId = Bun.randomUUIDv7()
 
         // Create the feedback
@@ -233,6 +258,14 @@ app.post("/feedback", async (c) => {
             projectId,
             userId: existingUser[0].id,
         })
+
+        // If a category was selected, link it to the feedback
+        if (categoryId) {
+            await db.insert(feedbackCategoriesTable).values({
+                feedbackId,
+                categoryId,
+            });
+        }
 
         const feedback = await db.query.feedbackTable.findFirst({
             where: eq(feedbackTable.id, feedbackId),
@@ -253,14 +286,18 @@ app.post("/feedback", async (c) => {
                         name: true,
                         avatar: true,
                     },
-                }
+                },
+                categories: {
+                    with: {
+                        category: true,
+                    },
+                },
             }
         })
 
-
         const feedbackWithCommentCount = {
             ...feedback,
-            comments: feedback?.comments.length || 0,
+            comments: feedback?.comments?.length || 0,
         }
 
         return c.json({
@@ -511,6 +548,28 @@ app.get("/project", async (c) => {
 
         return c.json({
             message: "Failed to fetch project information",
+            error: error instanceof Error ? error.message : "Unknown error"
+        }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    }
+});
+
+// Get categories by project ID
+app.get("/categories", async (c) => {
+    try {
+        const projectId = getProjectId(c);
+
+        const categories = await db
+            .select()
+            .from(categoriesTable)
+            .where(eq(categoriesTable.projectId, projectId))
+            .orderBy(asc(categoriesTable.name));
+
+        return c.json(categories);
+    } catch (error) {
+        console.error("Error fetching categories:", error);
+
+        return c.json({
+            message: "Failed to fetch categories",
             error: error instanceof Error ? error.message : "Unknown error"
         }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
     }

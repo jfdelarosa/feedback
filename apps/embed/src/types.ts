@@ -6,6 +6,17 @@ export interface PulseKitUser {
     avatar?: string;
 }
 
+export interface Category {
+    id: string;
+    name: string;
+    description?: string;
+    color?: string;
+    icon?: string;
+    projectId: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface Project {
     id: string;
     name: string;
@@ -29,6 +40,9 @@ export interface FeedbackItem {
     comments: number;
     showComments?: boolean;
     newComment?: string;
+    categories?: {
+        category: Category;
+    }[];
     user: {
         id: string;
         name: string;
