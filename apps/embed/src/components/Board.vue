@@ -108,7 +108,7 @@ onMounted(async () => {
                     <div v-if="error"
                         class="bg-error/10 text-error p-3 @md:p-4 rounded mb-3 @md:mb-4 flex flex-col gap-2">
                         {{ error }}
-                        <button @click="loadFeedback" class="btn btn-sm btn-error self-end">Try Again</button>
+                        <button @click="loadFeedback()" class="btn btn-sm btn-error self-end">Try Again</button>
                     </div>
 
                     <div v-else-if="loading" class="text-center py-8 @md:py-12 text-primary/50">

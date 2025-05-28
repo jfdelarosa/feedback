@@ -13,14 +13,28 @@ export function useFeedback() {
     const request = useRequest();
 
     // Load feedback items
-    async function loadFeedback() {
+    async function loadFeedback(params: { groupBy?: string } = {}) {
         try {
             loading.value = true;
             error.value = null;
 
+            let url = `/feedback${user.value?.id ? `?userId=${user.value?.id}` : ''}`;
+
+            if (params.groupBy) {
+                url += `?groupBy=${params.groupBy}`;
+            }
+
             const data = await request(
-                `/feedback${user.value?.id ? `?userId=${user.value?.id}` : ''}`,
+                url,
             );
+
+
+            if (params.groupBy) {
+                feedbackItems.value = data;
+
+                return;
+            }
+
 
             feedbackItems.value = data.map((item: FeedbackItem) => {
                 return {
@@ -34,6 +48,8 @@ export function useFeedback() {
             loading.value = false;
         }
     }
+
+
 
     // Load comments for a specific feedback item
     async function loadComments(feedbackId: string) {

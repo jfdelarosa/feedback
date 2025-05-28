@@ -197,7 +197,7 @@ async function addComment() {
                                                 </span>
                                                 <span class="text-base-content">
                                                     marked this as <span class="font-medium">{{ comment.statusTo
-                                                    }}</span>
+                                                        }}</span>
                                                 </span>
                                                 <span class="text-base-content/50 text-xs">
                                                     {{ formatDate(comment.createdAt) }}
@@ -217,7 +217,7 @@ async function addComment() {
                                                 </span>
                                                 <span class="text-base-content">
                                                     marked this as <span class="font-medium">{{ comment.statusTo
-                                                    }}</span>
+                                                        }}</span>
                                                 </span>
                                                 <span class="text-base-content/50 text-xs">
                                                     {{ formatDate(comment.createdAt) }}

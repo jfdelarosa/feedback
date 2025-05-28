@@ -121,6 +121,7 @@ app.post("/identify", async (c) => {
 app.get("/feedback", async (c) => {
     try {
         const projectId = getProjectId(c)
+        const { groupBy } = c.req.query()
 
         const feedback = await db.query.feedbackTable.findMany({
             with: {
@@ -152,10 +153,25 @@ app.get("/feedback", async (c) => {
             orderBy: [desc(feedbackTable.createdAt)],
         })
 
+
         const feedbackWithCommentCount = feedback.map(item => ({
             ...item,
             comments: item.comments?.length || 0,
         }))
+
+        if (groupBy === "status") {
+            // Group by status
+            const groupedFeedback = feedbackWithCommentCount.reduce((acc, item) => {
+                const status = item.status;
+                if (!acc[status]) {
+                    acc[status] = [];
+                }
+                acc[status].push(item);
+                return acc;
+            }, {});
+
+            return c.json(groupedFeedback);
+        }
 
         return c.json(feedbackWithCommentCount);
     } catch (error) {
